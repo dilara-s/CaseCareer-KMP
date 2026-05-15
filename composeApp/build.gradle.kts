@@ -1,11 +1,13 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.composeHotReload)
 }
 
 kotlin {
@@ -17,8 +19,13 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
-            implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.splashscreen)
+            implementation(libs.androidx.core)
+
+            implementation(libs.koin.android)
+
+            implementation(libs.compose.uiToolingPreview)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -27,8 +34,12 @@ kotlin {
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
+
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            implementation(libs.koin.compose.vm)
+
             implementation(projects.shared)
         }
         commonTest.dependencies {
@@ -57,6 +68,9 @@ android {
         getByName("release") {
             isMinifyEnabled = false
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

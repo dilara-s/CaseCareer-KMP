@@ -8,9 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+
+//        lifecycleScope.launch {
+//            dbSource.addBook()
+//            val list = dbSource.getAll()
+//            print(list.getOrNull(0))
+//        }
+
 
         setContent {
             App()
