@@ -1,5 +1,3 @@
-package ru.kpfu.itis.core.network
-
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
@@ -14,11 +12,14 @@ import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
+import ru.kpfu.itis.core.network.HttpEngineFactory
+import ru.kpfu.itis.core.network.TokenStorage
+import ru.kpfu.itis.core.network.installAuthPlugin
+
 
 val networkModule = module {
-    single {
-        HttpEngineFactory()
-    }
+    single { HttpEngineFactory() }
+
     single<Json> {
         Json {
             isLenient = true
@@ -26,37 +27,48 @@ val networkModule = module {
         }
     }
 
+    single { TokenStorage(get()) }
+
     single {
         buildHttpClient(
             engine = get<HttpEngineFactory>().createEngine(get()),
             json = get(),
+            tokenStorage = get()
         )
     }
 }
 
-private const val BASE_URL = "test.com/api/v3"
+private const val BASE_URL = "your-backend.com"   // ← замени на реальный
 
 private fun buildHttpClient(
     engine: HttpClientEngineFactory<HttpClientEngineConfig>,
     json: Json,
+    tokenStorage: TokenStorage
 ) = HttpClient(engine) {
+
     install(Logging) {
         logger = Logger.SIMPLE
         level = LogLevel.BODY
     }
+
     install(ContentNegotiation) {
         json(json)
     }
+
     install(HttpTimeout) {
         connectTimeoutMillis = 5000
         requestTimeoutMillis = 10000
         socketTimeoutMillis = 10000
     }
-    install(ApiKeyPlugin)
+
     defaultRequest {
         url {
-            this.host = BASE_URL
-            this.protocol = URLProtocol.HTTPS
+            host = BASE_URL
+            protocol = URLProtocol.HTTPS
         }
     }
+
+}.also { client ->
+    // ← устанавливаем плагин после создания клиента
+    client.installAuthPlugin(tokenStorage)
 }

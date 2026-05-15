@@ -1,4 +1,5 @@
 package ru.kpfu.itis.feature
 
-class FeatureModule {
-}
+import ru.kpfu.itis.feature.auth.di.authModule
+
+val featureModule = listOf(authModule)

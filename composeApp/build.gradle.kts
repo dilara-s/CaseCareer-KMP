@@ -24,6 +24,9 @@ kotlin {
             implementation(libs.androidx.core)
 
             implementation(libs.koin.android)
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.androidx.navigation.fragment)
+            implementation(libs.androidx.navigation.ui)
 
             implementation(libs.compose.uiToolingPreview)
         }
