@@ -1,4 +1,3 @@
-/*
 package ru.kpfu.itis.feature.auth.data.datasource
 
 import kotlinx.coroutines.Dispatchers
@@ -11,10 +10,10 @@ class UserDataSource(
 ) {
 
     suspend fun getUser() = withContext(Dispatchers.IO) {
-        database.userQueries.getUser()
+        database.userQueries.getUser().executeAsList()
     }
 
-    suspend fun addUser() {
+    suspend fun addUser() = withContext(Dispatchers.IO) {
         database.userQueries.upsertUser(id = 1, email = "tarkv@gmail.com", name = "Ksenia")
     }
-}*/
+}
