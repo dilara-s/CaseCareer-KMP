@@ -1,0 +1,15 @@
+CREATE TABLE user (
+    id    INTEGER NOT NULL PRIMARY KEY,
+    email TEXT    NOT NULL,
+    name  TEXT    NOT NULL
+);
+
+upsertUser:
+INSERT OR REPLACE INTO user(id, email, name)
+VALUES (?, ?, ?);
+
+getUser:
+SELECT * FROM user LIMIT 1;
+
+clearUser:
+DELETE FROM user;
