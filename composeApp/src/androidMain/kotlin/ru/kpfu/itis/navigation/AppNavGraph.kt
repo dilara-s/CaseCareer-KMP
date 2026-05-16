@@ -14,7 +14,8 @@ fun AppNavGraph(
     tokenStorage: TokenStorage = koinInject()
 ) {
     val navController = rememberNavController()
-    val startDestination = if (tokenStorage.isLoggedIn()) "main" else "auth"
+//    val startDestination = if (tokenStorage.isLoggedIn()) "main" else "auth"
+    val startDestination = "auth"
 
     NavHost(navController = navController, startDestination = startDestination) {
         composable("auth") {

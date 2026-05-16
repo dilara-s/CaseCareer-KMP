@@ -10,7 +10,7 @@ sealed class AuthEvent {
     data class UpdateFullName(val name: String) : AuthEvent()
     data class UpdatePhone(val phone: String) : AuthEvent()
     data class UpdateConfirmPassword(val confirm: String) : AuthEvent()
-    data object RegisterStep1Next : AuthEvent()   // кнопка "Далее"
+    data object RegisterStep1Next : AuthEvent()
     data object GoToLogin : AuthEvent()
 
     data class UpdateContactInfo(val info: String) : AuthEvent()

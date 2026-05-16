@@ -57,7 +57,6 @@ fun AuthRoute(
     }
 }
 
-// ── Логин ────────────────────────────────────────────────────────────────────
 
 @Composable
 private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {

@@ -38,7 +38,7 @@ val networkModule = module {
     }
 }
 
-private const val BASE_URL = "your-backend.com"   // ← замени на реальный
+private const val BASE_URL = "/api/v1"   // ← замени на реальный
 
 private fun buildHttpClient(
     engine: HttpClientEngineFactory<HttpClientEngineConfig>,
@@ -69,6 +69,5 @@ private fun buildHttpClient(
     }
 
 }.also { client ->
-    // ← устанавливаем плагин после создания клиента
     client.installAuthPlugin(tokenStorage)
 }

@@ -7,7 +7,6 @@ import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.headers
-import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.request.url
 import io.ktor.http.ContentType
@@ -50,7 +49,6 @@ fun HttpClient.installAuthPlugin(tokenStorage: TokenStorage) {
             }
 
             try {
-                // Строим HttpRequestBuilder вручную — НЕ вызываем client.post
                 val refreshRequest = HttpRequestBuilder().apply {
                     url("api/v1/auth/token/refresh/")
                     method = io.ktor.http.HttpMethod.Post

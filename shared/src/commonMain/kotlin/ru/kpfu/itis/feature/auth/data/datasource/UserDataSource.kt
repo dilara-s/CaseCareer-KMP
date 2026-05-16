@@ -12,7 +12,7 @@ class UserDataSource(
     private val settings: Settings
 ) {
 
-    val test: String? by settings.string(key = "", defaultValue = "") //здесь можно хранить shared pref, переведя получанный json в строку
+    val test: String? by settings.string(key = "", defaultValue = "") //здесь можно хранить префы, переведя получанный json в строку
 
     suspend fun getUser() = withContext(Dispatchers.IO) {
         database.userQueries.getUser().executeAsList()

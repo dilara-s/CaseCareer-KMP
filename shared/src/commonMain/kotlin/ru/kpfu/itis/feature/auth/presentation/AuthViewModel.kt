@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.kpfu.itis.core.viewmodel.BaseViewModel
 import ru.kpfu.itis.core.viewmodel.CommonViewModel
 import ru.kpfu.itis.feature.auth.domain.usecase.LoginUseCase
 import ru.kpfu.itis.feature.auth.domain.usecase.RegisterUseCase
@@ -26,21 +25,18 @@ class AuthViewModel(
 
     fun onEvent(event: AuthEvent) {
         when (event) {
-            // логин
             is AuthEvent.UpdateEmail -> _state.update { it.copy(email = event.email, emailError = null, error = null) }
             is AuthEvent.UpdatePassword -> _state.update { it.copy(password = event.password, passwordError = null, error = null) }
             is AuthEvent.TogglePasswordVisibility -> _state.update { it.copy(isPasswordVisible = !it.isPasswordVisible) }
             is AuthEvent.LoginSubmit -> login()
             is AuthEvent.GoToRegister -> _state.update { AuthState(screenMode = AuthScreenMode.RegisterStep1) }
 
-            // шаг 1
             is AuthEvent.UpdateFullName -> _state.update { it.copy(fullName = event.name, fullNameError = null) }
             is AuthEvent.UpdatePhone -> _state.update { it.copy(phone = event.phone, phoneError = null) }
             is AuthEvent.UpdateConfirmPassword -> _state.update { it.copy(confirmPassword = event.confirm, confirmPasswordError = null) }
             is AuthEvent.RegisterStep1Next -> validateAndGoToStep2()
             is AuthEvent.GoToLogin -> _state.update { AuthState(screenMode = AuthScreenMode.Login) }
 
-            // шаг 2
             is AuthEvent.UpdateContactInfo -> _state.update { it.copy(contactInfo = event.info) }
             is AuthEvent.UpdatePortfolioLink -> _state.update { it.copy(portfolioLink = event.link) }
             is AuthEvent.UpdateSkills -> _state.update { it.copy(skills = event.skills) }

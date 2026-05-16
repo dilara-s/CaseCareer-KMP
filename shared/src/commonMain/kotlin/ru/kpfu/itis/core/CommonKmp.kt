@@ -11,7 +11,6 @@ import ru.kpfu.itis.core.di.qualifierModule
 import ru.kpfu.itis.feature.auth.di.authModule
 import ru.kpfu.itis.feature.featureModule
 
-
 // точка инициализации di
 object CommonKmp {
 
