@@ -1,5 +1,6 @@
 package ru.kpfu.itis.feature.auth
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +20,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -315,6 +322,37 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         }
 
         Spacer(Modifier.weight(1f))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onEvent(AuthEvent.TogglePersonalDataConsent) }
+        ) {
+            Checkbox(
+                checked = state.isPersonalDataConsentChecked,
+                onCheckedChange = { onEvent(AuthEvent.TogglePersonalDataConsent) }
+            )
+            Spacer(Modifier.width(8.dp))
+            Text(
+                text = buildAnnotatedString {
+                    append("Согласен с ")
+                    withStyle(
+                        SpanStyle(
+                            color = MaterialTheme.colorScheme.primary,
+                            textDecoration = TextDecoration.Underline
+                        )
+                    ) {
+                        append("политикой обработки персональных данных")
+                    }
+                },
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
+        if (state.consentError != null) {
+            Text(state.consentError!!, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.labelSmall)
+        }
 
         AuthButton(
             text = "Зарегистрироваться",

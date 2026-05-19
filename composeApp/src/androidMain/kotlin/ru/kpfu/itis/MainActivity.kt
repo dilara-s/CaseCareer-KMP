@@ -21,13 +21,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         Log.i("TAG1", "мы в он креат")
 
-        lifecycleScope.launch {
+        /*lifecycleScope.launch {
             Log.i("TAG2", "мы в лайфсайкл скоуп")
             dbSource.addUser()
             val user = dbSource.getUser()
 
             print(user.getOrNull(0))
-        }
+        }*/
 
 
         setContent {

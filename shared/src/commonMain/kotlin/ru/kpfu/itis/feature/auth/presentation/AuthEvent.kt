@@ -18,4 +18,6 @@ sealed class AuthEvent {
     data class UpdateSkills(val skills: String) : AuthEvent()
     data object RegisterSubmit : AuthEvent()
     data object BackToStep1 : AuthEvent()
+
+    object TogglePersonalDataConsent : AuthEvent()
 }
