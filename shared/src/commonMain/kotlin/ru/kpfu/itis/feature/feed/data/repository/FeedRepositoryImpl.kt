@@ -59,7 +59,7 @@ class FeedRepositoryImpl(
             FeedPage(
                 cases = mockCases,
                 totalCount = 42,
-                hasNextPage = page < 3 // мок: 3 страницы
+                hasNextPage = page < 3
             )
         )
     }

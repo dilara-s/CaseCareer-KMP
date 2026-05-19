@@ -10,7 +10,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import ru.kpfu.itis.designSystem.Theme.CaseCareerTheme
 import ru.kpfu.itis.feature.auth.data.datasource.UserDataSource
+import ru.kpfu.itis.navigation.AppNavGraph
 
 class MainActivity : ComponentActivity() {
 
@@ -31,7 +33,11 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            App()
+            setContent {
+                CaseCareerTheme {
+                    AppNavGraph()
+                }
+            }
         }
     }
 }
