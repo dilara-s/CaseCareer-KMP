@@ -23,6 +23,7 @@ import ru.kpfu.itis.R
 import ru.kpfu.itis.core.network.TokenStorage
 import ru.kpfu.itis.designSystem.Primary
 import ru.kpfu.itis.feature.auth.AuthRoute
+import ru.kpfu.itis.feature.feed.CaseDetailRoute
 import ru.kpfu.itis.feature.feed.FeedRoute
 
 //import ru.kpfu.itis.feature.feed.FeedRoute
@@ -88,6 +89,15 @@ fun AppNavGraph(
                 FeedRoute(onCaseClick = { caseId ->
                     navController.navigate("case_detail/$caseId")
                 })
+            }
+            composable("case_detail/{caseId}") { backStackEntry ->
+                val caseId = backStackEntry.arguments?.getString("caseId")?.toLongOrNull() ?: return@composable
+                CaseDetailRoute(
+                    caseId = caseId,
+                    onBack = { navController.popBackStack() },
+                    onApplyNda = { id -> navController.navigate("apply_nda/$id") },
+                    onApplyForm = { id -> navController.navigate("apply_form/$id") }
+                )
             }
             composable("my_cases") {
                 // TODO

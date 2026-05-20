@@ -4,9 +4,14 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import ru.kpfu.itis.feature.feed.data.remote.model.CaseDetailResponse
 import ru.kpfu.itis.feature.feed.data.remote.model.CasesPagedResponse
 
 class FeedApi(private val client: HttpClient) {
+
+    suspend fun getCaseDetail(id: Long): CaseDetailResponse {
+        return client.get("api/v1/cases/$id/").body()
+    }
 
     suspend fun getCases(
         page: Int,

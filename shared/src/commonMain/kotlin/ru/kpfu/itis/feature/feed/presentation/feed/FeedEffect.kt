@@ -1,4 +1,4 @@
-package ru.kpfu.itis.feature.feed.presentation
+package ru.kpfu.itis.feature.feed.presentation.feed
 
 sealed interface FeedEffect {
     data class NavigateToCaseDetail(val caseId: Long) : FeedEffect

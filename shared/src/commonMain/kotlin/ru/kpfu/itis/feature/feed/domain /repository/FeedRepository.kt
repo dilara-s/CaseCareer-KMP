@@ -1,9 +1,12 @@
 package ru.kpfu.itis.feature.feed.domain.repository
 
 import ru.kpfu.itis.feature.feed.domain.model.Case
+import ru.kpfu.itis.feature.feed.domain.model.CaseDetail
 
 
 interface FeedRepository {
+    suspend fun getCaseDetail(id: Long): Result<CaseDetail>
+
     suspend fun getCases(
         page: Int,
         q: String? = null,

@@ -24,7 +24,10 @@ import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.Primary
 import ru.kpfu.itis.designSystem.Theme.LocalExtendedColors
 import ru.kpfu.itis.feature.feed.domain.model.Case
-import ru.kpfu.itis.feature.feed.presentation.*
+import ru.kpfu.itis.feature.feed.presentation.feed.FeedEffect
+import ru.kpfu.itis.feature.feed.presentation.feed.FeedEvent
+import ru.kpfu.itis.feature.feed.presentation.feed.FeedState
+import ru.kpfu.itis.feature.feed.presentation.feed.FeedViewModel
 
 @Composable
 fun FeedRoute(

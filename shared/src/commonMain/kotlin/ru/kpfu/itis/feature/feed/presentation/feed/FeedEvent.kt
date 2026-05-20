@@ -1,4 +1,4 @@
-package ru.kpfu.itis.feature.feed.presentation
+package ru.kpfu.itis.feature.feed.presentation.feed
 
 sealed class FeedEvent {
     object LoadNextPage : FeedEvent()

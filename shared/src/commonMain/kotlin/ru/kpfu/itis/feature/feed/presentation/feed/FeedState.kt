@@ -1,4 +1,4 @@
-package ru.kpfu.itis.feature.feed.presentation
+package ru.kpfu.itis.feature.feed.presentation.feed
 
 import ru.kpfu.itis.feature.feed.domain.model.Case
 
