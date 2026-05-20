@@ -3,7 +3,6 @@ package ru.kpfu.itis.core.database
 import app.cash.sqldelight.db.SqlDriver
 import org.koin.dsl.module
 import ru.kpfu.itis.Database
-import ru.kpfu.itis.Database.Companion.invoke
 import ru.kpfu.itis.feature.auth.data.datasource.UserDataSource
 
 val dbModule = module {
@@ -14,8 +13,7 @@ val dbModule = module {
 
     single {
         UserDataSource(
-            database = get(),
-            settings = get()
+            database = get()
         )
     }
 }

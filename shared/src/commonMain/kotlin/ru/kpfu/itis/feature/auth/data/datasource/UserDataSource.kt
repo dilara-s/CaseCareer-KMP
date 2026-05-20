@@ -1,25 +1,21 @@
 package ru.kpfu.itis.feature.auth.data.datasource
 
-import com.russhwolf.settings.Settings
-import com.russhwolf.settings.string
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import ru.kpfu.itis.Database
+import ru.kpfu.itis.feature.auth.domain.model.User
 
 class UserDataSource(
-    private val database: Database,
-    private val settings: Settings
+    private val database: Database
 ) {
-
-    val test: String? by settings.string(key = "", defaultValue = "") //здесь можно хранить префы, переведя получанный json в строку
-
-    suspend fun getUser() = withContext(Dispatchers.IO) {
+   /* suspend fun getUser() = withContext(Dispatchers.IO) {
         database.userQueries.getUser().executeAsList()
-    }
+    }*/
 
-    suspend fun addUser() = withContext(Dispatchers.IO) {
-        database.userQueries.upsertUser(id = 1, email = "tarkv@gmail.com", name = "Ksenia")
+    fun getUser(): User? {
+        return database.userQueries.getUser().executeAsOneOrNull()
+            ?.let { User(id = it.id, email = it.email, name = it.name) }
     }
 
     suspend fun upsertUser(id: Long, email: String, name: String) = withContext(Dispatchers.IO) {

@@ -1,6 +1,6 @@
 package ru.kpfu.itis.feature.auth.data.repository
 
-import io.ktor.client.plugins.ClientRequestException
+import kotlinx.coroutines.delay
 import ru.kpfu.itis.core.network.TokenStorage
 import ru.kpfu.itis.feature.auth.data.datasource.UserDataSource
 import ru.kpfu.itis.feature.auth.data.remote.AuthApi
@@ -16,6 +16,17 @@ class AuthRepositoryImpl(
         /*return try {
             val response = authApi.login(email, password)
             tokenStorage.saveTokens(response.access, response.refresh)
+
+            // Кэшируем профиль сразу после логина
+            try {
+                val profile = authApi.getMyProfile()
+                userDataSource.upsertUser(profile.id, profile.email, profile.name)
+                println("AUTH_LOG: profile cached — ${profile.name}")
+            } catch (e: Exception) {
+                // Не критично — профиль подтянется при открытии экрана профиля
+                println("AUTH_LOG: profile cache failed — ${e.message}")
+            }
+
             Result.success(Unit)
         } catch (e: ClientRequestException) {
             val message = when (e.response.status.value) {
@@ -27,14 +38,16 @@ class AuthRepositoryImpl(
         } catch (e: Exception) {
             Result.failure(Exception("Нет соединения"))
         }*/
-        kotlinx.coroutines.delay(1000)
 
+        delay(1000)
         return if (email == "test@test.com" && password == "password123") {
             println("AUTH_LOG: login success for $email")
-            tokenStorage.saveTokens(
-                access = "mock_access_token",
-                refresh = "mock_refresh_token"
-            )
+            tokenStorage.saveTokens("mock_access_token", "mock_refresh_token")
+
+            // Кэшируем мок-профиль
+            userDataSource.upsertUser(id = 1L, email = email, name = "Test User")
+            println("AUTH_LOG: profile cached (mock)")
+
             Result.success(Unit)
         } else {
             println("AUTH_LOG: login failed — wrong credentials")
@@ -53,7 +66,7 @@ class AuthRepositoryImpl(
         skills: String
     ):Result<Unit> {
 
-        kotlinx.coroutines.delay(1000)
+        delay(1000)
 
         println("AUTH_LOG: register called — name=$fullName, email=$email, phone=$phone")
 

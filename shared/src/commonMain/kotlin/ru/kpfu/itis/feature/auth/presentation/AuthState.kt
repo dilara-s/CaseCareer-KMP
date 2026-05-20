@@ -21,6 +21,9 @@ data class AuthState(
     val contactInfo: String = "",
     val portfolioLink: String = "",
     val skills: String = "",
+
+    val isPersonalDataConsentChecked: Boolean = false,
+    val consentError: String? = null
 )
 
 enum class AuthScreenMode {
