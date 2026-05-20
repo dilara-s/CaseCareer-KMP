@@ -6,12 +6,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,12 +58,25 @@ fun FeedScreen(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Поисковая строка вверху (нажатие — переход на Search, не вводим здесь)
-        SearchBarStub(
+        SearchBar(
+            query = state.searchQuery,
+            onQueryChange = { onEvent(FeedEvent.SearchQueryChanged(it)) },
+            onClear = { onEvent(FeedEvent.ClearSearch) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         )
+
+        if (state.searchQuery.isNotBlank()) {
+            Text(
+                text = "найдено ${state.totalCount} кейсов",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 8.dp)
+            )
+        }
 
         Box(modifier = Modifier.fillMaxSize()) {
             when {
@@ -93,7 +108,12 @@ fun FeedScreen(
 }
 
 @Composable
-private fun SearchBarStub(modifier: Modifier = Modifier) {
+private fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onClear: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier.height(48.dp),
         shape = RoundedCornerShape(12.dp),
@@ -113,11 +133,38 @@ private fun SearchBarStub(modifier: Modifier = Modifier) {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(18.dp)
             )
-            Text(
-                text = "Поиск",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontSize = 15.sp
-            )
+            Box(modifier = Modifier.weight(1f)) {
+                if (query.isEmpty()) {
+                    Text(
+                        text = "Поиск",
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 15.sp
+                    )
+                }
+                BasicTextField(
+                    value = query,
+                    onValueChange = onQueryChange,
+                    singleLine = true,
+                    textStyle = TextStyle(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 15.sp
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            if (query.isNotEmpty()) {
+                IconButton(
+                    onClick = onClear,
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_close),
+                        contentDescription = "Очистить поиск",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -132,7 +179,6 @@ private fun CaseList(
 ) {
     val listState = rememberLazyListState()
 
-    // Триггер пагинации — за 5 элементов до конца
     LaunchedEffect(listState) {
         snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index }
             .distinctUntilChanged()
@@ -168,7 +214,6 @@ private fun CaseList(
             }
         }
 
-        // Нижний отступ чтобы последняя карточка не прилипала к bottom nav
         item { Spacer(Modifier.height(8.dp)) }
     }
 }
@@ -188,7 +233,6 @@ private fun CaseCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
 
-            // NDA badge
             NdaBadge(
                 ndaRequired = case.ndaRequired,
                 bgColor = if (case.ndaRequired) extColors.ndaRequiredBg else extColors.ndaNotRequiredBg,
@@ -197,7 +241,6 @@ private fun CaseCard(
 
             Spacer(Modifier.height(10.dp))
 
-            // Заголовок
             Text(
                 text = case.title,
                 style = MaterialTheme.typography.titleMedium.copy(
@@ -211,7 +254,6 @@ private fun CaseCard(
 
             Spacer(Modifier.height(6.dp))
 
-            // Вознаграждение
             Text(
                 text = formatReward(case.reward),
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -223,7 +265,6 @@ private fun CaseCard(
 
             Spacer(Modifier.height(12.dp))
 
-            // Компания
             Text(
                 text = case.companyName,
                 style = MaterialTheme.typography.bodyMedium,
@@ -233,7 +274,6 @@ private fun CaseCard(
 
             Spacer(Modifier.height(4.dp))
 
-            // Дедлайн
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
@@ -253,7 +293,6 @@ private fun CaseCard(
 
             Spacer(Modifier.height(16.dp))
 
-            // Кнопка
             Button(
                 onClick = onApplyClick,
                 modifier = Modifier
@@ -338,7 +377,6 @@ private fun ErrorState(
     }
 }
 
-// Форматирование вознаграждения: "75000.00" → "75 000 ₽"
 private fun formatReward(reward: String): String {
     return try {
         val amount = reward.toDouble().toLong()
@@ -355,7 +393,6 @@ private fun formatReward(reward: String): String {
     }
 }
 
-// Форматирование даты: "2026-08-15T00:00:00Z" → "15 августа"
 private fun formatDeadline(deadline: String): String {
     return try {
         val datePart = deadline.substringBefore('T')

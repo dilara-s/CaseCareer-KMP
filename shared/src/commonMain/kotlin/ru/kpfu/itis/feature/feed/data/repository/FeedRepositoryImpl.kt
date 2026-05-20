@@ -36,17 +36,17 @@ class FeedRepositoryImpl(
             Result.failure(Exception("Нет соединения"))
         }*/
 
-        println("FEED_LOG: getCases called, page=$page")
+        println("FEED_LOG: getCases called, page=$page, q=$q")
         delay(1000)
 
-        val mockCases = List(20) { i ->
-            val globalIndex = (page - 1) * 20 + i + 1
+        val pool = List(60) { i ->
+            val idx = i + 1
             Case(
-                id = globalIndex.toLong(),
-                title = "Разработка ML модели #$globalIndex",
-                reward = "${globalIndex * 5000}.00",
+                id = idx.toLong(),
+                title = "Разработка ML модели #$idx",
+                reward = "${idx * 5000}.00",
                 deadline = "2026-08-15T00:00:00Z",
-                ndaRequired = globalIndex % 2 == 0,
+                ndaRequired = idx % 2 == 0,
                 status = "ACTIVE",
                 companyName = "Sber AI Lab",
                 companyId = 5L,
@@ -54,12 +54,20 @@ class FeedRepositoryImpl(
             )
         }
 
-        println("FEED_LOG: getCases success, page=$page, count=${mockCases.size}")
+        val filtered = if (!q.isNullOrBlank()) {
+            pool.filter { it.title.contains(q, ignoreCase = true) }
+        } else pool
+
+        val totalFiltered = filtered.size
+        val start = (page - 1) * 20
+        val pageItems = filtered.drop(start).take(20)
+
+        println("FEED_LOG: getCases success, page=$page, total=$totalFiltered, returned=${pageItems.size}")
         return Result.success(
             FeedPage(
-                cases = mockCases,
-                totalCount = 42,
-                hasNextPage = page < 3
+                cases = pageItems,
+                totalCount = totalFiltered,
+                hasNextPage = start + 20 < totalFiltered
             )
         )
     }

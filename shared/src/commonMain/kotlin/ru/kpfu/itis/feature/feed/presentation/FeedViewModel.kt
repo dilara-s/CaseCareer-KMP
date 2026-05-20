@@ -1,5 +1,7 @@
 package ru.kpfu.itis.feature.feed.presentation
 
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -22,6 +24,8 @@ class FeedViewModel(
     private val _effect = MutableSharedFlow<FeedEffect>(extraBufferCapacity = 1)
     val effect: SharedFlow<FeedEffect> = _effect.asSharedFlow()
 
+    private var searchJob: Job? = null
+
     init {
         loadCases(page = 1, isInitial = true)
     }
@@ -42,6 +46,19 @@ class FeedViewModel(
             is FeedEvent.CaseClicked -> {
                 _effect.tryEmit(FeedEffect.NavigateToCaseDetail(event.caseId))
             }
+            is FeedEvent.SearchQueryChanged -> {
+                _state.update { it.copy(searchQuery = event.query) }
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    delay(300)
+                    loadCases(page = 1, isInitial = true)
+                }
+            }
+            is FeedEvent.ClearSearch -> {
+                searchJob?.cancel()
+                _state.update { it.copy(searchQuery = "") }
+                loadCases(page = 1, isInitial = true)
+            }
         }
     }
 
@@ -59,9 +76,10 @@ class FeedViewModel(
                 }
             }
 
-            println("FEED_LOG: loadCases page=$page isInitial=$isInitial isRefresh=$isRefresh")
+            val q = _state.value.searchQuery.takeIf { it.isNotBlank() }
+            println("FEED_LOG: loadCases page=$page isInitial=$isInitial isRefresh=$isRefresh q=$q")
 
-            getCasesUseCase(page)
+            getCasesUseCase(page, q = q)
                 .onSuccess { casesPage ->
                     println("FEED_LOG: success, got ${casesPage.cases.size} cases, hasMore=${casesPage.hasNextPage}")
                     _state.update {
