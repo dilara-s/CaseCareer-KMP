@@ -8,7 +8,6 @@ import ru.kpfu.itis.core.config.Configuration
 import ru.kpfu.itis.core.database.dbModule
 import ru.kpfu.itis.core.di.platformModule
 import ru.kpfu.itis.core.di.qualifierModule
-import ru.kpfu.itis.feature.auth.di.authModule
 import ru.kpfu.itis.feature.featureModule
 
 // точка инициализации di
@@ -26,7 +25,6 @@ object CommonKmp {
                 platformModule,
                 networkModule,
                 dbModule,
-                authModule,
                 *featureModule.toTypedArray()
             )
         }
