@@ -1,5 +1,6 @@
 package ru.kpfu.itis.feature.mycases.data.repository
 
+import ru.kpfu.itis.core.mock.MockResponseStore
 import ru.kpfu.itis.feature.mycases.data.remote.MyCasesApi
 import ru.kpfu.itis.feature.mycases.domain.model.MyCase
 import ru.kpfu.itis.feature.mycases.domain.repository.MyCasesRepository
@@ -18,16 +19,6 @@ class MyCasesRepositoryImpl(
         }*/
 
         kotlinx.coroutines.delay(800)
-        return Result.success(
-            listOf(
-                MyCase(
-                    caseId = 1,
-                    title = "Анализ оттока продавцов: построение дашборда и рекомендации",
-                    companyName = "Ozon Tech",
-                    submittedAt = "13 мая",
-                    status = "На проверке"
-                )
-            )
-        )
+        return Result.success(MockResponseStore.getAll())
     }
 }

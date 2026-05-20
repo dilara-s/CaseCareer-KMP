@@ -1,5 +1,7 @@
 package ru.kpfu.itis.feature.response.data.repository
 
+import ru.kpfu.itis.core.mock.MockResponseStore
+import ru.kpfu.itis.feature.mycases.domain.model.MyCase
 import ru.kpfu.itis.feature.response.data.remote.ResponseApi
 import ru.kpfu.itis.feature.response.data.remote.model.SubmitResponseRequest
 import ru.kpfu.itis.feature.response.domain.model.ResponseResult
@@ -11,12 +13,15 @@ class ResponseRepositoryImpl(
 
     override suspend fun submitResponse(
         caseId: Int,
+        caseTitle: String,
+        companyName: String,
         coverLetter: String,
         solutionLink: String
     ): Result<ResponseResult> {
         // TODO: раскомментировать когда бэкенд пришлёт контракт
         /*return try {
             val dto = api.submitResponse(caseId, SubmitResponseRequest(coverLetter, solutionLink))
+            MockResponseStore.add(MyCase(caseId, caseTitle, companyName, dto.submittedAt, dto.status))
             Result.success(ResponseResult(submittedAt = dto.submittedAt, status = dto.status))
         } catch (e: ClientRequestException) {
             Result.failure(Exception(when (e.response.status.value) {
@@ -29,9 +34,18 @@ class ResponseRepositoryImpl(
         }*/
 
         kotlinx.coroutines.delay(1200)
+        MockResponseStore.add(
+            MyCase(
+                caseId = caseId,
+                title = caseTitle,
+                companyName = companyName,
+                submittedAt = "сегодня",
+                status = "На проверке"
+            )
+        )
         return Result.success(
             ResponseResult(
-                submittedAt = "13 мая 2025, 9:41",
+                submittedAt = "сегодня",
                 status = "На проверке"
             )
         )
