@@ -29,6 +29,7 @@ class ResponseViewModel(
                     caseTitle = event.caseTitle,
                     companyName = event.companyName,
                     isNdaRequired = event.ndaRequired,
+                    totalSteps = if (event.ndaRequired) 3 else 2,
                     screenMode = if (event.ndaRequired) ResponseScreenMode.NdaStep else ResponseScreenMode.FormStep
                 )
             }
