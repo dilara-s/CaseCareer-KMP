@@ -2,11 +2,13 @@ package ru.kpfu.itis.feature.auth.data.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import ru.kpfu.itis.feature.auth.data.remote.model.LoginRequest
+import ru.kpfu.itis.feature.auth.data.remote.model.ProfileResponse
 import ru.kpfu.itis.feature.auth.data.remote.model.RefreshRequest
 import ru.kpfu.itis.feature.auth.data.remote.model.RegisterRequest
 import ru.kpfu.itis.feature.auth.data.remote.model.RegisterResponse
@@ -39,4 +41,9 @@ class AuthApi(private val client: HttpClient) {
             setBody(RefreshRequest(refresh))
         }.body()
     }
+
+    suspend fun getMyProfile(): ProfileResponse {
+        return client.get("api/v1/profiles/me/").body()
+    }
+
 }

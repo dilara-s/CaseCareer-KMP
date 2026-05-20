@@ -40,8 +40,18 @@ class AuthViewModel(
             is AuthEvent.UpdateContactInfo -> _state.update { it.copy(contactInfo = event.info) }
             is AuthEvent.UpdatePortfolioLink -> _state.update { it.copy(portfolioLink = event.link) }
             is AuthEvent.UpdateSkills -> _state.update { it.copy(skills = event.skills) }
-            is AuthEvent.RegisterSubmit -> register()
+            is AuthEvent.RegisterSubmit -> {
+                if (!state.value.isPersonalDataConsentChecked) {
+                    _state.update { it.copy(consentError = "Необходимо согласие на обработку персональных данных") }
+                    return
+                }
+                register()
+            }
             is AuthEvent.BackToStep1 -> _state.update { it.copy(screenMode = AuthScreenMode.RegisterStep1, error = null) }
+
+            is AuthEvent.TogglePersonalDataConsent ->  _state.update {
+                it.copy(isPersonalDataConsentChecked = !_state.value.isPersonalDataConsentChecked, consentError = null)
+            }
         }
     }
 
