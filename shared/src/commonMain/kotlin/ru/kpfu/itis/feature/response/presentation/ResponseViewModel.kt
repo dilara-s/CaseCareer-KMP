@@ -29,6 +29,7 @@ class ResponseViewModel(
                     caseTitle = event.caseTitle,
                     companyName = event.companyName,
                     isNdaRequired = event.ndaRequired,
+                    totalSteps = if (event.ndaRequired) 3 else 2,
                     screenMode = if (event.ndaRequired) ResponseScreenMode.NdaStep else ResponseScreenMode.FormStep
                 )
             }
@@ -44,7 +45,7 @@ class ResponseViewModel(
             }
             ResponseEvent.Submit -> submit()
             ResponseEvent.Cancel -> viewModelScope.launch { _effect.emit(ResponseEffect.CloseSheet) }
-            ResponseEvent.BackToFeed -> viewModelScope.launch { _effect.emit(ResponseEffect.CloseSheet) }
+            ResponseEvent.BackToFeed -> viewModelScope.launch { _effect.emit(ResponseEffect.NavigateToMyCases) }
         }
     }
 
@@ -64,7 +65,7 @@ class ResponseViewModel(
         }
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
-            submitResponseUseCase(s.caseId, s.coverLetter, s.solutionLink)
+            submitResponseUseCase(s.caseId, s.caseTitle, s.companyName, s.coverLetter, s.solutionLink)
                 .onSuccess { result ->
                     _state.update {
                         it.copy(

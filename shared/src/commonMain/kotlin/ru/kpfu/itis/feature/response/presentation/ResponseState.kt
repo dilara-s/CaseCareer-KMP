@@ -6,6 +6,8 @@ data class ResponseState(
     val caseTitle: String = "",
     val companyName: String = "",
     val isNdaRequired: Boolean = false,
+    // totalSteps = 3 если NDA нужно, 2 если нет — для прогресс-бара в UI
+    val totalSteps: Int = 3,
     val isNdaAccepted: Boolean = false,
     val ndaError: String? = null,
     val coverLetter: String = "",
