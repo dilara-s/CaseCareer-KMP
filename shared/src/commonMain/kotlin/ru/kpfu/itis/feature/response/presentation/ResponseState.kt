@@ -13,10 +13,13 @@ data class ResponseState(
     val coverLetter: String = "",
     val coverLetterError: String? = null,
     val solutionLink: String = "",
+    val solutionLinkError: String? = null,
     val isLoading: Boolean = false,
     val error: String? = null,
     val submittedAt: String? = null,
-    val responseStatus: String? = null
+    val responseStatus: String? = null,
+    // true если на этот кейс уже был отправлен отклик (проверяется через MockResponseStore / реальный API)
+    val alreadyResponded: Boolean = false
 )
 
 enum class ResponseScreenMode { NdaStep, FormStep, SuccessStep }

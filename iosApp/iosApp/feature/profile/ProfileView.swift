@@ -5,6 +5,7 @@ struct ProfileView: View {
     let onLogout: () -> Void
 
     @StateObject private var wrapper = ProfileViewModelWrapper()
+    @State private var showDeleteAccountAlert = false
 
     var body: some View {
         let state = wrapper.state
@@ -34,6 +35,11 @@ struct ProfileView: View {
             Button("Отмена", role: .cancel) {
                 wrapper.onEvent(ProfileEvent.DismissLogoutDialog())
             }
+        }
+        .alert("Удалить аккаунт?", isPresented: $showDeleteAccountAlert) {
+            Button("Отмена", role: .cancel) {}
+        } message: {
+            Text("Функция временно недоступна. Обратитесь в поддержку.")
         }
         .onAppear {
             wrapper.onEvent(ProfileEvent.Load())
@@ -125,7 +131,7 @@ struct ProfileView: View {
                     }
 
                     DestructiveTextButton("Удалить аккаунт") {
-                        // TODO: реализовать удаление аккаунта
+                        showDeleteAccountAlert = true
                     }
                 }
                 .padding(16)
@@ -178,6 +184,12 @@ struct ProfileView: View {
                         .components(separatedBy: ",")
                         .map { $0.trimmingCharacters(in: .whitespaces) }
                         .filter { !$0.isEmpty }
+                        .reduce(into: [String]()) { result, skill in
+                            // Дедупликация с сохранением порядка (без учёта регистра)
+                            if !result.contains(where: { $0.lowercased() == skill.lowercased() }) {
+                                result.append(skill)
+                            }
+                        }
                 ) { skill in
                     Text(skill)
                         .font(.dsLabelSmall)

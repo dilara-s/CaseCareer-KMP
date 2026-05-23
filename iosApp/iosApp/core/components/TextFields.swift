@@ -72,17 +72,10 @@ struct AppTextArea: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             ZStack(alignment: .topLeading) {
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(
-                        error != nil ? Color.errorRed : Color.outline.opacity(0.55),
-                        lineWidth: 1.5
-                    )
-
                 TextEditor(text: $text)
                     .frame(minHeight: minHeight)
                     .padding(8)
                     .scrollContentBackground(.hidden)
-                    .background(Color(.systemBackground))
 
                 if text.isEmpty {
                     Text(placeholder)
@@ -96,6 +89,13 @@ struct AppTextArea: View {
             .frame(minHeight: minHeight + 20)
             .background(Color(.systemBackground))
             .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(
+                        error != nil ? Color.errorRed : Color.outline,
+                        lineWidth: 1
+                    )
+            )
 
             if let error = error {
                 Text(error)

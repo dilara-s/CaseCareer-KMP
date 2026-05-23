@@ -3,9 +3,14 @@ package ru.kpfu.itis.feature.response.data.remote.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// TODO: поля уточнить по контракту бэкенда
+// Соответствует схеме SolutionResponse из swagger
 @Serializable
 data class SubmitResponseDto(
-    @SerialName("submitted_at") val submittedAt: String,
-    val status: String
+    val id: Int,
+    @SerialName("case_id") val caseId: Int,
+    @SerialName("case_title") val caseTitle: String,
+    @SerialName("company_name") val companyName: String,
+    val status: String,
+    val version: Int,
+    @SerialName("submitted_at") val submittedAt: String
 )

@@ -5,5 +5,6 @@ data class MyCase(
     val title: String,
     val companyName: String,
     val submittedAt: String,
-    val status: String
+    val status: String,
+    val version: Int = 1
 )
