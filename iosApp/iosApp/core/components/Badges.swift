@@ -27,6 +27,8 @@ struct StatusBadge: View {
 
     private var colors: (bg: Color, text: Color) {
         switch status.lowercased() {
+        case "sent", "отправлен":
+            return (.brandBackground, .brandPrimary)
         case "на проверке", "pending", "in_review", "review":
             return (.statusPendingBg, .statusPendingText)
         case "принято", "accepted", "approved":
@@ -41,7 +43,8 @@ struct StatusBadge: View {
     /// Локализованное отображение статуса
     private var displayText: String {
         switch status.lowercased() {
-        case "pending", "in_review", "review": return "На проверке"
+        case "sent":                            return "Отправлен"
+        case "pending", "in_review", "review":  return "На проверке"
         case "accepted", "approved":            return "Принято"
         case "rejected":                        return "Отклонено"
         default:                                return status

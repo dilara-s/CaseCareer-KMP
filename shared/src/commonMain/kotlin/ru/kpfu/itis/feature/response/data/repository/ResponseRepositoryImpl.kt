@@ -1,5 +1,6 @@
 package ru.kpfu.itis.feature.response.data.repository
 
+import io.ktor.client.plugins.ClientRequestException
 import ru.kpfu.itis.core.mock.MockResponseStore
 import ru.kpfu.itis.feature.mycases.domain.model.MyCase
 import ru.kpfu.itis.feature.response.data.remote.ResponseApi
@@ -18,21 +19,52 @@ class ResponseRepositoryImpl(
         coverLetter: String,
         solutionLink: String
     ): Result<ResponseResult> {
-        // TODO: раскомментировать когда бэкенд пришлёт контракт
-        /*return try {
-            val dto = api.submitResponse(caseId, SubmitResponseRequest(coverLetter, solutionLink))
-            MockResponseStore.add(MyCase(caseId, caseTitle, companyName, dto.submittedAt, dto.status))
-            Result.success(ResponseResult(submittedAt = dto.submittedAt, status = dto.status))
+
+        // ── Реальный API ──────────────────────────────────────────────────────
+        // Раскомментировать когда сервер будет задеплоен, мок-блок ниже удалить
+        /*
+        return try {
+            val dto = api.submitResponse(
+                SubmitResponseRequest(
+                    caseId = caseId,
+                    coverLetter = coverLetter,
+                    solutionLink = solutionLink
+                )
+            )
+            // Сохраняем в мок-стор чтобы сразу появилось в MyCases (убрать вместе с MockResponseStore)
+            MockResponseStore.add(
+                MyCase(
+                    caseId = dto.caseId,
+                    title = dto.caseTitle,
+                    companyName = dto.companyName,
+                    submittedAt = dto.submittedAt,
+                    status = dto.status,
+                    version = dto.version
+                )
+            )
+            Result.success(
+                ResponseResult(
+                    submittedAt = dto.submittedAt,
+                    status = dto.status
+                )
+            )
         } catch (e: ClientRequestException) {
-            Result.failure(Exception(when (e.response.status.value) {
-                404 -> "Кейс не найден"
-                409 -> "Вы уже откликались на этот кейс"
-                else -> "Ошибка сервера (${e.response.status.value})"
-            }))
+            Result.failure(
+                Exception(
+                    when (e.response.status.value) {
+                        400 -> "Кейс не найден или некорректные данные"
+                        403 -> "Только студенты могут откликаться на кейсы"
+                        422 -> "Кейс закрыт или истёк дедлайн"
+                        else -> "Ошибка сервера (${e.response.status.value})"
+                    }
+                )
+            )
         } catch (e: Exception) {
             Result.failure(Exception("Нет соединения"))
-        }*/
+        }
+        */
 
+        // ── Мок ───────────────────────────────────────────────────────────────
         kotlinx.coroutines.delay(1200)
         MockResponseStore.add(
             MyCase(
@@ -40,13 +72,14 @@ class ResponseRepositoryImpl(
                 title = caseTitle,
                 companyName = companyName,
                 submittedAt = "сегодня",
-                status = "На проверке"
+                status = "SENT",
+                version = 1
             )
         )
         return Result.success(
             ResponseResult(
                 submittedAt = "сегодня",
-                status = "На проверке"
+                status = "SENT"
             )
         )
     }

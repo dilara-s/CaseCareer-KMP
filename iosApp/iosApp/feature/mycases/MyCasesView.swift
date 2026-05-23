@@ -83,7 +83,7 @@ private struct CaseResponseCard: View {
                 Image(systemName: "clock")
                     .font(.system(size: 12))
                     .foregroundColor(.onSurfaceVariant)
-                Text("Отклик отправлен \(myCase.submittedAt)")
+                Text("Отклик отправлен \(Formatters.shortDate(myCase.submittedAt))")
                     .font(.dsCaption)
                     .foregroundColor(.onSurfaceVariant)
             }

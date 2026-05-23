@@ -44,6 +44,7 @@ struct ResponseFormView: View {
                             coverLetter: state.coverLetter,
                             coverLetterError: state.coverLetterError,
                             solutionLink: state.solutionLink,
+                            solutionLinkError: state.solutionLinkError,
                             isLoading: state.isLoading,
                             error: state.error,
                             onCoverLetterChange: { wrapper.onEvent(ResponseEvent.UpdateCoverLetter(text: $0)) },
@@ -292,6 +293,7 @@ private struct FormStepView: View {
     let coverLetter: String
     let coverLetterError: String?
     let solutionLink: String
+    let solutionLinkError: String?
     let isLoading: Bool
     let error: String?
     let onCoverLetterChange: (String) -> Void
@@ -330,7 +332,7 @@ private struct FormStepView: View {
                             get: { solutionLink },
                             set: { onSolutionLinkChange($0) }
                         ),
-                        hint: "Необязательно",
+                        error: solutionLinkError,
                         keyboardType: .URL,
                         leadingIcon: "link"
                     )

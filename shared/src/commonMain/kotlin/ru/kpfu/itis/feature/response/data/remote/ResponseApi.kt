@@ -11,11 +11,16 @@ import ru.kpfu.itis.feature.response.data.remote.model.SubmitResponseRequest
 
 class ResponseApi(private val client: HttpClient) {
 
-    // TODO: заменить endpoint когда бэкенд пришлёт контракт
-    suspend fun submitResponse(caseId: Int, request: SubmitResponseRequest): SubmitResponseDto {
-        return client.post("api/v1/cases/$caseId/respond/") {
+    // POST /api/v1/solutions/ — отправка отклика
+    // Контракт: JSON с полями case_id, cover_letter, solution_link
+    // (файл убран по договорённости с командой бэкенда)
+    // Раскомментировать когда сервер будет задеплоен
+    /*
+    suspend fun submitResponse(request: SubmitResponseRequest): SubmitResponseDto {
+        return client.post("api/v1/solutions/") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }.body()
     }
+    */
 }
