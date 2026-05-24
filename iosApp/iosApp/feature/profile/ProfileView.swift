@@ -1,5 +1,6 @@
 import SwiftUI
 import Shared
+import FirebaseAnalytics
 
 struct ProfileView: View {
     let onLogout: () -> Void
@@ -42,6 +43,7 @@ struct ProfileView: View {
             Text("Функция временно недоступна. Обратитесь в поддержку.")
         }
         .onAppear {
+            Analytics.logEvent("launch_profile", parameters: nil)
             wrapper.onEvent(ProfileEvent.Load())
             wrapper.collectEffects(onNavigateToAuth: onLogout)
         }

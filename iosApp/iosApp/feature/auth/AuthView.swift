@@ -1,5 +1,6 @@
 import SwiftUI
 import Shared
+import FirebaseAnalytics
 
 struct AuthView: View {
     let onNavigateToMain: () -> Void
@@ -16,16 +17,19 @@ struct AuthView: View {
                     LoginScreen(state: state, onEvent: wrapper.onEvent)
                         .navigationTitle("")
                         .navigationBarHidden(true)
+                        .onAppear { Analytics.logEvent("launch_login", parameters: nil) }
 
                 case AuthScreenMode.registerstep1:
                     RegisterStep1Screen(state: state, onEvent: wrapper.onEvent)
                         .navigationTitle("")
                         .navigationBarHidden(true)
+                        .onAppear { Analytics.logEvent("launch_register_step1", parameters: nil) }
 
                 case AuthScreenMode.registerstep2:
                     RegisterStep2Screen(state: state, onEvent: wrapper.onEvent)
                         .navigationTitle("Персональная информация")
                         .navigationBarTitleDisplayMode(.inline)
+                        .onAppear { Analytics.logEvent("launch_register_step2", parameters: nil) }
                         .toolbar {
                             ToolbarItem(placement: .navigationBarLeading) {
                                 Button {

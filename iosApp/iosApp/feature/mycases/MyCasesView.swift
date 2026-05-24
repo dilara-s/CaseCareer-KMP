@@ -1,5 +1,6 @@
 import SwiftUI
 import Shared
+import FirebaseAnalytics
 
 struct MyCasesView: View {
     @StateObject private var wrapper = MyCasesViewModelWrapper()
@@ -33,6 +34,7 @@ struct MyCasesView: View {
             CaseDetailView(caseId: caseId)
         }
         .onAppear {
+            Analytics.logEvent("launch_my_cases", parameters: nil)
             wrapper.onEvent(MyCasesEvent.Load())
             wrapper.collectEffects { caseId in
                 selectedCaseId = caseId
