@@ -1,5 +1,6 @@
 import SwiftUI
 import Shared
+import FirebaseAnalytics
 
 struct CaseDetailView: View {
     let caseId: Int64
@@ -48,6 +49,7 @@ struct CaseDetailView: View {
             }
         }
         .onAppear {
+            Analytics.logEvent("launch_case_detail", parameters: ["case_id": caseId])
             wrapper.collectEffects(
                 onNavigateBack: { dismiss() },
                 onNavigateToNda: { _ in showResponseSheet = true },

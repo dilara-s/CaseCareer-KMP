@@ -1,5 +1,6 @@
 import SwiftUI
 import Shared
+import FirebaseAnalytics
 
 struct ResponseFormView: View {
     let caseId: Int32
@@ -83,6 +84,7 @@ struct ResponseFormView: View {
             }
         }
         .onAppear {
+            Analytics.logEvent("launch_response_form", parameters: nil)
             wrapper.onEvent(ResponseEvent.Init(
                 caseId: caseId,
                 caseTitle: caseTitle,

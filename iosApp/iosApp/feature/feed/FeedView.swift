@@ -1,5 +1,6 @@
 import SwiftUI
 import Shared
+import FirebaseAnalytics
 
 struct FeedView: View {
     @StateObject private var wrapper = FeedViewModelWrapper()
@@ -35,6 +36,7 @@ struct FeedView: View {
             }
         }
         .onAppear {
+            Analytics.logEvent("launch_feed", parameters: nil)
             wrapper.collectEffects(onNavigateToCaseDetail: { caseId in
                 selectedCaseId = caseId
             })
