@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import org.koin.compose.viewmodel.koinViewModel
+import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.Primary
 import ru.kpfu.itis.feature.profile.domain.model.Profile
 import ru.kpfu.itis.feature.profile.presentation.ProfileEffect
@@ -56,7 +58,7 @@ fun ProfileScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         Text(
-            text = "Профиль",
+            text = stringResource(R.string.profile_title),
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
@@ -77,7 +79,7 @@ fun ProfileScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Не удалось загрузить профиль",
+                        text = stringResource(R.string.profile_load_error),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -92,7 +94,7 @@ fun ProfileScreen(
                         onClick = { onEvent(ProfileEvent.Load) },
                         colors = ButtonDefaults.buttonColors(containerColor = Primary)
                     ) {
-                        Text("Повторить", color = Color.White)
+                        Text(stringResource(R.string.common_retry), color = Color.White)
                     }
                 }
             }
@@ -109,16 +111,16 @@ fun ProfileScreen(
     if (state.showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { onEvent(ProfileEvent.DismissLogoutDialog) },
-            title = { Text("Выйти из аккаунта?") },
-            text = { Text("Вы уверены, что хотите выйти?") },
+            title = { Text(stringResource(R.string.profile_logout_dialog_title)) },
+            text = { Text(stringResource(R.string.profile_logout_dialog_message)) },
             confirmButton = {
                 TextButton(onClick = { onEvent(ProfileEvent.ConfirmLogout) }) {
-                    Text("Выйти", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.profile_logout_confirm), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { onEvent(ProfileEvent.DismissLogoutDialog) }) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.common_cancel))
                 }
             }
         )
@@ -127,16 +129,16 @@ fun ProfileScreen(
     if (state.showDeleteAccountDialog) {
         AlertDialog(
             onDismissRequest = { onEvent(ProfileEvent.DismissDeleteAccountDialog) },
-            title = { Text("Удалить аккаунт?") },
-            text = { Text("Вы уверены, что хотите удалить аккаунт? Это действие необратимо.") },
+            title = { Text(stringResource(R.string.profile_delete_dialog_title)) },
+            text = { Text(stringResource(R.string.profile_delete_dialog_message)) },
             confirmButton = {
                 TextButton(onClick = { onEvent(ProfileEvent.ConfirmDeleteAccount) }) {
-                    Text("Удалить", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.profile_delete_confirm), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { onEvent(ProfileEvent.DismissDeleteAccountDialog) }) {
-                    Text("Отмена")
+                    Text(stringResource(R.string.common_cancel))
                 }
             }
         )
@@ -202,7 +204,7 @@ private fun ProfileContent(profile: Profile, onLogout: () -> Unit, onDeleteAccou
                             ) {
                                 Text("★", color = Color(0xFFFBBF24), fontSize = 14.sp)
                                 Text(
-                                    text = "${profile.rating} рейтинг",
+                                    text = stringResource(R.string.profile_rating, profile.rating),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -217,14 +219,14 @@ private fun ProfileContent(profile: Profile, onLogout: () -> Unit, onDeleteAccou
 
         if (profile.contactInfo.isNotBlank()) {
             ProfileInfoSection(
-                title = "Социальные сети",
+                title = stringResource(R.string.profile_social_title),
                 value = profile.contactInfo
             )
         }
 
         if (profile.portfolioLink.isNotBlank()) {
             ProfileInfoSection(
-                title = "Портфолио",
+                title = stringResource(R.string.profile_portfolio_title),
                 value = profile.portfolioLink
             )
         }
@@ -251,7 +253,7 @@ private fun ProfileContent(profile: Profile, onLogout: () -> Unit, onDeleteAccou
                         .padding(horizontal = 4.dp)
                 ) {
                     Text(
-                        text = "Выйти из приложения",
+                        text = stringResource(R.string.profile_logout_button),
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp
@@ -265,7 +267,7 @@ private fun ProfileContent(profile: Profile, onLogout: () -> Unit, onDeleteAccou
                         .padding(horizontal = 4.dp)
                 ) {
                     Text(
-                        text = "Удалить аккаунт",
+                        text = stringResource(R.string.profile_delete_button),
                         color = MaterialTheme.colorScheme.error,
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp
@@ -281,8 +283,8 @@ private fun ProfileContent(profile: Profile, onLogout: () -> Unit, onDeleteAccou
 @Composable
 private fun RoleBadge(role: String) {
     val label = when (role.lowercase()) {
-        "student" -> "Студент"
-        "company" -> "Компания"
+        "student" -> stringResource(R.string.role_student)
+        "company" -> stringResource(R.string.role_company)
         else -> role
     }
     Box(
@@ -340,7 +342,7 @@ private fun ProfileSkillsSection(skills: String) {
     ) {
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
             Text(
-                text = "Ключевые навыки",
+                text = stringResource(R.string.profile_skills_title),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

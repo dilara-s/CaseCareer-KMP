@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.kpfu.itis.core.mock.MockResponseStore
 import ru.kpfu.itis.core.viewmodel.CommonViewModel
 import ru.kpfu.itis.feature.feed.domain.usecase.GetCaseDetailUseCase
 import kotlin.onFailure
@@ -48,8 +47,7 @@ class CaseDetailViewModel(
             _state.update { it.copy(isLoading = true, error = null) }
             getCaseDetailUseCase(caseId)
                 .onSuccess { case ->
-                    val alreadyResponded = MockResponseStore.getAll().any { it.caseId == case.id.toInt() }
-                    _state.update { it.copy(case = case, isLoading = false, alreadyResponded = alreadyResponded) }
+                    _state.update { it.copy(case = case, isLoading = false) }
                 }
                 .onFailure { e ->
                     _state.update { it.copy(isLoading = false, error = e.message ?: "Ошибка загрузки") }

@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -72,7 +73,7 @@ fun CaseDetailScreen(
             IconButton(onClick = { onEvent(CaseDetailEvent.Back) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = "Назад",
+                    contentDescription = stringResource(R.string.case_detail_back_cd),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -151,7 +152,7 @@ private fun CaseDetailContent(
                     modifier = Modifier.size(14.dp)
                 )
                 Text(
-                    text = "Дедлайн до ${formatDetailDeadline(case.deadline)}",
+                    text = stringResource(R.string.case_detail_deadline, formatDetailDeadline(case.deadline)),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -161,7 +162,7 @@ private fun CaseDetailContent(
                     fontSize = 12.sp
                 )
                 Text(
-                    text = if (case.ndaRequired) "NDA требуется" else "NDA не требуется",
+                    text = stringResource(if (case.ndaRequired) R.string.common_nda_required else R.string.common_nda_not_required),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -204,7 +205,7 @@ private fun CaseDetailContent(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "Опубликовано ${formatDetailDate(case.publishedAt)}",
+                text = stringResource(R.string.case_detail_published, case.publishedAt?.let { formatDetailDate(it) } ?: "—"),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -212,7 +213,7 @@ private fun CaseDetailContent(
             Spacer(Modifier.height(20.dp))
 
             Text(
-                text = "Описание",
+                text = stringResource(R.string.case_detail_description_title),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -244,7 +245,7 @@ private fun CaseDetailContent(
             )
         ) {
             Text(
-                text = if (alreadyResponded) "Вы уже откликнулись" else "Откликнуться",
+                text = stringResource(if (alreadyResponded) R.string.case_detail_already_responded else R.string.feed_apply_button),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             )
@@ -264,7 +265,7 @@ private fun DetailErrorState(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Не удалось загрузить кейс",
+            text = stringResource(R.string.case_detail_load_error),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -279,7 +280,7 @@ private fun DetailErrorState(
             onClick = onRetry,
             colors = ButtonDefaults.buttonColors(containerColor = Primary)
         ) {
-            Text("Повторить", color = Color.White)
+            Text(stringResource(R.string.common_retry), color = Color.White)
         }
     }
 }

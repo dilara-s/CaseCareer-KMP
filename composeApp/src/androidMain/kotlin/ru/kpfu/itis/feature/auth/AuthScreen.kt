@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import org.koin.compose.viewmodel.koinViewModel
+import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.component.AuthButton
 import ru.kpfu.itis.designSystem.component.AuthTextField
 import ru.kpfu.itis.designSystem.component.ClickableText
@@ -77,11 +79,11 @@ private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
         Spacer(Modifier.height(80.dp))
 
         Text(
-            text = "Войти",
+            text = stringResource(R.string.login_title),
             style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold)
         )
         Text(
-            text = "Войдите в существующий аккаунт",
+            text = stringResource(R.string.login_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp)
@@ -92,7 +94,7 @@ private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
         AuthTextField(
             value = state.email,
             onValueChange = { onEvent(AuthEvent.UpdateEmail(it)) },
-            placeholder = "Почта",
+            placeholder = stringResource(R.string.login_email_placeholder),
             isError = state.emailError != null,
             errorText = state.emailError,
             keyboardType = KeyboardType.Email
@@ -103,7 +105,7 @@ private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
         AuthTextField(
             value = state.password,
             onValueChange = { onEvent(AuthEvent.UpdatePassword(it)) },
-            placeholder = "Пароль",
+            placeholder = stringResource(R.string.login_password_placeholder),
             isPassword = true,
             isPasswordVisible = state.isPasswordVisible,
             onTogglePassword = { onEvent(AuthEvent.TogglePasswordVisibility) },
@@ -123,7 +125,7 @@ private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
         Spacer(Modifier.height(24.dp))
 
         AuthButton(
-            text = "Войти",
+            text = stringResource(R.string.login_button),
             isLoading = state.isLoading,
             onClick = { onEvent(AuthEvent.LoginSubmit) }
         )
@@ -131,8 +133,8 @@ private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
         Spacer(Modifier.height(24.dp))
 
         ClickableText(
-            primary = "Еще нет аккаунта? ",
-            action = "Зарегистрироваться",
+            primary = stringResource(R.string.login_no_account),
+            action = stringResource(R.string.login_go_register),
             onClick = { onEvent(AuthEvent.GoToRegister) }
         )
     }
@@ -152,11 +154,11 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         Spacer(Modifier.height(60.dp))
 
         Text(
-            text = "Регистрация",
+            text = stringResource(R.string.register_title),
             style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold)
         )
         Text(
-            text = "Создайте новый аккаунт",
+            text = stringResource(R.string.register_subtitle),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 8.dp)
@@ -167,8 +169,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.fullName,
             onValueChange = { onEvent(AuthEvent.UpdateFullName(it)) },
-            placeholder = "Имя, фамилия *",
-//            leadingIcon = Icons.Default.Person,
+            placeholder = stringResource(R.string.register_full_name_placeholder),
             isError = state.fullNameError != null,
             errorText = state.fullNameError
         )
@@ -177,8 +178,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.email,
             onValueChange = { onEvent(AuthEvent.UpdateEmail(it)) },
-            placeholder = "Почта *",
-//            leadingIcon = Icons.Default.Email,
+            placeholder = stringResource(R.string.register_email_placeholder),
             isError = state.emailError != null,
             errorText = state.emailError,
             keyboardType = KeyboardType.Email
@@ -188,8 +188,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.phone,
             onValueChange = { onEvent(AuthEvent.UpdatePhone(it)) },
-            placeholder = "Номер телефона *",
-//            leadingIcon = Icons.Default.Phone,
+            placeholder = stringResource(R.string.register_phone_placeholder),
             isError = state.phoneError != null,
             errorText = state.phoneError,
             keyboardType = KeyboardType.Phone
@@ -199,8 +198,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.password,
             onValueChange = { onEvent(AuthEvent.UpdatePassword(it)) },
-            placeholder = "Пароль *",
-//            leadingIcon = Icons.Default.Lock,
+            placeholder = stringResource(R.string.register_password_placeholder),
             isPassword = true,
             isPasswordVisible = state.isPasswordVisible,
             onTogglePassword = { onEvent(AuthEvent.TogglePasswordVisibility) },
@@ -212,8 +210,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.confirmPassword,
             onValueChange = { onEvent(AuthEvent.UpdateConfirmPassword(it)) },
-            placeholder = "Подтвердите пароль *",
-//            leadingIcon = Icons.Default.Lock,
+            placeholder = stringResource(R.string.register_confirm_password_placeholder),
             isPassword = true,
             isPasswordVisible = state.isPasswordVisible,
             isError = state.confirmPasswordError != null,
@@ -221,7 +218,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         )
 
         Text(
-            text = "Пароль должен содержать не менее 8 символов",
+            text = stringResource(R.string.register_password_hint),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 6.dp).align(Alignment.Start)
@@ -239,7 +236,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         Spacer(Modifier.height(32.dp))
 
         AuthButton(
-            text = "Далее",
+            text = stringResource(R.string.register_next_button),
             isLoading = false,
             onClick = { onEvent(AuthEvent.RegisterStep1Next) }
         )
@@ -247,8 +244,8 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         Spacer(Modifier.height(16.dp))
 
         ClickableText(
-            primary = "Уже есть аккаунт? ",
-            action = "Войти",
+            primary = stringResource(R.string.register_has_account),
+            action = stringResource(R.string.register_go_login),
             onClick = { onEvent(AuthEvent.GoToLogin) }
         )
 
@@ -268,16 +265,12 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
     ) {
         Spacer(Modifier.height(16.dp))
 
-        // Шапка с кнопкой назад
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            /*IconButton(onClick = { onEvent(AuthEvent.BackToStep1) }) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
-            }*/
             Text(
-                text = "Персональная информация",
+                text = stringResource(R.string.register_personal_info_title),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
             )
         }
@@ -287,9 +280,8 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.contactInfo,
             onValueChange = { onEvent(AuthEvent.UpdateContactInfo(it)) },
-            placeholder = "Социальные сети",
-//            leadingIcon = Icons.Default.List,
-            supportingText = "Ссылки на Telegram, LinkedIn или VK"
+            placeholder = stringResource(R.string.register_social_placeholder),
+            supportingText = stringResource(R.string.register_social_hint)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -297,9 +289,8 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.portfolioLink,
             onValueChange = { onEvent(AuthEvent.UpdatePortfolioLink(it)) },
-            placeholder = "Портфолио",
-//            leadingIcon = Icons.Default.Link,
-            supportingText = "Ссылка на примеры ваших работ"
+            placeholder = stringResource(R.string.register_portfolio_placeholder),
+            supportingText = stringResource(R.string.register_portfolio_hint)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -307,9 +298,8 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         AuthTextField(
             value = state.skills,
             onValueChange = { onEvent(AuthEvent.UpdateSkills(it)) },
-            placeholder = "Ключевые навыки",
-//            leadingIcon = Icons.Default.Work,
-            supportingText = "Перечисляйте через запятую: Git, Java, SQL"
+            placeholder = stringResource(R.string.register_skills_placeholder),
+            supportingText = stringResource(R.string.register_skills_hint)
         )
 
         if (state.error != null) {
@@ -336,14 +326,14 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
             Spacer(Modifier.width(8.dp))
             Text(
                 text = buildAnnotatedString {
-                    append("Согласен с ")
+                    append(stringResource(R.string.register_consent_prefix))
                     withStyle(
                         SpanStyle(
                             color = MaterialTheme.colorScheme.primary,
                             textDecoration = TextDecoration.Underline
                         )
                     ) {
-                        append("политикой обработки персональных данных")
+                        append(stringResource(R.string.register_consent_link))
                     }
                 },
                 style = MaterialTheme.typography.bodySmall
@@ -355,15 +345,15 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
         }
 
         AuthButton(
-            text = "Зарегистрироваться",
+            text = stringResource(R.string.register_button),
             isLoading = state.isLoading,
             onClick = { onEvent(AuthEvent.RegisterSubmit) },
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         ClickableText(
-            primary = "Уже есть аккаунт? ",
-            action = "Войти",
+            primary = stringResource(R.string.register_has_account),
+            action = stringResource(R.string.register_go_login),
             onClick = { onEvent(AuthEvent.GoToLogin) },
             modifier = Modifier.padding(bottom = 40.dp)
         )

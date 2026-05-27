@@ -18,7 +18,6 @@ data class ResponseState(
     val error: String? = null,
     val submittedAt: String? = null,
     val responseStatus: String? = null,
-    // true если на этот кейс уже был отправлен отклик (проверяется через MockResponseStore / реальный API)
     val alreadyResponded: Boolean = false
 )
 

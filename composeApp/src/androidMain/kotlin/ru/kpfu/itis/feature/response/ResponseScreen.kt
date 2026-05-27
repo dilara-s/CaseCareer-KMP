@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,12 +92,12 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
             IconButton(onClick = { onEvent(ResponseEvent.Cancel) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = "Назад",
+                    contentDescription = stringResource(R.string.case_detail_back_cd),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
             Text(
-                text = "Соглашение NDA",
+                text = stringResource(R.string.response_nda_title),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 modifier = Modifier.padding(start = 4.dp)
             )
@@ -130,7 +131,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "Этот кейс требует NDA",
+                text = stringResource(R.string.response_nda_heading),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -138,7 +139,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = "Перед откликом ознакомьтесь с условиями соглашения о неразглашении и подтвердите согласие.",
+                text = stringResource(R.string.response_nda_description),
                 style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 22.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -150,7 +151,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
                 contentPadding = PaddingValues(0.dp)
             ) {
                 Text(
-                    text = "Соглашение о неразглашении (NDA) >",
+                    text = stringResource(R.string.response_nda_link),
                     color = Primary,
                     style = MaterialTheme.typography.bodySmall
                 )
@@ -170,7 +171,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Заказчик",
+                            text = stringResource(R.string.response_nda_client_label),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -202,7 +203,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
                     }
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Исполнитель",
+                            text = stringResource(R.string.response_nda_executor_label),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -218,7 +219,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
                                 modifier = Modifier.size(16.dp)
                             )
                             Text(
-                                text = "Я",
+                                text = stringResource(R.string.response_nda_executor_me),
                                 style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -230,7 +231,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
             Spacer(Modifier.height(20.dp))
 
             NdaCheckItem(
-                text = "Я прочитал(а) и согласен(на) с условиями Соглашения о неразглашении",
+                text = stringResource(R.string.response_nda_check1),
                 checked = state.isNdaAccepted,
                 onToggle = { onEvent(ResponseEvent.ToggleNdaAccepted) }
             )
@@ -238,7 +239,7 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
             Spacer(Modifier.height(8.dp))
 
             NdaCheckItem(
-                text = "Обязуюсь не передавать полученные данные третьим лицам",
+                text = stringResource(R.string.response_nda_check2),
                 checked = state.isNdaAccepted,
                 onToggle = { onEvent(ResponseEvent.ToggleNdaAccepted) }
             )
@@ -264,14 +265,14 @@ private fun NdaStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Unit
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Primary, contentColor = Color.White)
             ) {
-                Text("Подписать и продолжить", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                Text(stringResource(R.string.response_nda_sign_button), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
             }
             Spacer(Modifier.height(8.dp))
             TextButton(
                 onClick = { onEvent(ResponseEvent.Cancel) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Отмена", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
+                Text(stringResource(R.string.common_cancel), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
             }
         }
     }
@@ -316,12 +317,12 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
             IconButton(onClick = { onEvent(ResponseEvent.Cancel) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
-                    contentDescription = "Назад",
+                    contentDescription = stringResource(R.string.case_detail_back_cd),
                     tint = MaterialTheme.colorScheme.onSurface
                 )
             }
             Text(
-                text = "Отклик на кейс",
+                text = stringResource(R.string.response_form_title),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 modifier = Modifier.padding(start = 4.dp)
             )
@@ -341,7 +342,7 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "Сопроводительное письмо",
+                text = stringResource(R.string.response_cover_letter_label),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -354,7 +355,7 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
                     .heightIn(min = 120.dp),
                 placeholder = {
                     Text(
-                        text = "Расскажите о своём опыте, релевантном этому кейсу. Почему именно вы справитесь с задачей?",
+                        text = stringResource(R.string.response_cover_letter_placeholder),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 14.sp
                     )
@@ -370,7 +371,7 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
             Spacer(Modifier.height(16.dp))
 
             Text(
-                text = "Ссылка на решение",
+                text = stringResource(R.string.response_solution_link_label),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -379,7 +380,12 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
                 value = state.solutionLink,
                 onValueChange = { onEvent(ResponseEvent.UpdateSolutionLink(it)) },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = { Text("GitHub, Notion, Google Drive и др.", color = MaterialTheme.colorScheme.onSurfaceVariant) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.response_solution_link_placeholder),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                },
                 singleLine = true,
                 isError = state.solutionLinkError != null,
                 supportingText = state.solutionLinkError?.let { { Text(it, color = MaterialTheme.colorScheme.error) } },
@@ -414,7 +420,7 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
                 if (state.isLoading) {
                     CircularProgressIndicator(modifier = Modifier.size(20.dp), color = Color.White, strokeWidth = 2.dp)
                 } else {
-                    Text("Отправить отклик", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+                    Text(stringResource(R.string.response_submit_button), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
                 }
             }
             Spacer(Modifier.height(8.dp))
@@ -422,7 +428,7 @@ private fun FormStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> Uni
                 onClick = { onEvent(ResponseEvent.Cancel) },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Отмена", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
+                Text(stringResource(R.string.common_cancel), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
             }
         }
     }
@@ -444,7 +450,7 @@ private fun SuccessStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> 
         ) {
             Spacer(Modifier.width(48.dp))
             Text(
-                text = "Отклик на кейс",
+                text = stringResource(R.string.response_form_title),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
                 modifier = Modifier.padding(start = 4.dp)
             )
@@ -474,7 +480,7 @@ private fun SuccessStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> 
             Spacer(Modifier.height(20.dp))
 
             Text(
-                text = "Отклик отправлен!",
+                text = stringResource(R.string.response_success_title),
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -482,7 +488,7 @@ private fun SuccessStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> 
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = "${state.companyName} получил ваше решение и письмо. Следите за статусом в разделе «Мои кейсы».",
+                text = stringResource(R.string.response_success_description, state.companyName),
                 style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 22.sp),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.fillMaxWidth()
@@ -499,14 +505,21 @@ private fun SuccessStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> 
                 Column(modifier = Modifier.padding(16.dp)) {
                     StatusTimelineItem(
                         dotColor = Primary,
-                        title = "Отправлено",
+                        title = stringResource(R.string.response_success_sent_label),
                         subtitle = formatSubmittedAt(state.submittedAt)
                     )
                     Spacer(Modifier.height(12.dp))
+                    val statusLabel = when (state.responseStatus) {
+                        "SENT" -> stringResource(R.string.status_sent)
+                        "REVIEW" -> stringResource(R.string.status_review)
+                        "ACCEPTED" -> stringResource(R.string.status_accepted)
+                        "REJECTED" -> stringResource(R.string.status_rejected)
+                        else -> state.responseStatus ?: ""
+                    }
                     StatusTimelineItem(
                         dotColor = Primary,
-                        title = "Статус: ${formatStatus(state.responseStatus)}",
-                        subtitle = "Компания рассматривает отклик"
+                        title = stringResource(R.string.response_success_status_format, statusLabel),
+                        subtitle = stringResource(R.string.response_success_reviewing)
                     )
                 }
             }
@@ -523,7 +536,7 @@ private fun SuccessStepScreen(state: ResponseState, onEvent: (ResponseEvent) -> 
             shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Primary, contentColor = Color.White)
         ) {
-            Text("Вернуться к ленте", fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
+            Text(stringResource(R.string.response_back_to_feed_button), fontWeight = FontWeight.SemiBold, fontSize = 16.sp)
         }
     }
 }
@@ -572,14 +585,4 @@ private fun formatSubmittedAt(submittedAt: String?): String {
         }
         "$day $month, $timePart"
     } catch (e: Exception) { submittedAt }
-}
-
-private fun formatStatus(status: String?): String {
-    return when (status) {
-        "SENT" -> "На проверке"
-        "REVIEWED" -> "Рассмотрено"
-        "ACCEPTED" -> "Принято"
-        "REJECTED" -> "Отклонено"
-        else -> status ?: ""
-    }
 }

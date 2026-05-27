@@ -11,11 +11,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
+import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.Primary
 import ru.kpfu.itis.feature.mycases.domain.model.MyCase
 import ru.kpfu.itis.feature.mycases.presentation.MyCasesEvent
@@ -47,8 +49,10 @@ fun MyCasesScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = if (state.cases.isEmpty()) "Мои кейсы"
-                       else "Мои кейсы ${state.cases.size}",
+                text = if (state.cases.isEmpty())
+                    stringResource(R.string.my_cases_title)
+                else
+                    stringResource(R.string.my_cases_title_count, state.cases.size),
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -69,7 +73,7 @@ fun MyCasesScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
-                        text = "Не удалось загрузить",
+                        text = stringResource(R.string.my_cases_load_error),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -84,7 +88,7 @@ fun MyCasesScreen(
                         onClick = { onEvent(MyCasesEvent.Refresh) },
                         colors = ButtonDefaults.buttonColors(containerColor = Primary)
                     ) {
-                        Text("Повторить", color = Color.White)
+                        Text(stringResource(R.string.common_retry), color = Color.White)
                     }
                 }
             }
@@ -98,13 +102,13 @@ fun MyCasesScreen(
                         modifier = Modifier.padding(32.dp)
                     ) {
                         Text(
-                            text = "Пока нет откликов",
+                            text = stringResource(R.string.my_cases_empty_title),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
-                            text = "Откликнитесь на кейс, чтобы он появился здесь",
+                            text = stringResource(R.string.my_cases_empty_subtitle),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -160,7 +164,7 @@ private fun MyCaseCard(case: MyCase) {
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "Отклик был отправлен ${formatSubmittedDate(case.submittedAt)}",
+                text = stringResource(R.string.my_cases_submitted_at, formatSubmittedDate(case.submittedAt)),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -170,12 +174,26 @@ private fun MyCaseCard(case: MyCase) {
 
 @Composable
 private fun StatusBadge(status: String) {
-    val (bgColor, textColor, label) = when (status) {
-        "SENT" -> Triple(Color(0xFFE8F0FE), Color(0xFF3B5BDB), "На проверке")
-        "REVIEWED" -> Triple(Color(0xFFFFF3CD), Color(0xFF92650A), "Рассмотрено")
-        "ACCEPTED" -> Triple(Color(0xFFE6F4EA), Color(0xFF1E7E34), "Принято")
-        "REJECTED" -> Triple(Color(0xFFFDE8E8), Color(0xFFB91C1C), "Отклонено")
-        else -> Triple(Color(0xFFF0F0F0), Color(0xFF6B7280), status)
+    val label = when (status) {
+        "SENT" -> stringResource(R.string.status_sent)
+        "REVIEW" -> stringResource(R.string.status_review)
+        "ACCEPTED" -> stringResource(R.string.status_accepted)
+        "REJECTED" -> stringResource(R.string.status_rejected)
+        else -> status
+    }
+    val bgColor = when (status) {
+        "SENT" -> Color(0xFFE8F0FE)
+        "REVIEW" -> Color(0xFFFFF3CD)
+        "ACCEPTED" -> Color(0xFFE6F4EA)
+        "REJECTED" -> Color(0xFFFDE8E8)
+        else -> Color(0xFFF0F0F0)
+    }
+    val textColor = when (status) {
+        "SENT" -> Color(0xFF3B5BDB)
+        "REVIEW" -> Color(0xFF92650A)
+        "ACCEPTED" -> Color(0xFF1E7E34)
+        "REJECTED" -> Color(0xFFB91C1C)
+        else -> Color(0xFF6B7280)
     }
 
     Box(

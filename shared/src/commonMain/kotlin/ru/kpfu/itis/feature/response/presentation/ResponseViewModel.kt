@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.kpfu.itis.core.mock.MockResponseStore
 import ru.kpfu.itis.core.viewmodel.CommonViewModel
 import ru.kpfu.itis.feature.response.domain.usecase.SubmitResponseUseCase
 
@@ -42,10 +41,6 @@ class ResponseViewModel(
     }
 
     private fun initForm(event: ResponseEvent.Init) {
-        // Проверяем не откликался ли уже на этот кейс (через мок-стор)
-        // Когда подключим реальный API — заменить на проверку через getMyCasesUseCase
-        val alreadyResponded = MockResponseStore.getAll().any { it.caseId == event.caseId }
-
         _state.update {
             it.copy(
                 caseId = event.caseId,
@@ -53,8 +48,7 @@ class ResponseViewModel(
                 companyName = event.companyName,
                 isNdaRequired = event.ndaRequired,
                 totalSteps = if (event.ndaRequired) 3 else 2,
-                screenMode = if (event.ndaRequired) ResponseScreenMode.NdaStep else ResponseScreenMode.FormStep,
-                alreadyResponded = alreadyResponded
+                screenMode = if (event.ndaRequired) ResponseScreenMode.NdaStep else ResponseScreenMode.FormStep
             )
         }
     }

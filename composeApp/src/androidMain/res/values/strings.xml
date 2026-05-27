@@ -1,3 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CaseCareer-KMP</string>
+
+    <!-- Common -->
+    <string name="common_retry">Повторить</string>
+    <string name="common_cancel">Отмена</string>
+    <string name="common_nda_required">NDA требуется</string>
+    <string name="common_nda_not_required">NDA не требуется</string>
+
+    <!-- Status labels -->
+    <string name="status_sent">На проверке</string>
+    <string name="status_review">Рассмотрено</string>
+    <string name="status_accepted">Принято</string>
+    <string name="status_rejected">Отклонено</string>
+
+    <!-- Auth – Login -->
+    <string name="login_title">Войти</string>
+    <string name="login_subtitle">Войдите в существующий аккаунт</string>
+    <string name="login_email_placeholder">Почта</string>
+    <string name="login_password_placeholder">Пароль</string>
+    <string name="login_button">Войти</string>
+    <string name="login_no_account">Еще нет аккаунта? </string>
+    <string name="login_go_register">Зарегистрироваться</string>
+
+    <!-- Auth – Register step 1 -->
+    <string name="register_title">Регистрация</string>
+    <string name="register_subtitle">Создайте новый аккаунт</string>
+    <string name="register_full_name_placeholder">Имя, фамилия *</string>
+    <string name="register_email_placeholder">Почта *</string>
+    <string name="register_phone_placeholder">Номер телефона *</string>
+    <string name="register_password_placeholder">Пароль *</string>
+    <string name="register_confirm_password_placeholder">Подтвердите пароль *</string>
+    <string name="register_password_hint">Пароль должен содержать не менее 8 символов</string>
+    <string name="register_next_button">Далее</string>
+    <string name="register_has_account">Уже есть аккаунт? </string>
+    <string name="register_go_login">Войти</string>
+
+    <!-- Auth – Register step 2 -->
+    <string name="register_personal_info_title">Персональная информация</string>
+    <string name="register_social_placeholder">Социальные сети</string>
+    <string name="register_social_hint">Ссылки на Telegram, LinkedIn или VK</string>
+    <string name="register_portfolio_placeholder">Портфолио</string>
+    <string name="register_portfolio_hint">Ссылка на примеры ваших работ</string>
+    <string name="register_skills_placeholder">Ключевые навыки</string>
+    <string name="register_skills_hint">Перечисляйте через запятую: Git, Java, SQL</string>
+    <string name="register_consent_prefix">Согласен с </string>
+    <string name="register_consent_link">политикой обработки персональных данных</string>
+    <string name="register_button">Зарегистрироваться</string>
+
+    <!-- Feed -->
+    <string name="feed_search_placeholder">Поиск</string>
+    <string name="feed_search_clear_cd">Очистить поиск</string>
+    <string name="feed_results_count">найдено %d кейсов</string>
+    <string name="feed_deadline_prefix">до %s</string>
+    <string name="feed_apply_button">Откликнуться</string>
+    <string name="feed_load_error">Не удалось загрузить кейсы</string>
+
+    <!-- Case Detail -->
+    <string name="case_detail_back_cd">Назад</string>
+    <string name="case_detail_deadline">Дедлайн до %s</string>
+    <string name="case_detail_published">Опубликовано %s</string>
+    <string name="case_detail_description_title">Описание</string>
+    <string name="case_detail_already_responded">Вы уже откликнулись</string>
+    <string name="case_detail_load_error">Не удалось загрузить кейс</string>
+
+    <!-- My Cases -->
+    <string name="my_cases_title">Мои кейсы</string>
+    <string name="my_cases_title_count">Мои кейсы %d</string>
+    <string name="my_cases_load_error">Не удалось загрузить</string>
+    <string name="my_cases_empty_title">Пока нет откликов</string>
+    <string name="my_cases_empty_subtitle">Откликнитесь на кейс, чтобы он появился здесь</string>
+    <string name="my_cases_submitted_at">Отклик был отправлен %s</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Профиль</string>
+    <string name="profile_rating">%s рейтинг</string>
+    <string name="profile_social_title">Социальные сети</string>
+    <string name="profile_portfolio_title">Портфолио</string>
+    <string name="profile_skills_title">Ключевые навыки</string>
+    <string name="profile_logout_button">Выйти из приложения</string>
+    <string name="profile_delete_button">Удалить аккаунт</string>
+    <string name="profile_logout_dialog_title">Выйти из аккаунта?</string>
+    <string name="profile_logout_dialog_message">Вы уверены, что хотите выйти?</string>
+    <string name="profile_logout_confirm">Выйти</string>
+    <string name="profile_delete_dialog_title">Удалить аккаунт?</string>
+    <string name="profile_delete_dialog_message">Вы уверены, что хотите удалить аккаунт? Это действие необратимо.</string>
+    <string name="profile_delete_confirm">Удалить</string>
+    <string name="profile_load_error">Не удалось загрузить профиль</string>
+    <string name="role_student">Студент</string>
+    <string name="role_company">Компания</string>
+
+    <!-- Response -->
+    <string name="response_nda_title">Соглашение NDA</string>
+    <string name="response_form_title">Отклик на кейс</string>
+    <string name="response_nda_heading">Этот кейс требует NDA</string>
+    <string name="response_nda_description">Перед откликом ознакомьтесь с условиями соглашения о неразглашении и подтвердите согласие.</string>
+    <string name="response_nda_link">Соглашение о неразглашении (NDA) ></string>
+    <string name="response_nda_client_label">Заказчик</string>
+    <string name="response_nda_executor_label">Исполнитель</string>
+    <string name="response_nda_executor_me">Я</string>
+    <string name="response_nda_check1">Я прочитал(а) и согласен(на) с условиями Соглашения о неразглашении</string>
+    <string name="response_nda_check2">Обязуюсь не передавать полученные данные третьим лицам</string>
+    <string name="response_nda_sign_button">Подписать и продолжить</string>
+    <string name="response_cover_letter_label">Сопроводительное письмо</string>
+    <string name="response_cover_letter_placeholder">Расскажите о своём опыте, релевантном этому кейсу. Почему именно вы справитесь с задачей?</string>
+    <string name="response_solution_link_label">Ссылка на решение</string>
+    <string name="response_solution_link_placeholder">GitHub, Notion, Google Drive и др.</string>
+    <string name="response_submit_button">Отправить отклик</string>
+    <string name="response_success_title">Отклик отправлен!</string>
+    <string name="response_success_description">%s получил ваше решение и письмо. Следите за статусом в разделе «Мои кейсы».</string>
+    <string name="response_success_sent_label">Отправлено</string>
+    <string name="response_success_status_format">Статус: %s</string>
+    <string name="response_success_reviewing">Компания рассматривает отклик</string>
+    <string name="response_back_to_feed_button">Вернуться к ленте</string>
 </resources>

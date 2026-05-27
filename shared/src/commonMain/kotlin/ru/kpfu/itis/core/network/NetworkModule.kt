@@ -38,8 +38,6 @@ val networkModule = module {
     }
 }
 
-private const val BASE_URL = "/api/v1"   // ← замени на реальный
-
 private fun buildHttpClient(
     engine: HttpClientEngineFactory<HttpClientEngineConfig>,
     json: Json,
@@ -63,8 +61,9 @@ private fun buildHttpClient(
 
     defaultRequest {
         url {
-            host = BASE_URL
-            protocol = URLProtocol.HTTPS
+            host = "10.0.2.2"
+            port = 3002
+            protocol = URLProtocol.HTTP
         }
     }
 
