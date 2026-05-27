@@ -79,12 +79,7 @@ class AuthRepositoryImpl(
             email = email,
             name = fullName
         )
-        tokenStorage.profileSkills = skills
-        tokenStorage.profileContactInfo = contactInfo
-        tokenStorage.profilePortfolioLink = portfolioLink
-        tokenStorage.profilePhone = phone
-
-        println("AUTH_LOG: register success, tokens saved, profile fields cached")
+        println("AUTH_LOG: register success, tokens saved")
         return Result.success(Unit)
         /*return try {
             val response = authApi.register(fullName, email, password, confirmPassword)

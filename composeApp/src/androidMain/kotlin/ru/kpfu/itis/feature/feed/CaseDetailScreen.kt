@@ -29,8 +29,8 @@ import ru.kpfu.itis.feature.feed.presentation.caseDetail.CaseDetailViewModel
 fun CaseDetailRoute(
     caseId: Long,
     onBack: () -> Unit,
-    onApplyNda: (Long) -> Unit,
-    onApplyForm: (Long) -> Unit,
+    onApplyNda: (Long, String, String) -> Unit,
+    onApplyForm: (Long, String, String) -> Unit,
     viewModel: CaseDetailViewModel = koinViewModel(parameters = { parametersOf(caseId) })
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -39,8 +39,8 @@ fun CaseDetailRoute(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is CaseDetailEffect.NavigateBack -> onBack()
-                is CaseDetailEffect.NavigateToNdaStep -> onApplyNda(effect.caseId)
-                is CaseDetailEffect.NavigateToApplyStep -> onApplyForm(effect.caseId)
+                is CaseDetailEffect.NavigateToNdaStep -> onApplyNda(effect.caseId, effect.caseTitle, effect.companyName)
+                is CaseDetailEffect.NavigateToApplyStep -> onApplyForm(effect.caseId, effect.caseTitle, effect.companyName)
                 is CaseDetailEffect.ShowError -> { /* handled via state.error */ }
             }
         }
@@ -94,6 +94,7 @@ fun CaseDetailScreen(
             state.case != null -> {
                 CaseDetailContent(
                     case = state.case!!,
+                    alreadyResponded = state.alreadyResponded,
                     onApply = { onEvent(CaseDetailEvent.Apply) },
                     modifier = Modifier.fillMaxSize()
                 )
@@ -105,6 +106,7 @@ fun CaseDetailScreen(
 @Composable
 private fun CaseDetailContent(
     case: CaseDetail,
+    alreadyResponded: Boolean,
     onApply: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -228,18 +230,21 @@ private fun CaseDetailContent(
 
         Button(
             onClick = onApply,
+            enabled = !alreadyResponded,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
                 .height(52.dp),
             shape = RoundedCornerShape(14.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Primary,
-                contentColor = Color.White
+                containerColor = if (alreadyResponded) Color(0xFFE5E7EB) else Primary,
+                contentColor = if (alreadyResponded) Color(0xFF6B7280) else Color.White,
+                disabledContainerColor = Color(0xFFE5E7EB),
+                disabledContentColor = Color(0xFF6B7280)
             )
         ) {
             Text(
-                text = "Откликнуться",
+                text = if (alreadyResponded) "Вы уже откликнулись" else "Откликнуться",
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 16.sp
             )

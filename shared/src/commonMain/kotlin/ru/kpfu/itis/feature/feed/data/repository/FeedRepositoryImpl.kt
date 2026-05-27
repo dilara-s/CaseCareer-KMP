@@ -27,20 +27,20 @@ class FeedRepositoryImpl(
         }*/
 
         delay(800)
-        if (id > 60) return Result.failure(Exception("Кейс не найден"))
+        if (id > 10) return Result.failure(Exception("Кейс не найден"))
         return Result.success(
             CaseDetail(
                 id = id,
-                title = "Анализ оттока продавцов: построение дашборда и рекомендации #$id",
-                description = "Sber AI Lab столкнулась с ростом оттока продавцов в категориях электроники и товаров для дома. Нам нужен студент, который самостоятельно разберётся в данных, найдёт закономерности и предложит конкретные меры удержания.\n\nЧто предоставляем: SQL-выгрузка с анонимизированными данными за 12 месяцев — около 80 000 строк. Поля: seller_id, категория, GMV по месяцам, количество активных SKU, дни с последней продажи, тип тарифа, регион, дата регистрации, флаг оттока (0/1).\n\nЧто нужно сделать:\n1. Провести EDA — распределение оттока по категориям, регионам, возрасту аккаунта, тарифу.\n2. Определить 4–6 ключевых признаков оттока. Желательно — простая интерпретируемая модель (логрег или дерево решений), ROC-AUC ≥ 0.75.\n3. Построить интерактивный дашборд в Tableau Public или Apache Superset с фильтрами по категории, региону, периоду.\n4. Подготовить список из 3–5 рекомендаций по удержанию с оценкой потенциального эффекта.",
-                reward = "${id * 5000}.00",
-                deadline = "2026-08-15T00:00:00Z",
-                ndaRequired = id % 2 == 0L,
+                title = "Разработка KMP-библиотеки для работы с геолокацией",
+                description = "2ГИС развивает собственную кросс-платформенную экосистему и ищет студента для разработки Kotlin Multiplatform Mobile (KMM) библиотеки, которая инкапсулирует работу с геолокацией на iOS и Android.\n\nЧто предоставляем:\n— Доступ к внутреннему SDK 2ГИС (документация + примеры)\n— Ментора из команды мобильной платформы\n— Тестовые устройства (по договорённости)\n\nЧто нужно сделать:\n1. Спроектировать общий Kotlin API для запроса разрешений на геолокацию и получения координат (expect/actual).\n2. Реализовать actual-реализации для Android (FusedLocationProviderClient) и iOS (CLLocationManager).\n3. Добавить поддержку одноразового и потокового (Flow) получения координат.\n4. Покрыть общую логику unit-тестами (≥ 80% coverage).\n5. Написать README с инструкцией по подключению через Gradle/SPM и примерами использования.\n\nТребования к стеку: Kotlin 1.9+, KMP / KMM, Coroutines + Flow, XCTest / JUnit 5.",
+                reward = "55000.00",
+                deadline = "2026-09-01T00:00:00Z",
+                ndaRequired = true,
                 status = "ACTIVE",
-                companyName = "Sber AI Lab",
-                companyId = 5L,
-                publishedAt = "2026-06-12T00:00:00Z",
-                createdAt = "2026-06-10T00:00:00Z"
+                companyName = "2ГИС",
+                companyId = 7L,
+                publishedAt = "2026-06-14T00:00:00Z",
+                createdAt = "2026-06-13T00:00:00Z"
             )
         )
     }
@@ -52,6 +52,7 @@ class FeedRepositoryImpl(
         rewardMax: String?,
         ndaRequired: Boolean?
     ): Result<FeedPage> {
+         
         /*return try {
             val response = feedApi.getCases(page, q, rewardMin, rewardMax, ndaRequired)
             Result.success(
@@ -74,20 +75,118 @@ class FeedRepositoryImpl(
         println("FEED_LOG: getCases called, page=$page, q=$q")
         delay(1000)
 
-        val pool = List(60) { i ->
-            val idx = i + 1
+        val pool = listOf(
             Case(
-                id = idx.toLong(),
-                title = "Разработка ML модели #$idx",
-                reward = "${idx * 5000}.00",
-                deadline = "2026-08-15T00:00:00Z",
-                ndaRequired = idx % 2 == 0,
+                id = 1L,
+                title = "Разработка REST API для системы управления заказами",
+                reward = "45000.00",
+                deadline = "2026-08-20T00:00:00Z",
+                ndaRequired = false,
                 status = "ACTIVE",
-                companyName = "Sber AI Lab",
+                companyName = "Ozon Tech",
+                companyId = 1L,
+                createdAt = "2026-06-10T09:00:00Z"
+            ),
+            Case(
+                id = 2L,
+                title = "Android-приложение для внутренней логистики курьеров",
+                reward = "60000.00",
+                deadline = "2026-09-05T00:00:00Z",
+                ndaRequired = true,
+                status = "ACTIVE",
+                companyName = "Яндекс",
+                companyId = 2L,
+                createdAt = "2026-06-11T10:00:00Z"
+            ),
+            Case(
+                id = 3L,
+                title = "Разработка KMP-библиотеки для работы с геолокацией",
+                reward = "55000.00",
+                deadline = "2026-09-01T00:00:00Z",
+                ndaRequired = false,
+                status = "ACTIVE",
+                companyName = "2ГИС",
+                companyId = 7L,
+                createdAt = "2026-06-13T11:00:00Z"
+            ),
+            Case(
+                id = 4L,
+                title = "Редизайн онбординга: от 0 до первой транзакции за 3 экрана",
+                reward = "30000.00",
+                deadline = "2026-07-31T00:00:00Z",
+                ndaRequired = false,
+                status = "ACTIVE",
+                companyName = "Тинькофф",
+                companyId = 3L,
+                createdAt = "2026-06-09T08:00:00Z"
+            ),
+            Case(
+                id = 5L,
+                title = "Анализ воронки объявлений: почему продавцы уходят до публикации",
+                reward = "40000.00",
+                deadline = "2026-08-10T00:00:00Z",
+                ndaRequired = true,
+                status = "ACTIVE",
+                companyName = "Авито",
+                companyId = 4L,
+                createdAt = "2026-06-12T14:00:00Z"
+            ),
+            Case(
+                id = 6L,
+                title = "Сравнительный анализ EdTech-конкурентов: стратегия выхода в B2B",
+                reward = "25000.00",
+                deadline = "2026-07-25T00:00:00Z",
+                ndaRequired = false,
+                status = "ACTIVE",
+                companyName = "Яндекс Практикум",
+                companyId = 8L,
+                createdAt = "2026-06-08T12:00:00Z"
+            ),
+            Case(
+                id = 7L,
+                title = "Построение рекомендательной системы для музыкального стриминга",
+                reward = "70000.00",
+                deadline = "2026-09-15T00:00:00Z",
+                ndaRequired = true,
+                status = "ACTIVE",
+                companyName = "VK",
+                companyId = 6L,
+                createdAt = "2026-06-14T09:30:00Z"
+            ),
+            Case(
+                id = 8L,
+                title = "iOS-виджет главного экрана: баланс, кешбэк и быстрые платежи",
+                reward = "50000.00",
+                deadline = "2026-08-28T00:00:00Z",
+                ndaRequired = true,
+                status = "ACTIVE",
+                companyName = "Сбер",
                 companyId = 5L,
-                createdAt = "2026-06-12T10:00:00Z"
+                createdAt = "2026-06-13T15:00:00Z"
+            ),
+            Case(
+                id = 9L,
+                title = "Проектирование архитектуры микросервисов платёжного шлюза",
+                reward = "65000.00",
+                deadline = "2026-09-20T00:00:00Z",
+                ndaRequired = true,
+                status = "ACTIVE",
+                companyName = "МТС Digital",
+                companyId = 9L,
+                createdAt = "2026-06-07T10:00:00Z"
+            ),
+            Case(
+                id = 10L,
+                title = "Автоматизация CI/CD для мобильных приложений на GitHub Actions",
+                reward = "35000.00",
+                deadline = "2026-08-01T00:00:00Z",
+                ndaRequired = false,
+                status = "ACTIVE",
+                companyName = "Kaspersky",
+                companyId = 10L,
+                createdAt = "2026-06-06T11:00:00Z"
             )
-        }
+        )
 
         val filtered = if (!q.isNullOrBlank()) {
             pool.filter { it.title.contains(q, ignoreCase = true) }

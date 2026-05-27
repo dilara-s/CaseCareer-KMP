@@ -33,6 +33,9 @@ class ProfileViewModel(
             ProfileEvent.ShowLogoutDialog -> _state.update { it.copy(showLogoutDialog = true) }
             ProfileEvent.DismissLogoutDialog -> _state.update { it.copy(showLogoutDialog = false) }
             ProfileEvent.ConfirmLogout -> logout()
+            ProfileEvent.ShowDeleteAccountDialog -> _state.update { it.copy(showDeleteAccountDialog = true) }
+            ProfileEvent.DismissDeleteAccountDialog -> _state.update { it.copy(showDeleteAccountDialog = false) }
+            ProfileEvent.ConfirmDeleteAccount -> deleteAccount()
         }
     }
 
@@ -51,6 +54,19 @@ class ProfileViewModel(
 
     private fun logout() {
         viewModelScope.launch {
+            logoutUseCase()
+            _effect.emit(ProfileEffect.NavigateToAuth)
+        }
+    }
+
+    private fun deleteAccount() {
+        viewModelScope.launch {
+            // TODO: раскомментировать когда бэкенд реализует эндпоинт удаления аккаунта
+            // try {
+            //     api.deleteAccount()
+            // } catch (e: Exception) {
+            //     // обработка ошибки
+            // }
             logoutUseCase()
             _effect.emit(ProfileEffect.NavigateToAuth)
         }

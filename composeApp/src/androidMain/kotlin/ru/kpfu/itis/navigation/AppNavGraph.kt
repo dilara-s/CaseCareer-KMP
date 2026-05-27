@@ -1,5 +1,6 @@
 package ru.kpfu.itis.navigation
 
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -14,10 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import org.koin.compose.koinInject
 import ru.kpfu.itis.R
 import ru.kpfu.itis.core.network.TokenStorage
@@ -25,8 +28,9 @@ import ru.kpfu.itis.designSystem.Primary
 import ru.kpfu.itis.feature.auth.AuthRoute
 import ru.kpfu.itis.feature.feed.CaseDetailRoute
 import ru.kpfu.itis.feature.feed.FeedRoute
-
-//import ru.kpfu.itis.feature.feed.FeedRoute
+import ru.kpfu.itis.feature.mycases.MyCasesRoute
+import ru.kpfu.itis.feature.profile.ProfileRoute
+import ru.kpfu.itis.feature.response.ResponseRoute
 
 sealed class BottomNavItem(
     val route: String,
@@ -45,8 +49,7 @@ private val bottomNavItems = listOf(
     BottomNavItem.Account
 )
 
-// Роуты где bottom nav не нужен
-private val routesWithoutBottomNav = setOf("auth")
+private val routesWithoutBottomNav = setOf("auth", "response")
 
 @Composable
 fun AppNavGraph(
@@ -57,7 +60,7 @@ fun AppNavGraph(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val showBottomBar = currentRoute !in routesWithoutBottomNav
+    val showBottomBar = routesWithoutBottomNav.none { currentRoute?.startsWith(it) == true }
 
     Scaffold(
         bottomBar = {
@@ -95,17 +98,44 @@ fun AppNavGraph(
                 CaseDetailRoute(
                     caseId = caseId,
                     onBack = { navController.popBackStack() },
-                    onApplyNda = { id -> navController.navigate("apply_nda/$id") },
-                    onApplyForm = { id -> navController.navigate("apply_form/$id") }
+                    onApplyNda = { id, title, company ->
+                        navController.navigate(
+                            "response/$id?ndaRequired=true&caseTitle=${Uri.encode(title)}&companyName=${Uri.encode(company)}"
+                        )
+                    },
+                    onApplyForm = { id, title, company ->
+                        navController.navigate(
+                            "response/$id?ndaRequired=false&caseTitle=${Uri.encode(title)}&companyName=${Uri.encode(company)}"
+                        )
+                    }
+                )
+            }
+            composable(
+                route = "response/{caseId}?ndaRequired={ndaRequired}&caseTitle={caseTitle}&companyName={companyName}",
+                arguments = listOf(
+                    navArgument("caseId") { type = NavType.IntType },
+                    navArgument("ndaRequired") { type = NavType.BoolType; defaultValue = false },
+                    navArgument("caseTitle") { type = NavType.StringType; defaultValue = "" },
+                    navArgument("companyName") { type = NavType.StringType; defaultValue = "" }
+                )
+            ) { backStackEntry ->
+                val caseId = backStackEntry.arguments?.getInt("caseId") ?: return@composable
+                val ndaRequired = backStackEntry.arguments?.getBoolean("ndaRequired") ?: false
+                val caseTitle = backStackEntry.arguments?.getString("caseTitle") ?: ""
+                val companyName = backStackEntry.arguments?.getString("companyName") ?: ""
+                ResponseRoute(
+                    caseId = caseId,
+                    caseTitle = caseTitle,
+                    companyName = companyName,
+                    ndaRequired = ndaRequired,
+                    navController = navController
                 )
             }
             composable("my_cases") {
-                // TODO
-                Text("Мои кейсы — в разработке")
+                MyCasesRoute()
             }
             composable("account") {
-                // TODO
-                Text("Аккаунт — в разработке")
+                ProfileRoute(navController = navController)
             }
         }
     }

@@ -1,6 +1,5 @@
 package ru.kpfu.itis.feature.profile.data.repository
 
-import io.ktor.client.plugins.ClientRequestException
 import kotlinx.coroutines.delay
 import ru.kpfu.itis.core.network.TokenStorage
 import ru.kpfu.itis.feature.auth.data.datasource.UserDataSource
@@ -15,10 +14,27 @@ class ProfileRepositoryImpl(
 ) : ProfileRepository {
 
     override suspend fun getMyProfile(): Result<Profile> {
-        // TODO: раскомментировать когда бэкенд пришлёт рабочий URL
+        // Имя и email берём из локальной БД (сохраняются при логине/регистрации)
+        val cachedUser = userDataSource.getUser()
+        println("PROFILE_LOG: getMyProfile (mock), cached user = $cachedUser")
+
+        // TODO: раскомментировать когда бэкенд будет готов
         /*return try {
             val dto = api.getMyProfile()
-            Result.success(dto.toDomain())
+            Result.success(
+                Profile(
+                    id = cachedUser?.id?.toInt() ?: dto.id,
+                    email = cachedUser?.email ?: dto.email,
+                    fullName = cachedUser?.name ?: dto.fullName,
+                    roleType = dto.roleType,
+                    skills = dto.skills.orEmpty(),
+                    contactInfo = dto.contactInfo.orEmpty(),
+                    portfolioLink = dto.portfolioLink.orEmpty(),
+                    phone = dto.phone.orEmpty(),
+                    rating = dto.rating.orEmpty(),
+                    createdAt = dto.createdAt
+                )
+            )
         } catch (e: ClientRequestException) {
             Result.failure(Exception(httpError(e.response.status.value)))
         } catch (e: Exception) {
@@ -27,21 +43,17 @@ class ProfileRepositoryImpl(
 
         delay(600)
 
-        // Берём имя/email из локального кэша (сохраняется при логине/регистрации)
-        val cachedUser = userDataSource.getUser()
-        println("PROFILE_LOG: getMyProfile (mock), cached user = $cachedUser")
-
         return Result.success(
             Profile(
                 id = cachedUser?.id?.toInt() ?: 1,
-                email = cachedUser?.email ?: "test@test.com",
-                fullName = cachedUser?.name ?: "Тестовый Пользователь",
-                roleType = "STUDENT",
-                skills = tokenStorage.profileSkills ?: "",
-                contactInfo = tokenStorage.profileContactInfo ?: "",
-                portfolioLink = tokenStorage.profilePortfolioLink ?: "",
-                phone = tokenStorage.profilePhone ?: "",
-                rating = "4.75",
+                email = cachedUser?.email ?: "tarkv@gmail.com",
+                fullName = cachedUser?.name ?: "Ksenia Taryshkina",
+                roleType = "Student",
+                skills = "Java, Kotlin, Git, Android, API, SQL, Figma, Jira, Scrum",
+                contactInfo = "tg: @ktsaur",
+                portfolioLink = "https://github.com/ktsaur",
+                phone = "89172503191",
+                rating = "0",
                 createdAt = "2025-01-01T00:00:00Z"
             )
         )
@@ -49,7 +61,6 @@ class ProfileRepositoryImpl(
 
     override suspend fun logout() {
         tokenStorage.clearTokens()
-        tokenStorage.clearProfile()
         userDataSource.clearUser()
     }
 

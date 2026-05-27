@@ -50,7 +50,7 @@ fun AuthRoute(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                AuthEffect.NavigateToMain -> navController.navigate("main") {
+                AuthEffect.NavigateToMain -> navController.navigate("feed") {
                     popUpTo("auth") { inclusive = true }
                 }
             }
@@ -309,7 +309,7 @@ private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
             onValueChange = { onEvent(AuthEvent.UpdateSkills(it)) },
             placeholder = "Ключевые навыки",
 //            leadingIcon = Icons.Default.Work,
-            supportingText = "Например: Git, Java, Продажи, Английский C1"
+            supportingText = "Перечисляйте через запятую: Git, Java, SQL"
         )
 
         if (state.error != null) {
