@@ -34,9 +34,9 @@ class CaseDetailViewModel(
             is CaseDetailEvent.Apply -> {
                 val case = _state.value.case ?: return
                 if (case.ndaRequired) {
-                    _effect.tryEmit(CaseDetailEffect.NavigateToNdaStep(case.id))
+                    _effect.tryEmit(CaseDetailEffect.NavigateToNdaStep(case.id, case.title, case.companyName))
                 } else {
-                    _effect.tryEmit(CaseDetailEffect.NavigateToApplyStep(case.id))
+                    _effect.tryEmit(CaseDetailEffect.NavigateToApplyStep(case.id, case.title, case.companyName))
                 }
             }
         }

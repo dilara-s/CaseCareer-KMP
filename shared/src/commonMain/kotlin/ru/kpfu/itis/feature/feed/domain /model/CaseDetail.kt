@@ -12,7 +12,7 @@ data class CaseDetail(
     val status: String,
     val companyName: String,
     val companyId: Long,
-    val publishedAt: String,
+    val publishedAt: String?,
     val createdAt: String
 )
 

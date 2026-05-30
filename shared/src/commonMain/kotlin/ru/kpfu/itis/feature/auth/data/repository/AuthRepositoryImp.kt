@@ -1,6 +1,6 @@
 package ru.kpfu.itis.feature.auth.data.repository
 
-import kotlinx.coroutines.delay
+import io.ktor.client.plugins.ClientRequestException
 import ru.kpfu.itis.core.network.TokenStorage
 import ru.kpfu.itis.feature.auth.data.datasource.UserDataSource
 import ru.kpfu.itis.feature.auth.data.remote.AuthApi
@@ -13,17 +13,14 @@ class AuthRepositoryImpl(
 ) : AuthRepository {
 
     override suspend fun login(email: String, password: String): Result<Unit> {
-        /*return try {
+        return try {
             val response = authApi.login(email, password)
             tokenStorage.saveTokens(response.access, response.refresh)
 
-            // Кэшируем профиль сразу после логина
             try {
                 val profile = authApi.getMyProfile()
-                userDataSource.upsertUser(profile.id, profile.email, profile.name)
-                println("AUTH_LOG: profile cached — ${profile.name}")
+                userDataSource.upsertUser(profile.id, profile.email, profile.fullName)
             } catch (e: Exception) {
-                // Не критично — профиль подтянется при открытии экрана профиля
                 println("AUTH_LOG: profile cache failed — ${e.message}")
             }
 
@@ -37,21 +34,6 @@ class AuthRepositoryImpl(
             Result.failure(Exception(message))
         } catch (e: Exception) {
             Result.failure(Exception("Нет соединения"))
-        }*/
-
-        delay(1000)
-        return if (email == "test@test.com" && password == "password123") {
-            println("AUTH_LOG: login success for $email")
-            tokenStorage.saveTokens("mock_access_token", "mock_refresh_token")
-
-            // Кэшируем мок-профиль
-            userDataSource.upsertUser(id = 1L, email = email, name = "Test User")
-            println("AUTH_LOG: profile cached (mock)")
-
-            Result.success(Unit)
-        } else {
-            println("AUTH_LOG: login failed — wrong credentials")
-            Result.failure(Exception("Неверный email или пароль"))
         }
     }
 
@@ -64,32 +46,10 @@ class AuthRepositoryImpl(
         contactInfo: String,
         portfolioLink: String,
         skills: String
-    ):Result<Unit> {
-
-        delay(1000)
-
-        println("AUTH_LOG: register called — name=$fullName, email=$email, phone=$phone")
-
-        tokenStorage.saveTokens(
-            access = "mock_access_token",
-            refresh = "mock_refresh_token"
-        )
-        userDataSource.upsertUser(
-            id = 1L,
-            email = email,
-            name = fullName
-        )
-        tokenStorage.profileSkills = skills
-        tokenStorage.profileContactInfo = contactInfo
-        tokenStorage.profilePortfolioLink = portfolioLink
-        tokenStorage.profilePhone = phone
-
-        println("AUTH_LOG: register success, tokens saved, profile fields cached")
-        return Result.success(Unit)
-        /*return try {
-            val response = authApi.register(fullName, email, password, confirmPassword)
+    ): Result<Unit> {
+        return try {
+            val response = authApi.register(fullName, email, password, confirmPassword, phone, contactInfo, portfolioLink, skills)
             tokenStorage.saveTokens(response.access, response.refresh)
-            // Кэшируем юзера локально
             userDataSource.upsertUser(
                 id = response.user.id,
                 email = response.user.email,
@@ -105,18 +65,15 @@ class AuthRepositoryImpl(
             Result.failure(Exception(message))
         } catch (e: Exception) {
             Result.failure(Exception("Нет соединения"))
-        }*/
+        }
     }
 
     override suspend fun logout() {
-        println("AUTH_LOG: logout")
         tokenStorage.clearTokens()
         userDataSource.clearUser()
     }
 
     override fun isLoggedIn(): Boolean {
-        val result = tokenStorage.isLoggedIn()
-        println("AUTH_LOG: isLoggedIn = $result")
-        return result
+        return tokenStorage.isLoggedIn()
     }
 }

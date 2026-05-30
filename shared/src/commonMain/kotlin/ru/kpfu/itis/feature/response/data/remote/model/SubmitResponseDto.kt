@@ -3,7 +3,6 @@ package ru.kpfu.itis.feature.response.data.remote.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// Соответствует схеме SolutionResponse из swagger
 @Serializable
 data class SubmitResponseDto(
     val id: Int,

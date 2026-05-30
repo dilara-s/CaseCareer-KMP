@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,7 @@ fun FeedScreen(
 
         if (state.searchQuery.isNotBlank()) {
             Text(
-                text = "найдено ${state.totalCount} кейсов",
+                text = stringResource(R.string.feed_results_count, state.totalCount),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
@@ -139,7 +140,7 @@ private fun SearchBar(
             Box(modifier = Modifier.weight(1f)) {
                 if (query.isEmpty()) {
                     Text(
-                        text = "Поиск",
+                        text = stringResource(R.string.feed_search_placeholder),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 15.sp
                     )
@@ -162,7 +163,7 @@ private fun SearchBar(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_close),
-                        contentDescription = "Очистить поиск",
+                        contentDescription = stringResource(R.string.feed_search_clear_cd),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(16.dp)
                     )
@@ -288,7 +289,7 @@ private fun CaseCard(
                     modifier = Modifier.size(14.dp)
                 )
                 Text(
-                    text = "до ${formatDeadline(case.deadline)}",
+                    text = stringResource(R.string.feed_deadline_prefix, formatDeadline(case.deadline)),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -308,7 +309,7 @@ private fun CaseCard(
                 )
             ) {
                 Text(
-                    text = "Откликнуться",
+                    text = stringResource(R.string.feed_apply_button),
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 15.sp
                 )
@@ -341,7 +342,7 @@ private fun NdaBadge(
                 modifier = Modifier.size(12.dp)
             )
             Text(
-                text = if (ndaRequired) "NDA требуется" else "NDA не требуется",
+                text = stringResource(if (ndaRequired) R.string.common_nda_required else R.string.common_nda_not_required),
                 color = textColor,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium
@@ -362,7 +363,7 @@ private fun ErrorState(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         Text(
-            text = "Не удалось загрузить кейсы",
+            text = stringResource(R.string.feed_load_error),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -375,7 +376,7 @@ private fun ErrorState(
             onClick = onRetry,
             colors = ButtonDefaults.buttonColors(containerColor = Primary)
         ) {
-            Text("Повторить", color = Color.White)
+            Text(stringResource(R.string.common_retry), color = Color.White)
         }
     }
 }

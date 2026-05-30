@@ -14,6 +14,12 @@ class RegisterUseCase(private val repository: AuthRepository) {
     ): Result<Unit> {
         if (fullName.isBlank()) return Result.failure(Exception("Введите имя"))
         if (password != confirmPassword) return Result.failure(Exception("Пароли не совпадают"))
-        return repository.register(fullName, email, password, confirmPassword, phone, contactInfo, portfolioLink, skills)
+        val uniqueSkills = skills
+            .split(",")
+            .map { it.trim() }
+            .filter { it.isNotBlank() }
+            .distinct()
+            .joinToString(", ")
+        return repository.register(fullName, email, password, confirmPassword, phone, contactInfo, portfolioLink, uniqueSkills)
     }
 }

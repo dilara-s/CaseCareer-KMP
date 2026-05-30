@@ -27,11 +27,15 @@ class AuthApi(private val client: HttpClient) {
         fullName: String,
         email: String,
         password: String,
-        confirmPassword: String
+        confirmPassword: String,
+        phone: String = "",
+        contactInfo: String = "",
+        portfolioLink: String = "",
+        skills: String = ""
     ): RegisterResponse {
         return client.post("api/v1/auth/register/user/") {
             contentType(ContentType.Application.Json)
-            setBody(RegisterRequest(fullName, email, password, confirmPassword))
+            setBody(RegisterRequest(fullName, email, password, confirmPassword, phone, contactInfo, portfolioLink, skills))
         }.body()
     }
 

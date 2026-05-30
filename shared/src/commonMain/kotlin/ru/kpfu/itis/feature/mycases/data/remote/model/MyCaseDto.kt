@@ -3,7 +3,6 @@ package ru.kpfu.itis.feature.mycases.data.remote.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// Соответствует схеме SolutionResponse из swagger (GET /api/v1/solutions/my/)
 @Serializable
 data class MyCaseDto(
     val id: Int,
