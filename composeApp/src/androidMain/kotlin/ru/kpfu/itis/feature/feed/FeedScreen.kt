@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import kotlinx.coroutines.flow.distinctUntilChanged
 import org.koin.compose.viewmodel.koinViewModel
 import ru.kpfu.itis.R
@@ -38,6 +40,7 @@ fun FeedRoute(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        Firebase.analytics.logEvent("launch_feed", null)
         viewModel.effect.collect { effect ->
             when (effect) {
                 is FeedEffect.NavigateToCaseDetail -> onCaseClick(effect.caseId)

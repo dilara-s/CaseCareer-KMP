@@ -30,6 +30,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import org.koin.compose.viewmodel.koinViewModel
 import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.component.AuthButton
@@ -69,6 +71,7 @@ fun AuthRoute(
 
 @Composable
 private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
+    LaunchedEffect(Unit) { Firebase.analytics.logEvent("launch_login", null) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -143,6 +146,7 @@ private fun LoginScreen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
 
 @Composable
 private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
+    LaunchedEffect(Unit) { Firebase.analytics.logEvent("launch_register_step1", null) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -256,6 +260,7 @@ private fun RegisterStep1Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) 
 
 @Composable
 private fun RegisterStep2Screen(state: AuthState, onEvent: (AuthEvent) -> Unit) {
+    LaunchedEffect(Unit) { Firebase.analytics.logEvent("launch_register_step2", null) }
     Column(
         modifier = Modifier
             .fillMaxSize()

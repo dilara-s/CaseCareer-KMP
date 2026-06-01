@@ -95,7 +95,9 @@ private struct LoginScreen: View {
                         ),
                         error: state.passwordError,
                         leadingIcon: "lock",
-                        isPassword: true
+                        isPassword: true,
+                        isPasswordVisible: state.isPasswordVisible,
+                        onToggleVisibility: { onEvent(AuthEvent.TogglePasswordVisibility()) }
                     )
                 }
 
@@ -191,7 +193,9 @@ private struct RegisterStep1Screen: View {
                         ),
                         error: state.passwordError,
                         leadingIcon: "lock",
-                        isPassword: true
+                        isPassword: true,
+                        isPasswordVisible: state.isPasswordVisible,
+                        onToggleVisibility: { onEvent(AuthEvent.TogglePasswordVisibility()) }
                     )
 
                     AppTextField(
@@ -202,7 +206,9 @@ private struct RegisterStep1Screen: View {
                         ),
                         error: state.confirmPasswordError,
                         leadingIcon: "lock.rotation",
-                        isPassword: true
+                        isPassword: true,
+                        isPasswordVisible: state.isPasswordVisible,
+                        onToggleVisibility: { onEvent(AuthEvent.TogglePasswordVisibility()) }
                     )
                 }
 

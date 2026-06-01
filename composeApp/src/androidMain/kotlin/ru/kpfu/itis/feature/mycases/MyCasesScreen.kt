@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import org.koin.compose.viewmodel.koinViewModel
 import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.Primary
@@ -29,6 +31,11 @@ fun MyCasesRoute(
     viewModel: MyCasesViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        Firebase.analytics.logEvent("launch_my_cases", null)
+    }
+
     MyCasesScreen(state = state, onEvent = viewModel::onEvent)
 }
 
