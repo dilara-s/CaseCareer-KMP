@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import org.koin.compose.viewmodel.koinViewModel
 import ru.kpfu.itis.R
 import ru.kpfu.itis.designSystem.Primary
@@ -35,6 +37,7 @@ fun ResponseRoute(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        Firebase.analytics.logEvent("launch_response_form", null)
         viewModel.onEvent(ResponseEvent.Init(caseId, caseTitle, companyName, ndaRequired))
         viewModel.effect.collect { effect ->
             when (effect) {

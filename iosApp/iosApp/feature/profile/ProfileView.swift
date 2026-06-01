@@ -6,8 +6,6 @@ struct ProfileView: View {
     let onLogout: () -> Void
 
     @StateObject private var wrapper = ProfileViewModelWrapper()
-    @State private var showDeleteAccountAlert = false
-
     var body: some View {
         let state = wrapper.state
 
@@ -37,10 +35,18 @@ struct ProfileView: View {
                 wrapper.onEvent(ProfileEvent.DismissLogoutDialog())
             }
         }
-        .alert("Удалить аккаунт?", isPresented: $showDeleteAccountAlert) {
-            Button("Отмена", role: .cancel) {}
+        .alert("Удалить аккаунт?", isPresented: Binding(
+            get: { state.showDeleteAccountDialog },
+            set: { if !$0 { wrapper.onEvent(ProfileEvent.DismissDeleteAccountDialog()) } }
+        )) {
+            Button("Удалить", role: .destructive) {
+                wrapper.onEvent(ProfileEvent.ConfirmDeleteAccount())
+            }
+            Button("Отмена", role: .cancel) {
+                wrapper.onEvent(ProfileEvent.DismissDeleteAccountDialog())
+            }
         } message: {
-            Text("Функция временно недоступна. Обратитесь в поддержку.")
+            Text("Вы уверены, что хотите удалить аккаунт? Это действие необратимо.")
         }
         .onAppear {
             Analytics.logEvent("launch_profile", parameters: nil)
@@ -133,7 +139,7 @@ struct ProfileView: View {
                     }
 
                     DestructiveTextButton("Удалить аккаунт") {
-                        showDeleteAccountAlert = true
+                        wrapper.onEvent(ProfileEvent.ShowDeleteAccountDialog())
                     }
                 }
                 .padding(16)

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1033711913160",
+    "project_id": "casecareer-c7f5d",
+    "storage_bucket": "casecareer-c7f5d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033711913160:android:dc262b7301aef75816bdfd",
+        "android_client_info": {
+          "package_name": "ru.kpfu.itis"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArgCELhLMyV5_pShGdAZI63SYlN3zXaaM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

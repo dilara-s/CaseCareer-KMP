@@ -113,7 +113,7 @@ struct CaseDetailView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(caseDetail.companyName)
                             .font(.dsHeadlineSmall)
-                        Text("Опубликовано \(Formatters.shortDate(caseDetail.publishedAt))")
+                        Text("Опубликовано \(caseDetail.publishedAt.map { Formatters.shortDate($0) } ?? "—")")
                             .font(.dsCaption)
                             .foregroundColor(.onSurfaceVariant)
                     }
@@ -141,7 +141,7 @@ struct CaseDetailView: View {
                 // Информация
                 VStack(alignment: .leading, spacing: 12) {
                     SectionLabel(title: "Информация")
-                    InfoRow(label: "Опубликовано", value: Formatters.shortDate(caseDetail.publishedAt))
+                    InfoRow(label: "Опубликовано", value: caseDetail.publishedAt.map { Formatters.shortDate($0) } ?? "—")
                     InfoRow(label: "Создано", value: Formatters.shortDate(caseDetail.createdAt))
                     InfoRow(label: "Статус", value: caseDetail.status)
                 }
@@ -151,7 +151,11 @@ struct CaseDetailView: View {
                 Divider()
 
                 // Кнопка
-                PrimaryButton("Откликнуться") {
+                let alreadyResponded = wrapper.state.alreadyResponded
+                PrimaryButton(
+                    alreadyResponded ? "Вы уже откликнулись" : "Откликнуться",
+                    isDisabled: alreadyResponded
+                ) {
                     wrapper.onEvent(CaseDetailEvent.Apply())
                 }
                 .padding(16)

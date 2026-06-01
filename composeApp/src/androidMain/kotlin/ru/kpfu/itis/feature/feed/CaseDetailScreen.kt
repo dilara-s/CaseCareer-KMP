@@ -6,8 +6,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
+import android.os.Bundle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -37,6 +40,9 @@ fun CaseDetailRoute(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
+        Firebase.analytics.logEvent("launch_case_detail", Bundle().apply {
+            putLong("case_id", caseId)
+        })
         viewModel.effect.collect { effect ->
             when (effect) {
                 is CaseDetailEffect.NavigateBack -> onBack()

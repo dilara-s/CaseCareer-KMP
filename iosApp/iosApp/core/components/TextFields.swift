@@ -11,6 +11,8 @@ struct AppTextField: View {
     var keyboardType: UIKeyboardType = .default
     var leadingIcon: String? = nil
     var isPassword: Bool = false
+    var isPasswordVisible: Bool = false
+    var onToggleVisibility: (() -> Void)? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
@@ -21,7 +23,7 @@ struct AppTextField: View {
                         .foregroundColor(.onSurfaceVariant)
                 }
                 Group {
-                    if isPassword {
+                    if isPassword && !isPasswordVisible {
                         SecureField(placeholder, text: $text)
                     } else {
                         TextField(placeholder, text: $text)
@@ -30,6 +32,14 @@ struct AppTextField: View {
                 }
                 .autocapitalization(.none)
                 .autocorrectionDisabled()
+
+                if isPassword, let toggle = onToggleVisibility {
+                    Button(action: toggle) {
+                        Image(systemName: isPasswordVisible ? "eye.slash" : "eye")
+                            .font(.system(size: 15))
+                            .foregroundColor(.onSurfaceVariant)
+                    }
+                }
             }
             .padding()
             .background(Color(.systemBackground))
