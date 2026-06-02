@@ -1,0 +1,14 @@
+disabled_rules:
+  - trailing_whitespace        # пробелы в конце строк — не критично
+  - line_length                # длинные строки в SwiftUI — норма
+
+opt_in_rules:
+  - empty_count                # .isEmpty вместо .count == 0
+  - force_unwrapping           # запрещает ! (force unwrap)
+
+excluded:
+  - Pods
+  - build
+  - DerivedData
+
+reporter: "xcode"
