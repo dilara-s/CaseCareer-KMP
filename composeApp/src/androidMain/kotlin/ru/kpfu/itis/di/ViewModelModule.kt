@@ -9,23 +9,24 @@ import ru.kpfu.itis.feature.mycases.presentation.MyCasesViewModel
 import ru.kpfu.itis.feature.profile.presentation.ProfileViewModel
 import ru.kpfu.itis.feature.response.presentation.ResponseViewModel
 
-val viewModelModule = module {
-    viewModel {
-        AuthViewModel(loginUseCase = get(), registerUseCase = get())
+val viewModelModule =
+    module {
+        viewModel {
+            AuthViewModel(loginUseCase = get(), registerUseCase = get())
+        }
+        viewModel {
+            FeedViewModel(getCasesUseCase = get())
+        }
+        viewModel { (caseId: Long) ->
+            CaseDetailViewModel(getCaseDetailUseCase = get(), caseId = caseId)
+        }
+        viewModel {
+            ProfileViewModel(getProfileUseCase = get(), logoutUseCase = get())
+        }
+        viewModel {
+            MyCasesViewModel(getMyCasesUseCase = get())
+        }
+        viewModel {
+            ResponseViewModel(submitResponseUseCase = get())
+        }
     }
-    viewModel {
-        FeedViewModel(getCasesUseCase = get())
-    }
-    viewModel { (caseId: Long) ->
-        CaseDetailViewModel(getCaseDetailUseCase = get(), caseId = caseId)
-    }
-    viewModel {
-        ProfileViewModel(getProfileUseCase = get(), logoutUseCase = get())
-    }
-    viewModel {
-        MyCasesViewModel(getMyCasesUseCase = get())
-    }
-    viewModel {
-        ResponseViewModel(submitResponseUseCase = get())
-    }
-}

@@ -11,10 +11,11 @@ import ru.kpfu.itis.feature.profile.domain.usecase.GetProfileUseCase
 import ru.kpfu.itis.feature.profile.domain.usecase.LogoutUseCase
 import ru.kpfu.itis.feature.profile.presentation.ProfileViewModel
 
-val profileModule = module {
-    single { ProfileApi(get()) }
-    singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
-    factoryOf(::GetProfileUseCase)
-    factoryOf(::LogoutUseCase)
-    factory { ProfileViewModel(get(), get()) }
-}
+val profileModule =
+    module {
+        single { ProfileApi(get()) }
+        singleOf(::ProfileRepositoryImpl) bind ProfileRepository::class
+        factoryOf(::GetProfileUseCase)
+        factoryOf(::LogoutUseCase)
+        factory { ProfileViewModel(get(), get()) }
+    }

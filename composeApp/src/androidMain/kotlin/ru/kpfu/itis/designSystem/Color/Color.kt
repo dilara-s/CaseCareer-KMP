@@ -29,4 +29,3 @@ val NdaNotRequiredText = Color(0xFF6B7280)
 // Dark NDA
 val NdaRequiredBgDark = Color(0xFF2C2007)
 val NdaNotRequiredBgDark = Color(0xFF232323)
-

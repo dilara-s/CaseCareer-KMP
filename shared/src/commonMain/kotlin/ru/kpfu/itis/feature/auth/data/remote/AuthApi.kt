@@ -15,8 +15,10 @@ import ru.kpfu.itis.feature.auth.data.remote.model.RegisterResponse
 import ru.kpfu.itis.feature.auth.data.remote.model.TokenResponse
 
 class AuthApi(private val client: HttpClient) {
-
-    suspend fun login(email: String, password: String): TokenResponse {
+    suspend fun login(
+        email: String,
+        password: String,
+    ): TokenResponse {
         return client.post("api/v1/auth/login/") {
             contentType(ContentType.Application.Json)
             setBody(LoginRequest(email, password))
@@ -31,7 +33,7 @@ class AuthApi(private val client: HttpClient) {
         phone: String = "",
         contactInfo: String = "",
         portfolioLink: String = "",
-        skills: String = ""
+        skills: String = "",
     ): RegisterResponse {
         return client.post("api/v1/auth/register/user/") {
             contentType(ContentType.Application.Json)
@@ -49,5 +51,4 @@ class AuthApi(private val client: HttpClient) {
     suspend fun getMyProfile(): ProfileResponse {
         return client.get("api/v1/profiles/me/").body()
     }
-
 }

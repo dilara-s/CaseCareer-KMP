@@ -13,19 +13,20 @@ data class CaseDetail(
     val companyName: String,
     val companyId: Long,
     val publishedAt: String?,
-    val createdAt: String
+    val createdAt: String,
 )
 
-fun CaseDetailResponse.toDomain() = CaseDetail(
-    id = id,
-    title = title,
-    description = description,
-    reward = reward,
-    deadline = deadline,
-    ndaRequired = ndaRequired,
-    status = status,
-    companyName = companyName,
-    companyId = companyId,
-    publishedAt = publishedAt,
-    createdAt = createdAt
-)
+fun CaseDetailResponse.toDomain() =
+    CaseDetail(
+        id = id,
+        title = title,
+        description = description,
+        reward = reward,
+        deadline = deadline,
+        ndaRequired = ndaRequired,
+        status = status,
+        companyName = companyName,
+        companyId = companyId,
+        publishedAt = publishedAt,
+        createdAt = createdAt,
+    )

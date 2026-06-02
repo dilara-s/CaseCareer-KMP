@@ -10,9 +10,10 @@ import ru.kpfu.itis.feature.response.domain.repository.ResponseRepository
 import ru.kpfu.itis.feature.response.domain.usecase.SubmitResponseUseCase
 import ru.kpfu.itis.feature.response.presentation.ResponseViewModel
 
-val responseModule = module {
-    single { ResponseApi(get()) }
-    singleOf(::ResponseRepositoryImpl) bind ResponseRepository::class
-    factoryOf(::SubmitResponseUseCase)
-    factory { ResponseViewModel(get()) }
-}
+val responseModule =
+    module {
+        single { ResponseApi(get()) }
+        singleOf(::ResponseRepositoryImpl) bind ResponseRepository::class
+        factoryOf(::SubmitResponseUseCase)
+        factory { ResponseViewModel(get()) }
+    }

@@ -14,9 +14,8 @@ import ru.kpfu.itis.feature.profile.domain.usecase.LogoutUseCase
 
 class ProfileViewModel(
     private val getProfileUseCase: GetProfileUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
 ) : CommonViewModel() {
-
     private val _state = MutableStateFlow(ProfileState())
     val state: StateFlow<ProfileState> = _state.asStateFlow()
 

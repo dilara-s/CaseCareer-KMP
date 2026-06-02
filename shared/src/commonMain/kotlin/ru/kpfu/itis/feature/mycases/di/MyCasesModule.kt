@@ -10,9 +10,10 @@ import ru.kpfu.itis.feature.mycases.domain.repository.MyCasesRepository
 import ru.kpfu.itis.feature.mycases.domain.usecase.GetMyCasesUseCase
 import ru.kpfu.itis.feature.mycases.presentation.MyCasesViewModel
 
-val myCasesModule = module {
-    single { MyCasesApi(get()) }
-    singleOf(::MyCasesRepositoryImpl) bind MyCasesRepository::class
-    factoryOf(::GetMyCasesUseCase)
-    factory { MyCasesViewModel(get()) }
-}
+val myCasesModule =
+    module {
+        single { MyCasesApi(get()) }
+        singleOf(::MyCasesRepositoryImpl) bind MyCasesRepository::class
+        factoryOf(::GetMyCasesUseCase)
+        factory { MyCasesViewModel(get()) }
+    }

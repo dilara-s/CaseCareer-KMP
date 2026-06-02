@@ -6,5 +6,5 @@ data class CaseDetailState(
     val case: CaseDetail? = null,
     val isLoading: Boolean = true,
     val error: String? = null,
-    val alreadyResponded: Boolean = false
+    val alreadyResponded: Boolean = false,
 )

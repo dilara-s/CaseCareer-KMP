@@ -7,9 +7,8 @@ import ru.kpfu.itis.feature.mycases.domain.model.MyCase
 import ru.kpfu.itis.feature.mycases.domain.repository.MyCasesRepository
 
 class MyCasesRepositoryImpl(
-    private val api: MyCasesApi
+    private val api: MyCasesApi,
 ) : MyCasesRepository {
-
     override suspend fun getMyCases(): Result<List<MyCase>> {
         return try {
             val response = api.getMyCases()
@@ -20,8 +19,8 @@ class MyCasesRepositoryImpl(
                     when (e.response.status.value) {
                         401 -> "Сессия истекла, войдите снова"
                         else -> "Ошибка сервера (${e.response.status.value})"
-                    }
-                )
+                    },
+                ),
             )
         } catch (e: Exception) {
             Result.failure(Exception("Нет соединения"))
@@ -29,11 +28,12 @@ class MyCasesRepositoryImpl(
     }
 }
 
-private fun MyCaseDto.toDomain() = MyCase(
-    caseId = caseId,
-    title = caseTitle,
-    companyName = companyName,
-    submittedAt = submittedAt,
-    status = status,
-    version = version
-)
+private fun MyCaseDto.toDomain() =
+    MyCase(
+        caseId = caseId,
+        title = caseTitle,
+        companyName = companyName,
+        submittedAt = submittedAt,
+        status = status,
+        version = version,
+    )

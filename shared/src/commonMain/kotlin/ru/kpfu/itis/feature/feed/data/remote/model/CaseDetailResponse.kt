@@ -15,5 +15,5 @@ data class CaseDetailResponse(
     @SerialName("company_name") val companyName: String,
     @SerialName("company_id") val companyId: Long,
     @SerialName("published_at") val publishedAt: String? = null,
-    @SerialName("created_at") val createdAt: String
+    @SerialName("created_at") val createdAt: String,
 )

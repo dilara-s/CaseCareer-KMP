@@ -21,5 +21,5 @@ data class CasesPagedResponse(
     val count: Int,
     val next: String? = null,
     val previous: String? = null,
-    val results: List<CaseResponse>
+    val results: List<CaseResponse>,
 )

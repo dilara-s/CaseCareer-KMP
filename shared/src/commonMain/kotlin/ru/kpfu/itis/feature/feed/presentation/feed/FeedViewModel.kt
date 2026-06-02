@@ -15,9 +15,8 @@ import ru.kpfu.itis.feature.feed.domain.usecase.GetCasesUseCase
 import kotlin.onFailure
 
 class FeedViewModel(
-    private val getCasesUseCase: GetCasesUseCase
+    private val getCasesUseCase: GetCasesUseCase,
 ) : CommonViewModel() {
-
     private val _state = MutableStateFlow(FeedState())
     val state: StateFlow<FeedState> = _state.asStateFlow()
 
@@ -49,10 +48,11 @@ class FeedViewModel(
             is FeedEvent.SearchQueryChanged -> {
                 _state.update { it.copy(searchQuery = event.query) }
                 searchJob?.cancel()
-                searchJob = viewModelScope.launch {
-                    delay(300)
-                    loadCases(page = 1, isInitial = true)
-                }
+                searchJob =
+                    viewModelScope.launch {
+                        delay(300)
+                        loadCases(page = 1, isInitial = true)
+                    }
             }
             is FeedEvent.ClearSearch -> {
                 searchJob?.cancel()
@@ -65,14 +65,14 @@ class FeedViewModel(
     private fun loadCases(
         page: Int,
         isInitial: Boolean = false,
-        isRefresh: Boolean = false
+        isRefresh: Boolean = false,
     ) {
         viewModelScope.launch {
             _state.update {
                 when {
                     isInitial -> it.copy(isLoading = true, error = null)
                     isRefresh -> it.copy(isRefreshing = true, error = null)
-                    else      -> it.copy(isLoadingMore = true)
+                    else -> it.copy(isLoadingMore = true)
                 }
             }
 
@@ -84,15 +84,19 @@ class FeedViewModel(
                     println("FEED_LOG: success, got ${casesPage.cases.size} cases, hasMore=${casesPage.hasNextPage}")
                     _state.update {
                         it.copy(
-                            cases = if (isRefresh || isInitial) casesPage.cases
-                            else it.cases + casesPage.cases,
+                            cases =
+                                if (isRefresh || isInitial) {
+                                    casesPage.cases
+                                } else {
+                                    it.cases + casesPage.cases
+                                },
                             isLoading = false,
                             isLoadingMore = false,
                             isRefreshing = false,
                             currentPage = page,
                             hasMore = casesPage.hasNextPage,
                             totalCount = casesPage.totalCount,
-                            error = null
+                            error = null,
                         )
                     }
                 }
@@ -103,7 +107,7 @@ class FeedViewModel(
                             isLoading = false,
                             isLoadingMore = false,
                             isRefreshing = false,
-                            error = e.message
+                            error = e.message,
                         )
                     }
                     _effect.tryEmit(FeedEffect.ShowError(e.message ?: "Ошибка загрузки"))

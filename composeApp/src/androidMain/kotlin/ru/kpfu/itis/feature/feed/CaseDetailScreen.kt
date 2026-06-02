@@ -1,16 +1,14 @@
 package ru.kpfu.itis.feature.feed
 
+import android.os.Bundle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
-import android.os.Bundle
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import com.google.firebase.Firebase
-import com.google.firebase.analytics.analytics
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -19,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.analytics
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import ru.kpfu.itis.R
@@ -35,14 +35,17 @@ fun CaseDetailRoute(
     onBack: () -> Unit,
     onApplyNda: (Long, String, String) -> Unit,
     onApplyForm: (Long, String, String) -> Unit,
-    viewModel: CaseDetailViewModel = koinViewModel(parameters = { parametersOf(caseId) })
+    viewModel: CaseDetailViewModel = koinViewModel(parameters = { parametersOf(caseId) }),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        Firebase.analytics.logEvent("launch_case_detail", Bundle().apply {
-            putLong("case_id", caseId)
-        })
+        Firebase.analytics.logEvent(
+            "launch_case_detail",
+            Bundle().apply {
+                putLong("case_id", caseId)
+            },
+        )
         viewModel.effect.collect { effect ->
             when (effect) {
                 is CaseDetailEffect.NavigateBack -> onBack()
@@ -55,32 +58,33 @@ fun CaseDetailRoute(
 
     CaseDetailScreen(
         state = state,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
     )
 }
 
 @Composable
 fun CaseDetailScreen(
     state: CaseDetailState,
-    onEvent: (CaseDetailEvent) -> Unit
+    onEvent: (CaseDetailEvent) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
     ) {
-
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(onClick = { onEvent(CaseDetailEvent.Back) }) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_back),
                     contentDescription = stringResource(R.string.case_detail_back_cd),
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
@@ -95,7 +99,7 @@ fun CaseDetailScreen(
                 DetailErrorState(
                     message = state.error!!,
                     onRetry = { onEvent(CaseDetailEvent.Retry) },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
             state.case != null -> {
@@ -103,7 +107,7 @@ fun CaseDetailScreen(
                     case = state.case!!,
                     alreadyResponded = state.alreadyResponded,
                     onApply = { onEvent(CaseDetailEvent.Apply) },
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
                 )
             }
         }
@@ -115,62 +119,65 @@ private fun CaseDetailContent(
     case: CaseDetail,
     alreadyResponded: Boolean,
     onApply: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier) {
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 16.dp),
         ) {
             Text(
                 text = case.title,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    lineHeight = 27.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface
+                style =
+                    MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        lineHeight = 27.sp,
+                    ),
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Spacer(Modifier.height(10.dp))
 
             Text(
                 text = formatDetailReward(case.reward),
-                style = MaterialTheme.typography.titleLarge.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface
+                style =
+                    MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 22.sp,
+                    ),
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Spacer(Modifier.height(8.dp))
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_calendar),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.size(14.dp),
                 )
                 Text(
                     text = stringResource(R.string.case_detail_deadline, formatDetailDeadline(case.deadline)),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
                     text = "•",
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
                 )
                 Text(
                     text = stringResource(if (case.ndaRequired) R.string.common_nda_required else R.string.common_nda_not_required),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
 
@@ -180,30 +187,31 @@ private fun CaseDetailContent(
                 shape = RoundedCornerShape(12.dp),
                 color = MaterialTheme.colorScheme.surface,
                 shadowElevation = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Row(
                     modifier = Modifier.padding(horizontal = 14.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .background(Primary, shape = RoundedCornerShape(8.dp)),
-                        contentAlignment = Alignment.Center
+                        modifier =
+                            Modifier
+                                .size(36.dp)
+                                .background(Primary, shape = RoundedCornerShape(8.dp)),
+                        contentAlignment = Alignment.Center,
                     ) {
                         Text(
                             text = case.companyName.take(1).uppercase(),
                             color = Color.White,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
+                            fontSize = 16.sp,
                         )
                     }
                     Text(
                         text = case.companyName,
                         style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold),
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }
@@ -213,7 +221,7 @@ private fun CaseDetailContent(
             Text(
                 text = stringResource(R.string.case_detail_published, case.publishedAt?.let { formatDetailDate(it) } ?: "—"),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
 
             Spacer(Modifier.height(20.dp))
@@ -221,7 +229,7 @@ private fun CaseDetailContent(
             Text(
                 text = stringResource(R.string.case_detail_description_title),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Spacer(Modifier.height(10.dp))
@@ -229,7 +237,7 @@ private fun CaseDetailContent(
             Text(
                 text = case.description,
                 style = MaterialTheme.typography.bodyMedium.copy(lineHeight = 22.sp),
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Spacer(Modifier.height(24.dp))
@@ -238,22 +246,24 @@ private fun CaseDetailContent(
         Button(
             onClick = onApply,
             enabled = !alreadyResponded,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 12.dp)
-                .height(52.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .height(52.dp),
             shape = RoundedCornerShape(14.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = if (alreadyResponded) Color(0xFFE5E7EB) else Primary,
-                contentColor = if (alreadyResponded) Color(0xFF6B7280) else Color.White,
-                disabledContainerColor = Color(0xFFE5E7EB),
-                disabledContentColor = Color(0xFF6B7280)
-            )
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = if (alreadyResponded) Color(0xFFE5E7EB) else Primary,
+                    contentColor = if (alreadyResponded) Color(0xFF6B7280) else Color.White,
+                    disabledContainerColor = Color(0xFFE5E7EB),
+                    disabledContentColor = Color(0xFF6B7280),
+                ),
         ) {
             Text(
                 text = stringResource(if (alreadyResponded) R.string.case_detail_already_responded else R.string.feed_apply_button),
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
         }
     }
@@ -263,28 +273,28 @@ private fun CaseDetailContent(
 private fun DetailErrorState(
     message: String,
     onRetry: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = stringResource(R.string.case_detail_load_error),
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(Modifier.height(8.dp))
         Text(
             text = message,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(16.dp))
         Button(
             onClick = onRetry,
-            colors = ButtonDefaults.buttonColors(containerColor = Primary)
+            colors = ButtonDefaults.buttonColors(containerColor = Primary),
         ) {
             Text(stringResource(R.string.common_retry), color = Color.White)
         }
@@ -294,13 +304,14 @@ private fun DetailErrorState(
 private fun formatDetailReward(reward: String): String {
     return try {
         val amount = reward.toDouble().toLong()
-        val formatted = buildString {
-            val str = amount.toString()
-            str.reversed().forEachIndexed { i, c ->
-                if (i > 0 && i % 3 == 0) append(' ')
-                append(c)
-            }
-        }.reversed()
+        val formatted =
+            buildString {
+                val str = amount.toString()
+                str.reversed().forEachIndexed { i, c ->
+                    if (i > 0 && i % 3 == 0) append(' ')
+                    append(c)
+                }
+            }.reversed()
         "$formatted ₽"
     } catch (e: Exception) {
         "$reward ₽"
@@ -312,15 +323,26 @@ private fun formatDetailDeadline(deadline: String): String {
         val datePart = deadline.substringBefore('T')
         val parts = datePart.split('-')
         val day = parts[2].trimStart('0')
-        val month = when (parts[1]) {
-            "01" -> "января"; "02" -> "февраля"; "03" -> "марта"
-            "04" -> "апреля"; "05" -> "мая"; "06" -> "июня"
-            "07" -> "июля"; "08" -> "августа"; "09" -> "сентября"
-            "10" -> "октября"; "11" -> "ноября"; "12" -> "декабря"
-            else -> ""
-        }
+        val month =
+            when (parts[1]) {
+                "01" -> "января"
+                "02" -> "февраля"
+                "03" -> "марта"
+                "04" -> "апреля"
+                "05" -> "мая"
+                "06" -> "июня"
+                "07" -> "июля"
+                "08" -> "августа"
+                "09" -> "сентября"
+                "10" -> "октября"
+                "11" -> "ноября"
+                "12" -> "декабря"
+                else -> ""
+            }
         "$day $month"
-    } catch (e: Exception) { deadline }
+    } catch (e: Exception) {
+        deadline
+    }
 }
 
 private fun formatDetailDate(date: String): String {
@@ -328,13 +350,24 @@ private fun formatDetailDate(date: String): String {
         val datePart = date.substringBefore('T')
         val parts = datePart.split('-')
         val day = parts[2].trimStart('0')
-        val month = when (parts[1]) {
-            "01" -> "января"; "02" -> "февраля"; "03" -> "марта"
-            "04" -> "апреля"; "05" -> "мая"; "06" -> "июня"
-            "07" -> "июля"; "08" -> "августа"; "09" -> "сентября"
-            "10" -> "октября"; "11" -> "ноября"; "12" -> "декабря"
-            else -> ""
-        }
+        val month =
+            when (parts[1]) {
+                "01" -> "января"
+                "02" -> "февраля"
+                "03" -> "марта"
+                "04" -> "апреля"
+                "05" -> "мая"
+                "06" -> "июня"
+                "07" -> "июля"
+                "08" -> "августа"
+                "09" -> "сентября"
+                "10" -> "октября"
+                "11" -> "ноября"
+                "12" -> "декабря"
+                else -> ""
+            }
         "$day $month"
-    } catch (e: Exception) { date }
+    } catch (e: Exception) {
+        date
+    }
 }

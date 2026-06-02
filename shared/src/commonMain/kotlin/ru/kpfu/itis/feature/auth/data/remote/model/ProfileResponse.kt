@@ -13,5 +13,5 @@ data class ProfileResponse(
     @SerialName("contact_info") val contactInfo: String,
     @SerialName("portfolio_link") val portfolioLink: String,
     val rating: String,
-    @SerialName("created_at") val createdAt: String
+    @SerialName("created_at") val createdAt: String,
 )

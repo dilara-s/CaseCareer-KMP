@@ -14,5 +14,5 @@ data class ProfileDto(
     @SerialName("contact_info") val contactInfo: String? = null,
     @SerialName("portfolio_link") val portfolioLink: String? = null,
     val rating: String? = null,
-    @SerialName("created_at") val createdAt: String
+    @SerialName("created_at") val createdAt: String,
 )

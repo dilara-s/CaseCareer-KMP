@@ -11,17 +11,18 @@ data class Case(
     val status: String,
     val companyName: String,
     val companyId: Long,
-    val createdAt: String
+    val createdAt: String,
 )
 
-fun CaseResponse.toDomain() = Case(
-    id = id,
-    title = title,
-    reward = reward,
-    deadline = deadline,
-    ndaRequired = ndaRequired,
-    status = status,
-    companyName = companyName,
-    companyId = companyId,
-    createdAt = createdAt
-)
+fun CaseResponse.toDomain() =
+    Case(
+        id = id,
+        title = title,
+        reward = reward,
+        deadline = deadline,
+        ndaRequired = ndaRequired,
+        status = status,
+        companyName = companyName,
+        companyId = companyId,
+        createdAt = createdAt,
+    )

@@ -8,7 +8,6 @@ import ru.kpfu.itis.feature.feed.data.remote.model.CaseDetailResponse
 import ru.kpfu.itis.feature.feed.data.remote.model.CasesPagedResponse
 
 class FeedApi(private val client: HttpClient) {
-
     suspend fun getCaseDetail(id: Long): CaseDetailResponse {
         return client.get("api/v1/cases/$id/").body()
     }
@@ -18,7 +17,7 @@ class FeedApi(private val client: HttpClient) {
         q: String? = null,
         rewardMin: String? = null,
         rewardMax: String? = null,
-        ndaRequired: Boolean? = null
+        ndaRequired: Boolean? = null,
     ): CasesPagedResponse {
         return client.get("api/v1/cases/") {
             parameter("page", page)

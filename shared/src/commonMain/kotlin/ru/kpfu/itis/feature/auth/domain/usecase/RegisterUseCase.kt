@@ -1,6 +1,7 @@
 package ru.kpfu.itis.feature.auth.domain.usecase
 
 import ru.kpfu.itis.feature.auth.domain.repository.AuthRepository
+
 class RegisterUseCase(private val repository: AuthRepository) {
     suspend operator fun invoke(
         fullName: String,
@@ -10,16 +11,17 @@ class RegisterUseCase(private val repository: AuthRepository) {
         phone: String,
         contactInfo: String = "",
         portfolioLink: String = "",
-        skills: String = ""
+        skills: String = "",
     ): Result<Unit> {
         if (fullName.isBlank()) return Result.failure(Exception("Введите имя"))
         if (password != confirmPassword) return Result.failure(Exception("Пароли не совпадают"))
-        val uniqueSkills = skills
-            .split(",")
-            .map { it.trim() }
-            .filter { it.isNotBlank() }
-            .distinct()
-            .joinToString(", ")
+        val uniqueSkills =
+            skills
+                .split(",")
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
+                .distinct()
+                .joinToString(", ")
         return repository.register(fullName, email, password, confirmPassword, phone, contactInfo, portfolioLink, uniqueSkills)
     }
 }

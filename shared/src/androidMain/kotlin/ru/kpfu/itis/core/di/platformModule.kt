@@ -1,6 +1,5 @@
 package ru.kpfu.itis.core.di
 
-
 import android.content.Context
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
@@ -12,22 +11,24 @@ import org.koin.dsl.module
 import ru.kpfu.itis.Database
 
 actual val platformModule: Module
-    get() = module {
-        single<SqlDriver> {
-            AndroidSqliteDriver(
-                schema = Database.Schema,
-                context = get<Context>(),
-                name = get(named<QualifierDBName>()),
-            )
-        }
+    get() =
+        module {
+            single<SqlDriver> {
+                AndroidSqliteDriver(
+                    schema = Database.Schema,
+                    context = get<Context>(),
+                    name = get(named<QualifierDBName>()),
+                )
+            }
 
-        single<Settings> {
-            SharedPreferencesSettings(
-                delegate = get<Context>()
-                    .getSharedPreferences(
-                        get(named<QualifierSettingName>()),
-                        Context.MODE_PRIVATE
-                    )
-            )
+            single<Settings> {
+                SharedPreferencesSettings(
+                    delegate =
+                        get<Context>()
+                            .getSharedPreferences(
+                                get(named<QualifierSettingName>()),
+                                Context.MODE_PRIVATE,
+                            ),
+                )
+            }
         }
-    }

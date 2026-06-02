@@ -12,9 +12,8 @@ import ru.kpfu.itis.core.viewmodel.CommonViewModel
 import ru.kpfu.itis.feature.response.domain.usecase.SubmitResponseUseCase
 
 class ResponseViewModel(
-    private val submitResponseUseCase: SubmitResponseUseCase
+    private val submitResponseUseCase: SubmitResponseUseCase,
 ) : CommonViewModel() {
-
     private val _state = MutableStateFlow(ResponseState())
     val state: StateFlow<ResponseState> = _state.asStateFlow()
 
@@ -24,16 +23,19 @@ class ResponseViewModel(
     fun onEvent(event: ResponseEvent) {
         when (event) {
             is ResponseEvent.Init -> initForm(event)
-            ResponseEvent.ToggleNdaAccepted -> _state.update {
-                it.copy(isNdaAccepted = !it.isNdaAccepted, ndaError = null)
-            }
+            ResponseEvent.ToggleNdaAccepted ->
+                _state.update {
+                    it.copy(isNdaAccepted = !it.isNdaAccepted, ndaError = null)
+                }
             ResponseEvent.ProceedFromNda -> proceedFromNda()
-            is ResponseEvent.UpdateCoverLetter -> _state.update {
-                it.copy(coverLetter = event.text, coverLetterError = null, error = null)
-            }
-            is ResponseEvent.UpdateSolutionLink -> _state.update {
-                it.copy(solutionLink = event.link, solutionLinkError = null, error = null)
-            }
+            is ResponseEvent.UpdateCoverLetter ->
+                _state.update {
+                    it.copy(coverLetter = event.text, coverLetterError = null, error = null)
+                }
+            is ResponseEvent.UpdateSolutionLink ->
+                _state.update {
+                    it.copy(solutionLink = event.link, solutionLinkError = null, error = null)
+                }
             ResponseEvent.Submit -> submit()
             ResponseEvent.Cancel -> viewModelScope.launch { _effect.emit(ResponseEffect.CloseSheet) }
             ResponseEvent.BackToFeed -> viewModelScope.launch { _effect.emit(ResponseEffect.NavigateToMyCases) }
@@ -48,7 +50,7 @@ class ResponseViewModel(
                 companyName = event.companyName,
                 isNdaRequired = event.ndaRequired,
                 totalSteps = if (event.ndaRequired) 3 else 2,
-                screenMode = if (event.ndaRequired) ResponseScreenMode.NdaStep else ResponseScreenMode.FormStep
+                screenMode = if (event.ndaRequired) ResponseScreenMode.NdaStep else ResponseScreenMode.FormStep,
             )
         }
     }
@@ -93,7 +95,7 @@ class ResponseViewModel(
                             screenMode = ResponseScreenMode.SuccessStep,
                             submittedAt = result.submittedAt,
                             responseStatus = result.status,
-                            alreadyResponded = true
+                            alreadyResponded = true,
                         )
                     }
                 }

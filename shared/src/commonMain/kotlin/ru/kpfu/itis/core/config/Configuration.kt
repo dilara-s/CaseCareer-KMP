@@ -4,7 +4,6 @@ data class `Configuration`(
     val isHttpLoggingEnabled: Boolean,
     val isDebug: Boolean,
 ) {
-
     enum class DeviceType {
         Tablet,
         Phone,

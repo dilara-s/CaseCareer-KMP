@@ -25,7 +25,8 @@ fun HttpClient.installAuthPlugin(tokenStorage: TokenStorage) {
     plugin(HttpSend).intercept { request ->
 
         val path = request.url.encodedPath
-        val isAuthPath = path.contains("auth/login") ||
+        val isAuthPath =
+            path.contains("auth/login") ||
                 path.contains("auth/register") ||
                 path.contains("token/refresh")
 
@@ -41,37 +42,39 @@ fun HttpClient.installAuthPlugin(tokenStorage: TokenStorage) {
             return@intercept call
         }
 
-        val newAccessToken = mutex.withLock {
-            val refresh = tokenStorage.refreshToken
-            if (refresh == null) {
-                tokenStorage.clearTokens()
-                return@withLock null
-            }
-
-            try {
-                val refreshRequest = HttpRequestBuilder().apply {
-                    url("api/v1/auth/token/refresh/")
-                    method = io.ktor.http.HttpMethod.Post
-                    contentType(ContentType.Application.Json)
-                    setBody(RefreshRequest(refresh))
-                    headers { remove(HttpHeaders.Authorization) }
+        val newAccessToken =
+            mutex.withLock {
+                val refresh = tokenStorage.refreshToken
+                if (refresh == null) {
+                    tokenStorage.clearTokens()
+                    return@withLock null
                 }
 
-                val refreshCall = execute(refreshRequest)
+                try {
+                    val refreshRequest =
+                        HttpRequestBuilder().apply {
+                            url("api/v1/auth/token/refresh/")
+                            method = io.ktor.http.HttpMethod.Post
+                            contentType(ContentType.Application.Json)
+                            setBody(RefreshRequest(refresh))
+                            headers { remove(HttpHeaders.Authorization) }
+                        }
 
-                if (refreshCall.response.status == HttpStatusCode.OK) {
-                    val tokens = refreshCall.response.body<TokenResponse>()
-                    tokenStorage.saveTokens(tokens.access, tokens.refresh)
-                    tokens.access
-                } else {
+                    val refreshCall = execute(refreshRequest)
+
+                    if (refreshCall.response.status == HttpStatusCode.OK) {
+                        val tokens = refreshCall.response.body<TokenResponse>()
+                        tokenStorage.saveTokens(tokens.access, tokens.refresh)
+                        tokens.access
+                    } else {
+                        tokenStorage.clearTokens()
+                        null
+                    }
+                } catch (e: Exception) {
                     tokenStorage.clearTokens()
                     null
                 }
-            } catch (e: Exception) {
-                tokenStorage.clearTokens()
-                null
             }
-        }
 
         if (newAccessToken != null) {
             request.headers {

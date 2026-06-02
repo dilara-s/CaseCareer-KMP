@@ -25,7 +25,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 @Composable
 fun AuthTextField(
     value: String,
@@ -38,7 +37,7 @@ fun AuthTextField(
     isPassword: Boolean = false,
     isPasswordVisible: Boolean = false,
     onTogglePassword: (() -> Unit)? = null,
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
 ) {
     OutlinedTextField(
         value = value,
@@ -49,30 +48,43 @@ fun AuthTextField(
             Icon(leadingIcon, contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant)
         },*/
-        trailingIcon = if (isPassword) {
-            {
+        trailingIcon =
+            if (isPassword) {
+                {
                 /*IconButton(onClick = { onTogglePassword?.invoke() }) {
                     Icon(
                         if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                         contentDescription = null
                     )
                 }*/
-            }
-        } else null,
-        visualTransformation = if (isPassword && !isPasswordVisible)
-            PasswordVisualTransformation() else VisualTransformation.None,
+                }
+            } else {
+                null
+            },
+        visualTransformation =
+            if (isPassword && !isPasswordVisible) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         isError = isError,
-        supportingText = when {
-            errorText != null -> { { Text(errorText, color = MaterialTheme.colorScheme.error) } }
-            supportingText != null -> { { Text(supportingText) } }
-            else -> null
-        },
+        supportingText =
+            when {
+                errorText != null -> {
+                    { Text(errorText, color = MaterialTheme.colorScheme.error) }
+                }
+                supportingText != null -> {
+                    { Text(supportingText) }
+                }
+                else -> null
+            },
         shape = RoundedCornerShape(12.dp),
         singleLine = true,
-        colors = OutlinedTextFieldDefaults.colors(
-            unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
-        )
+        colors =
+            OutlinedTextFieldDefaults.colors(
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f),
+            ),
     )
 }
 
@@ -81,22 +93,24 @@ fun AuthButton(
     text: String,
     isLoading: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Button(
         onClick = onClick,
         enabled = !isLoading,
         modifier = modifier.fillMaxWidth().height(52.dp),
         shape = RoundedCornerShape(12.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF4B5EFC)   // синий из макета
-        )
+        colors =
+            ButtonDefaults.buttonColors(
+                // синий из макета
+                containerColor = Color(0xFF4B5EFC),
+            ),
     ) {
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.size(20.dp),
                 color = Color.White,
-                strokeWidth = 2.dp
+                strokeWidth = 2.dp,
             )
         } else {
             Text(text, fontWeight = FontWeight.SemiBold, fontSize = 16.sp, color = Color.White)
@@ -109,18 +123,18 @@ fun ClickableText(
     primary: String,
     action: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         Text(primary, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Text(
             text = action,
             color = Color(0xFF4B5EFC),
             fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.clickable(onClick = onClick)
+            modifier = Modifier.clickable(onClick = onClick),
         )
     }
 }

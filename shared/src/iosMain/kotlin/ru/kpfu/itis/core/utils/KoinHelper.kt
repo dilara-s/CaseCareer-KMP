@@ -11,10 +11,14 @@ import ru.kpfu.itis.feature.response.presentation.ResponseViewModel
 
 object KoinHelper {
     fun getAuthViewModel(): AuthViewModel = KoinPlatform.getKoin().get()
+
     fun getProfileViewModel(): ProfileViewModel = KoinPlatform.getKoin().get()
+
     fun getMyCasesViewModel(): MyCasesViewModel = KoinPlatform.getKoin().get()
+
     fun getResponseViewModel(): ResponseViewModel = KoinPlatform.getKoin().get()
+
     fun getFeedViewModel(): FeedViewModel = KoinPlatform.getKoin().get()
-    fun getCaseDetailViewModel(caseId: Long): CaseDetailViewModel =
-        KoinPlatform.getKoin().get(parameters = { parametersOf(caseId) })
+
+    fun getCaseDetailViewModel(caseId: Long): CaseDetailViewModel = KoinPlatform.getKoin().get(parameters = { parametersOf(caseId) })
 }

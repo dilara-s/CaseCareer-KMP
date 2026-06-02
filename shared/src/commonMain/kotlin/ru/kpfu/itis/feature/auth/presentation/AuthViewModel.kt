@@ -16,7 +16,6 @@ class AuthViewModel(
     private val loginUseCase: LoginUseCase,
     private val registerUseCase: RegisterUseCase,
 ) : CommonViewModel() {
-
     private val _state = MutableStateFlow(AuthState())
     val state: StateFlow<AuthState> = _state.asStateFlow()
 
@@ -49,9 +48,10 @@ class AuthViewModel(
             }
             is AuthEvent.BackToStep1 -> _state.update { it.copy(screenMode = AuthScreenMode.RegisterStep1, error = null) }
 
-            is AuthEvent.TogglePersonalDataConsent ->  _state.update {
-                it.copy(isPersonalDataConsentChecked = !_state.value.isPersonalDataConsentChecked, consentError = null)
-            }
+            is AuthEvent.TogglePersonalDataConsent ->
+                _state.update {
+                    it.copy(isPersonalDataConsentChecked = !_state.value.isPersonalDataConsentChecked, consentError = null)
+                }
         }
     }
 
@@ -69,7 +69,7 @@ class AuthViewModel(
                 phoneError = phoneError,
                 emailError = emailError,
                 passwordError = passError,
-                confirmPasswordError = confirmError
+                confirmPasswordError = confirmError,
             )
         }
 
@@ -113,7 +113,7 @@ class AuthViewModel(
                 phone = s.phone,
                 contactInfo = s.contactInfo,
                 portfolioLink = s.portfolioLink,
-                skills = s.skills
+                skills = s.skills,
             )
                 .onSuccess {
                     _state.update { it.copy(isLoading = false) }
@@ -125,6 +125,5 @@ class AuthViewModel(
         }
     }
 
-    private fun isValidEmail(email: String) =
-        Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$").matches(email)
+    private fun isValidEmail(email: String) = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$").matches(email)
 }

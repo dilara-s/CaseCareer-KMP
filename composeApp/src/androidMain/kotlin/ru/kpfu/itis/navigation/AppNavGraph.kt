@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -36,25 +35,26 @@ sealed class BottomNavItem(
     val route: String,
     val label: String,
     val iconRes: Int,
-    val iconActiveRes: Int
+    val iconActiveRes: Int,
 ) {
     object Feed : BottomNavItem("feed", "Главная", R.drawable.ic_home, R.drawable.ic_home)
+
     object MyCases : BottomNavItem("my_cases", "Мои кейсы", R.drawable.ic_bookmark, R.drawable.ic_bookmark)
+
     object Account : BottomNavItem("account", "Аккаунт", R.drawable.ic_person, R.drawable.ic_person)
 }
 
-private val bottomNavItems = listOf(
-    BottomNavItem.Feed,
-    BottomNavItem.MyCases,
-    BottomNavItem.Account
-)
+private val bottomNavItems =
+    listOf(
+        BottomNavItem.Feed,
+        BottomNavItem.MyCases,
+        BottomNavItem.Account,
+    )
 
 private val routesWithoutBottomNav = setOf("auth", "response")
 
 @Composable
-fun AppNavGraph(
-    tokenStorage: TokenStorage = koinInject()
-) {
+fun AppNavGraph(tokenStorage: TokenStorage = koinInject()) {
     val navController = rememberNavController()
     val startDestination = if (tokenStorage.isLoggedIn()) "feed" else "auth"
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -75,15 +75,15 @@ fun AppNavGraph(
                             launchSingleTop = true
                             restoreState = true
                         }
-                    }
+                    },
                 )
             }
-        }
+        },
     ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = startDestination,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
         ) {
             composable("auth") {
                 AuthRoute(navController = navController)
@@ -100,24 +100,34 @@ fun AppNavGraph(
                     onBack = { navController.popBackStack() },
                     onApplyNda = { id, title, company ->
                         navController.navigate(
-                            "response/$id?ndaRequired=true&caseTitle=${Uri.encode(title)}&companyName=${Uri.encode(company)}"
+                            "response/$id?ndaRequired=true&caseTitle=${Uri.encode(title)}&companyName=${Uri.encode(company)}",
                         )
                     },
                     onApplyForm = { id, title, company ->
                         navController.navigate(
-                            "response/$id?ndaRequired=false&caseTitle=${Uri.encode(title)}&companyName=${Uri.encode(company)}"
+                            "response/$id?ndaRequired=false&caseTitle=${Uri.encode(title)}&companyName=${Uri.encode(company)}",
                         )
-                    }
+                    },
                 )
             }
             composable(
                 route = "response/{caseId}?ndaRequired={ndaRequired}&caseTitle={caseTitle}&companyName={companyName}",
-                arguments = listOf(
-                    navArgument("caseId") { type = NavType.IntType },
-                    navArgument("ndaRequired") { type = NavType.BoolType; defaultValue = false },
-                    navArgument("caseTitle") { type = NavType.StringType; defaultValue = "" },
-                    navArgument("companyName") { type = NavType.StringType; defaultValue = "" }
-                )
+                arguments =
+                    listOf(
+                        navArgument("caseId") { type = NavType.IntType },
+                        navArgument("ndaRequired") {
+                            type = NavType.BoolType
+                            defaultValue = false
+                        },
+                        navArgument("caseTitle") {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+                        navArgument("companyName") {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+                    ),
             ) { backStackEntry ->
                 val caseId = backStackEntry.arguments?.getInt("caseId") ?: return@composable
                 val ndaRequired = backStackEntry.arguments?.getBoolean("ndaRequired") ?: false
@@ -128,7 +138,7 @@ fun AppNavGraph(
                     caseTitle = caseTitle,
                     companyName = companyName,
                     ndaRequired = ndaRequired,
-                    navController = navController
+                    navController = navController,
                 )
             }
             composable("my_cases") {
@@ -144,11 +154,11 @@ fun AppNavGraph(
 @Composable
 private fun CaseCareerBottomBar(
     currentRoute: String?,
-    onItemClick: (BottomNavItem) -> Unit
+    onItemClick: (BottomNavItem) -> Unit,
 ) {
     NavigationBar(
         containerColor = androidx.compose.material3.MaterialTheme.colorScheme.surface,
-        tonalElevation = androidx.compose.ui.unit.Dp(0f)
+        tonalElevation = androidx.compose.ui.unit.Dp(0f),
     ) {
         bottomNavItems.forEach { item ->
             val selected = currentRoute == item.route
@@ -158,17 +168,18 @@ private fun CaseCareerBottomBar(
                 icon = {
                     Icon(
                         painter = painterResource(item.iconRes),
-                        contentDescription = item.label
+                        contentDescription = item.label,
                     )
                 },
                 label = { Text(item.label) },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Primary,
-                    selectedTextColor = Primary,
-                    unselectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
-                    unselectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
-                    indicatorColor = Color.Transparent
-                )
+                colors =
+                    NavigationBarItemDefaults.colors(
+                        selectedIconColor = Primary,
+                        selectedTextColor = Primary,
+                        unselectedIconColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
+                        unselectedTextColor = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
+                        indicatorColor = Color.Transparent,
+                    ),
             )
         }
     }

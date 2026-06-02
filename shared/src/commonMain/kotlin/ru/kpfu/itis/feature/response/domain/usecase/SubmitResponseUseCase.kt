@@ -9,7 +9,7 @@ class SubmitResponseUseCase(private val repository: ResponseRepository) {
         caseTitle: String,
         companyName: String,
         coverLetter: String,
-        solutionLink: String
+        solutionLink: String,
     ): Result<ResponseResult> {
         if (coverLetter.isBlank()) return Result.failure(Exception("Напишите сопроводительное письмо"))
         return repository.submitResponse(caseId, caseTitle, companyName, coverLetter, solutionLink)

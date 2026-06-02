@@ -12,7 +12,6 @@ import ru.kpfu.itis.feature.featureModule
 
 // точка инициализации di
 object CommonKmp {
-
     fun initKoin(
         configuration: Configuration,
         appDeclaration: KoinAppDeclaration = {},
@@ -25,13 +24,13 @@ object CommonKmp {
                 platformModule,
                 networkModule,
                 dbModule,
-                *featureModule.toTypedArray()
+                *featureModule.toTypedArray(),
             )
         }
     }
 
-    private fun createConfiguration(configuration: Configuration) = module {
-        single<Configuration> { configuration }
-
-    }
+    private fun createConfiguration(configuration: Configuration) =
+        module {
+            single<Configuration> { configuration }
+        }
 }

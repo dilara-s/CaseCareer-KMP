@@ -7,7 +7,7 @@ import ru.kpfu.itis.Database
 import ru.kpfu.itis.feature.auth.domain.model.User
 
 class UserDataSource(
-    private val database: Database
+    private val database: Database,
 ) {
    /* suspend fun getUser() = withContext(Dispatchers.IO) {
         database.userQueries.getUser().executeAsList()
@@ -18,11 +18,16 @@ class UserDataSource(
             ?.let { User(id = it.id, email = it.email, name = it.name) }
     }
 
-    suspend fun upsertUser(id: Long, email: String, name: String) = withContext(Dispatchers.IO) {
+    suspend fun upsertUser(
+        id: Long,
+        email: String,
+        name: String,
+    ) = withContext(Dispatchers.IO) {
         database.userQueries.upsertUser(id = id, email = email, name = name)
     }
 
-    suspend fun clearUser() = withContext(Dispatchers.IO) {
-        database.userQueries.clearUser()
-    }
+    suspend fun clearUser() =
+        withContext(Dispatchers.IO) {
+            database.userQueries.clearUser()
+        }
 }

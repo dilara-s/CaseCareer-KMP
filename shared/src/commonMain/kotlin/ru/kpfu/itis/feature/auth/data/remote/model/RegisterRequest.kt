@@ -12,5 +12,5 @@ data class RegisterRequest(
     val phone: String = "",
     @SerialName("contact_info") val contactInfo: String = "",
     @SerialName("portfolio_link") val portfolioLink: String = "",
-    val skills: String = ""
+    val skills: String = "",
 )

@@ -18,7 +18,7 @@ data class ResponseState(
     val error: String? = null,
     val submittedAt: String? = null,
     val responseStatus: String? = null,
-    val alreadyResponded: Boolean = false
+    val alreadyResponded: Boolean = false,
 )
 
 enum class ResponseScreenMode { NdaStep, FormStep, SuccessStep }

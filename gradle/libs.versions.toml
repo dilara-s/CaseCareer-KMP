@@ -29,6 +29,7 @@ settings = "1.3.0" # https://github.com/russhwolf/multiplatform-settings
 ktor = "3.4.0" # https://github.com/ktorio/ktor
 koin = "4.1.1" # https://github.com/InsertKoinIO/koin
 buildKonfig = "0.17.1" # https://github.com/yshrsmz/BuildKonfig
+ktlint = "12.1.2" # https://github.com/JLLeitschuh/ktlint-gradle
 
 coil = "3.4.0" # https://github.com/coil-kt/coil
 
@@ -147,6 +148,7 @@ buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig"
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 googleService = { id = "com.google.gms.google-services", version.ref = "googleService" }
 crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 
 [bundles]
 ktorClientCommon = [

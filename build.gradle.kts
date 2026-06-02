@@ -10,4 +10,5 @@ plugins {
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.googleService) apply false
     alias(libs.plugins.crashlytics) apply false
+    alias(libs.plugins.ktlint) apply false
 }

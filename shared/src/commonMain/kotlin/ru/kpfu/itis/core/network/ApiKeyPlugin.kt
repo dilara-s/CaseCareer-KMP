@@ -2,8 +2,6 @@ package ru.kpfu.itis.core.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
-import io.ktor.client.plugins.api.SetupRequest
-import io.ktor.client.plugins.api.createClientPlugin
 import io.ktor.client.request.HttpRequestPipeline.Phases.Before
 import io.ktor.util.AttributeKey
 
@@ -12,9 +10,7 @@ private const val UNITS_NAME = "units"
 
 // v1 - варианты создания плагина своего. это тут пример добавляем параметры к запросу. сюда уже токены добавляем
 class ApiKeyPlugin {
-
     companion object Plugin : HttpClientPlugin<Unit, ApiKeyPlugin> {
-
         override val key: AttributeKey<ApiKeyPlugin>
             get() = AttributeKey(name = API_KEY_NAME)
 
@@ -22,7 +18,10 @@ class ApiKeyPlugin {
             return ApiKeyPlugin()
         }
 
-        override fun install(plugin: ApiKeyPlugin, scope: HttpClient) {
+        override fun install(
+            plugin: ApiKeyPlugin,
+            scope: HttpClient,
+        ) {
             scope.requestPipeline.intercept(Before) {
                 context.url.parameters.append(API_KEY_NAME, "appid")
                 context.url.parameters.append(UNITS_NAME, "metric")

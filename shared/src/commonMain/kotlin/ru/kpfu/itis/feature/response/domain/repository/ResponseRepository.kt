@@ -8,6 +8,6 @@ interface ResponseRepository {
         caseTitle: String,
         companyName: String,
         coverLetter: String,
-        solutionLink: String
+        solutionLink: String,
     ): Result<ResponseResult>
 }

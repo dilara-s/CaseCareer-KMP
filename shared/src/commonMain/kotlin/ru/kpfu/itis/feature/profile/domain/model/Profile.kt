@@ -10,5 +10,5 @@ data class Profile(
     val portfolioLink: String,
     val phone: String,
     val rating: String,
-    val createdAt: String
+    val createdAt: String,
 )

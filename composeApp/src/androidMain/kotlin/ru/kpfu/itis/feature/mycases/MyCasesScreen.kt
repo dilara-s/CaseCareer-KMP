@@ -27,9 +27,7 @@ import ru.kpfu.itis.feature.mycases.presentation.MyCasesState
 import ru.kpfu.itis.feature.mycases.presentation.MyCasesViewModel
 
 @Composable
-fun MyCasesRoute(
-    viewModel: MyCasesViewModel = koinViewModel()
-) {
+fun MyCasesRoute(viewModel: MyCasesViewModel = koinViewModel()) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -42,26 +40,30 @@ fun MyCasesRoute(
 @Composable
 fun MyCasesScreen(
     state: MyCasesState,
-    onEvent: (MyCasesEvent) -> Unit
+    onEvent: (MyCasesEvent) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = if (state.cases.isEmpty())
-                    stringResource(R.string.my_cases_title)
-                else
-                    stringResource(R.string.my_cases_title_count, state.cases.size),
+                text =
+                    if (state.cases.isEmpty()) {
+                        stringResource(R.string.my_cases_title)
+                    } else {
+                        stringResource(R.string.my_cases_title_count, state.cases.size)
+                    },
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
 
@@ -73,27 +75,28 @@ fun MyCasesScreen(
             }
             state.error != null -> {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(32.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .padding(32.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
                         text = stringResource(R.string.my_cases_load_error),
                         style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                     Spacer(Modifier.height(8.dp))
                     Text(
                         text = state.error!!,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Spacer(Modifier.height(16.dp))
                     Button(
                         onClick = { onEvent(MyCasesEvent.Refresh) },
-                        colors = ButtonDefaults.buttonColors(containerColor = Primary)
+                        colors = ButtonDefaults.buttonColors(containerColor = Primary),
                     ) {
                         Text(stringResource(R.string.common_retry), color = Color.White)
                     }
@@ -102,22 +105,22 @@ fun MyCasesScreen(
             state.cases.isEmpty() -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier.padding(32.dp),
                     ) {
                         Text(
                             text = stringResource(R.string.my_cases_empty_title),
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
                         )
                         Spacer(Modifier.height(8.dp))
                         Text(
                             text = stringResource(R.string.my_cases_empty_subtitle),
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                 }
@@ -125,7 +128,7 @@ fun MyCasesScreen(
             else -> {
                 LazyColumn(
                     contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     items(state.cases, key = { it.caseId }) { case ->
                         MyCaseCard(case = case)
@@ -143,7 +146,7 @@ private fun MyCaseCard(case: MyCase) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
         color = MaterialTheme.colorScheme.surface,
-        shadowElevation = 1.dp
+        shadowElevation = 1.dp,
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             StatusBadge(status = case.status)
@@ -152,12 +155,13 @@ private fun MyCaseCard(case: MyCase) {
 
             Text(
                 text = case.title,
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 15.sp,
-                    lineHeight = 21.sp
-                ),
-                color = MaterialTheme.colorScheme.onSurface
+                style =
+                    MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp,
+                        lineHeight = 21.sp,
+                    ),
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Spacer(Modifier.height(6.dp))
@@ -165,7 +169,7 @@ private fun MyCaseCard(case: MyCase) {
             Text(
                 text = case.companyName,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Spacer(Modifier.height(4.dp))
@@ -173,7 +177,7 @@ private fun MyCaseCard(case: MyCase) {
             Text(
                 text = stringResource(R.string.my_cases_submitted_at, formatSubmittedDate(case.submittedAt)),
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
@@ -181,39 +185,43 @@ private fun MyCaseCard(case: MyCase) {
 
 @Composable
 private fun StatusBadge(status: String) {
-    val label = when (status) {
-        "SENT" -> stringResource(R.string.status_sent)
-        "REVIEW" -> stringResource(R.string.status_review)
-        "ACCEPTED" -> stringResource(R.string.status_accepted)
-        "REJECTED" -> stringResource(R.string.status_rejected)
-        else -> status
-    }
-    val bgColor = when (status) {
-        "SENT" -> Color(0xFFE8F0FE)
-        "REVIEW" -> Color(0xFFFFF3CD)
-        "ACCEPTED" -> Color(0xFFE6F4EA)
-        "REJECTED" -> Color(0xFFFDE8E8)
-        else -> Color(0xFFF0F0F0)
-    }
-    val textColor = when (status) {
-        "SENT" -> Color(0xFF3B5BDB)
-        "REVIEW" -> Color(0xFF92650A)
-        "ACCEPTED" -> Color(0xFF1E7E34)
-        "REJECTED" -> Color(0xFFB91C1C)
-        else -> Color(0xFF6B7280)
-    }
+    val label =
+        when (status) {
+            "SENT" -> stringResource(R.string.status_sent)
+            "REVIEW" -> stringResource(R.string.status_review)
+            "ACCEPTED" -> stringResource(R.string.status_accepted)
+            "REJECTED" -> stringResource(R.string.status_rejected)
+            else -> status
+        }
+    val bgColor =
+        when (status) {
+            "SENT" -> Color(0xFFE8F0FE)
+            "REVIEW" -> Color(0xFFFFF3CD)
+            "ACCEPTED" -> Color(0xFFE6F4EA)
+            "REJECTED" -> Color(0xFFFDE8E8)
+            else -> Color(0xFFF0F0F0)
+        }
+    val textColor =
+        when (status) {
+            "SENT" -> Color(0xFF3B5BDB)
+            "REVIEW" -> Color(0xFF92650A)
+            "ACCEPTED" -> Color(0xFF1E7E34)
+            "REJECTED" -> Color(0xFFB91C1C)
+            else -> Color(0xFF6B7280)
+        }
 
     Box(
-        modifier = Modifier
-            .clip(RoundedCornerShape(20.dp))
-            .background(bgColor)
-            .padding(horizontal = 10.dp, vertical = 4.dp)
+        modifier =
+            Modifier
+                .clip(RoundedCornerShape(20.dp))
+                .background(bgColor)
+                .padding(horizontal = 10.dp, vertical = 4.dp),
     ) {
         Text(
             text = label,
             color = textColor,
             fontSize = 12.sp,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Medium,
         )
     }
 }
@@ -223,13 +231,24 @@ private fun formatSubmittedDate(submittedAt: String): String {
         val datePart = submittedAt.substringBefore('T')
         val parts = datePart.split('-')
         val day = parts[2].trimStart('0')
-        val month = when (parts[1]) {
-            "01" -> "января"; "02" -> "февраля"; "03" -> "марта"
-            "04" -> "апреля"; "05" -> "мая"; "06" -> "июня"
-            "07" -> "июля"; "08" -> "августа"; "09" -> "сентября"
-            "10" -> "октября"; "11" -> "ноября"; "12" -> "декабря"
-            else -> ""
-        }
+        val month =
+            when (parts[1]) {
+                "01" -> "января"
+                "02" -> "февраля"
+                "03" -> "марта"
+                "04" -> "апреля"
+                "05" -> "мая"
+                "06" -> "июня"
+                "07" -> "июля"
+                "08" -> "августа"
+                "09" -> "сентября"
+                "10" -> "октября"
+                "11" -> "ноября"
+                "12" -> "декабря"
+                else -> ""
+            }
         "$day $month"
-    } catch (e: Exception) { submittedAt }
+    } catch (e: Exception) {
+        submittedAt
+    }
 }

@@ -12,15 +12,16 @@ import ru.kpfu.itis.feature.feed.domain.usecase.GetCasesUseCase
 import ru.kpfu.itis.feature.feed.presentation.caseDetail.CaseDetailViewModel
 import ru.kpfu.itis.feature.feed.presentation.feed.FeedViewModel
 
-val feedModule = module {
-    single { FeedApi(get()) }
-    singleOf(::FeedRepositoryImpl) bind FeedRepository::class
-    factoryOf(::GetCasesUseCase)
-    factoryOf(::GetCaseDetailUseCase)
-    factory {
-        FeedViewModel(getCasesUseCase = get())
+val feedModule =
+    module {
+        single { FeedApi(get()) }
+        singleOf(::FeedRepositoryImpl) bind FeedRepository::class
+        factoryOf(::GetCasesUseCase)
+        factoryOf(::GetCaseDetailUseCase)
+        factory {
+            FeedViewModel(getCasesUseCase = get())
+        }
+        factory { (caseId: Long) ->
+            CaseDetailViewModel(getCaseDetailUseCase = get(), caseId = caseId)
+        }
     }
-    factory { (caseId: Long) ->
-        CaseDetailViewModel(getCaseDetailUseCase = get(), caseId = caseId)
-    }
-}

@@ -11,5 +11,5 @@ data class FeedState(
     val currentPage: Int = 1,
     val hasMore: Boolean = true,
     val totalCount: Int = 0,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
 )

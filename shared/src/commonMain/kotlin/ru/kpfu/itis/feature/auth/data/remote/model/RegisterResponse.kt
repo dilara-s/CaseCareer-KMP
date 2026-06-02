@@ -6,10 +6,11 @@ import kotlinx.serialization.Serializable
 data class RegisterResponse(
     val user: UserDto,
     val access: String,
-    val refresh: String
+    val refresh: String,
 )
+
 @Serializable
 data class UserDto(
     val id: Long,
-    val email: String
+    val email: String,
 )

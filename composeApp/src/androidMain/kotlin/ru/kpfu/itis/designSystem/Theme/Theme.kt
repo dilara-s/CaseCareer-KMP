@@ -30,69 +30,73 @@ data class ExtendedColors(
     val ndaRequiredBg: Color,
     val ndaRequiredText: Color,
     val ndaNotRequiredBg: Color,
-    val ndaNotRequiredText: Color
+    val ndaNotRequiredText: Color,
 )
 
-val LocalExtendedColors = staticCompositionLocalOf {
-    ExtendedColors(
-        ndaRequiredBg = NdaRequiredBg,
-        ndaRequiredText = NdaRequiredText,
-        ndaNotRequiredBg = NdaNotRequiredBg,
-        ndaNotRequiredText = NdaNotRequiredText
-    )
-}
-
-private val LightColors = lightColorScheme(
-    primary = Primary,
-    onPrimary = Color.White,
-    background = BackgroundLight,
-    onBackground = OnSurfaceLight,
-    surface = SurfaceLight,
-    onSurface = OnSurfaceLight,
-    onSurfaceVariant = OnSurfaceVariantLight,
-    outline = OutlineLight,
-    outlineVariant = OutlineLight
-)
-
-private val DarkColors = darkColorScheme(
-    primary = Primary,
-    onPrimary = Color.White,
-    background = BackgroundDark,
-    onBackground = OnSurfaceDark,
-    surface = SurfaceDark,
-    onSurface = OnSurfaceDark,
-    onSurfaceVariant = OnSurfaceVariantDark,
-    outline = OutlineDark,
-    outlineVariant = OutlineDark
-)
-
-@Composable
-fun CaseCareerTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
-) {
-    val colorScheme = if (darkTheme) DarkColors else LightColors
-
-    val extendedColors = if (darkTheme) {
-        ExtendedColors(
-            ndaRequiredBg = NdaRequiredBgDark,
-            ndaRequiredText = NdaRequiredText,
-            ndaNotRequiredBg = NdaNotRequiredBgDark,
-            ndaNotRequiredText = NdaNotRequiredText
-        )
-    } else {
+val LocalExtendedColors =
+    staticCompositionLocalOf {
         ExtendedColors(
             ndaRequiredBg = NdaRequiredBg,
             ndaRequiredText = NdaRequiredText,
             ndaNotRequiredBg = NdaNotRequiredBg,
-            ndaNotRequiredText = NdaNotRequiredText
+            ndaNotRequiredText = NdaNotRequiredText,
         )
     }
+
+private val LightColors =
+    lightColorScheme(
+        primary = Primary,
+        onPrimary = Color.White,
+        background = BackgroundLight,
+        onBackground = OnSurfaceLight,
+        surface = SurfaceLight,
+        onSurface = OnSurfaceLight,
+        onSurfaceVariant = OnSurfaceVariantLight,
+        outline = OutlineLight,
+        outlineVariant = OutlineLight,
+    )
+
+private val DarkColors =
+    darkColorScheme(
+        primary = Primary,
+        onPrimary = Color.White,
+        background = BackgroundDark,
+        onBackground = OnSurfaceDark,
+        surface = SurfaceDark,
+        onSurface = OnSurfaceDark,
+        onSurfaceVariant = OnSurfaceVariantDark,
+        outline = OutlineDark,
+        outlineVariant = OutlineDark,
+    )
+
+@Composable
+fun CaseCareerTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit,
+) {
+    val colorScheme = if (darkTheme) DarkColors else LightColors
+
+    val extendedColors =
+        if (darkTheme) {
+            ExtendedColors(
+                ndaRequiredBg = NdaRequiredBgDark,
+                ndaRequiredText = NdaRequiredText,
+                ndaNotRequiredBg = NdaNotRequiredBgDark,
+                ndaNotRequiredText = NdaNotRequiredText,
+            )
+        } else {
+            ExtendedColors(
+                ndaRequiredBg = NdaRequiredBg,
+                ndaRequiredText = NdaRequiredText,
+                ndaNotRequiredBg = NdaNotRequiredBg,
+                ndaNotRequiredText = NdaNotRequiredText,
+            )
+        }
 
     CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
         MaterialTheme(
             colorScheme = colorScheme,
-            content = content
+            content = content,
         )
     }
 }

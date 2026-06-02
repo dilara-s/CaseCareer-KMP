@@ -11,5 +11,5 @@ data class SubmitResponseDto(
     @SerialName("company_name") val companyName: String,
     val status: String,
     val version: Int,
-    @SerialName("submitted_at") val submittedAt: String
+    @SerialName("submitted_at") val submittedAt: String,
 )

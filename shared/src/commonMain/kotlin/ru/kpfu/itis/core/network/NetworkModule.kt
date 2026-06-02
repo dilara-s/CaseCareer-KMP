@@ -16,34 +16,33 @@ import ru.kpfu.itis.core.network.HttpEngineFactory
 import ru.kpfu.itis.core.network.TokenStorage
 import ru.kpfu.itis.core.network.installAuthPlugin
 
+val networkModule =
+    module {
+        single { HttpEngineFactory() }
 
-val networkModule = module {
-    single { HttpEngineFactory() }
+        single<Json> {
+            Json {
+                isLenient = true
+                ignoreUnknownKeys = true
+            }
+        }
 
-    single<Json> {
-        Json {
-            isLenient = true
-            ignoreUnknownKeys = true
+        single { TokenStorage(get()) }
+
+        single {
+            buildHttpClient(
+                engine = get<HttpEngineFactory>().createEngine(get()),
+                json = get(),
+                tokenStorage = get(),
+            )
         }
     }
-
-    single { TokenStorage(get()) }
-
-    single {
-        buildHttpClient(
-            engine = get<HttpEngineFactory>().createEngine(get()),
-            json = get(),
-            tokenStorage = get()
-        )
-    }
-}
 
 private fun buildHttpClient(
     engine: HttpClientEngineFactory<HttpClientEngineConfig>,
     json: Json,
-    tokenStorage: TokenStorage
+    tokenStorage: TokenStorage,
 ) = HttpClient(engine) {
-
     install(Logging) {
         logger = Logger.SIMPLE
         level = LogLevel.BODY
@@ -66,7 +65,6 @@ private fun buildHttpClient(
             protocol = URLProtocol.HTTP
         }
     }
-
 }.also { client ->
     client.installAuthPlugin(tokenStorage)
 }

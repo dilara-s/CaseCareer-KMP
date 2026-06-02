@@ -14,9 +14,8 @@ import kotlin.onFailure
 
 class CaseDetailViewModel(
     private val getCaseDetailUseCase: GetCaseDetailUseCase,
-    private val caseId: Long
+    private val caseId: Long,
 ) : CommonViewModel() {
-
     private val _state = MutableStateFlow(CaseDetailState())
     val state: StateFlow<CaseDetailState> = _state.asStateFlow()
 

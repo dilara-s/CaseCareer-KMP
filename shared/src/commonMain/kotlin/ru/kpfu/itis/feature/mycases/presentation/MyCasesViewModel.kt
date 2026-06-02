@@ -12,9 +12,8 @@ import ru.kpfu.itis.core.viewmodel.CommonViewModel
 import ru.kpfu.itis.feature.mycases.domain.usecase.GetMyCasesUseCase
 
 class MyCasesViewModel(
-    private val getMyCasesUseCase: GetMyCasesUseCase
+    private val getMyCasesUseCase: GetMyCasesUseCase,
 ) : CommonViewModel() {
-
     private val _state = MutableStateFlow(MyCasesState())
     val state: StateFlow<MyCasesState> = _state.asStateFlow()
 
@@ -28,9 +27,10 @@ class MyCasesViewModel(
     fun onEvent(event: MyCasesEvent) {
         when (event) {
             MyCasesEvent.Load, MyCasesEvent.Refresh -> loadCases()
-            is MyCasesEvent.OpenCase -> viewModelScope.launch {
-                _effect.emit(MyCasesEffect.NavigateToCaseDetail(event.caseId))
-            }
+            is MyCasesEvent.OpenCase ->
+                viewModelScope.launch {
+                    _effect.emit(MyCasesEffect.NavigateToCaseDetail(event.caseId))
+                }
         }
     }
 

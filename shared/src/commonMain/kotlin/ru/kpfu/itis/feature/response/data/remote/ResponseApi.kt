@@ -10,11 +10,10 @@ import ru.kpfu.itis.feature.response.data.remote.model.SubmitResponseDto
 import ru.kpfu.itis.feature.response.data.remote.model.SubmitResponseRequest
 
 class ResponseApi(private val client: HttpClient) {
-
     suspend fun submitResponse(
         caseId: Int,
         coverLetter: String,
-        solutionLink: String
+        solutionLink: String,
     ): SubmitResponseDto {
         return client.post("api/v1/solutions/") {
             contentType(ContentType.Application.Json)
