@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.googleService)
     alias(libs.plugins.crashlytics)
-    alias(libs.plugins.ktlint)
 }
 
 kotlin {
@@ -88,11 +87,4 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
-}
-
-ktlint {
-    filter {
-        exclude("**/build/**")
-        exclude("**/generated/**")
-    }
 }

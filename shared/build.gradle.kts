@@ -88,9 +88,15 @@ android {
     }
 }
 
-ktlint {
-    filter {
-        exclude("**/build/**")
-        exclude("**/generated/**")
+afterEvaluate {
+    tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.KtLintCheckTask>().configureEach {
+        if (name.contains("CommonMain")) {
+            setSource(fileTree("src/commonMain"))
+        }
+    }
+    tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.KtLintFormatTask>().configureEach {
+        if (name.contains("CommonMain")) {
+            setSource(fileTree("src/commonMain"))
+        }
     }
 }

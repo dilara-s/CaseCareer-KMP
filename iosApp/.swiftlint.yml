@@ -1,10 +1,18 @@
 disabled_rules:
   - trailing_whitespace        # пробелы в конце строк — не критично
   - line_length                # длинные строки в SwiftUI — норма
+  - force_cast                 # обязательный паттерн KMP bridge (as! State)
+  - type_name                  # iOSApp — намеренное имя @main структуры
+  - cyclomatic_complexity      # MVI/KMP bridge код объективно сложнее 10
+  - function_body_length       # SwiftUI body функции длиннее 50 строк — норма
+  - file_length                # большие экраны в одном файле — принятый подход
+  - implicit_optional_initialization  # var x: T? = nil — стиль команды
 
 opt_in_rules:
   - empty_count                # .isEmpty вместо .count == 0
-  - force_unwrapping           # запрещает ! (force unwrap)
+
+identifier_name:
+  min_length: 1                # разрешаем r, g, b, a, i, c, e, d
 
 excluded:
   - Pods

@@ -108,7 +108,7 @@
 				1CA857096C2E3F5DFC88A364 /* Sources */,
 				17AD013F1C4147C6738F43CB /* Frameworks */,
 				3B8F0051EE7E8F0B5514834E /* Resources */,
-				A3C02E6D2FC30B4F00927234 /* ShellScript */,
+				A3C02E6D2FC30B4F00927234 /* Run Script */,
 				A3C02E6E2FC30BCC00927234 /* CopyFiles */,
 				A3A830E02FCE680000AFE181 /* ShellScript */,
 			);
@@ -213,9 +213,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed\"\nfi\n";
+			shellScript = "if [ -f /opt/homebrew/bin/swiftlint ]; then\n    /opt/homebrew/bin/swiftlint\nelif [ -f /usr/local/bin/swiftlint ]; then\n    /usr/local/bin/swiftlint\nelse\n    echo \"warning: SwiftLint not installed\"\nfi\n";
 		};
-		A3C02E6D2FC30B4F00927234 /* ShellScript */ = {
+		A3C02E6D2FC30B4F00927234 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -230,6 +230,7 @@
 				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib",
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (

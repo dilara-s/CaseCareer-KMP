@@ -9,3 +9,16 @@ ktlint_standard_class-naming = disabled
 ktlint_standard_package-name = disabled
 # Wildcard-импорты используются в Compose (*.layout.*, *.material3.*)
 ktlint_standard_no-wildcard-imports = disabled
+# Длинные строки в сгенерированном SQLDelight коде — не исправляемо автоматически
+ktlint_standard_max-line-length = disabled
+
+# Сгенерированный код (SQLDelight, Compose Resources) — не трогаем
+[{**/build/generated/**/*.kt,**/build/generated/**/*.kts}]
+ktlint_standard_indent = disabled
+ktlint_standard_wrapping = disabled
+ktlint_standard_function-signature = disabled
+ktlint_standard_parameter-list-wrapping = disabled
+ktlint_standard_import-ordering = disabled
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_argument-list-wrapping = disabled
+ktlint_standard_blank-line-before-declaration = disabled

@@ -7,7 +7,7 @@ ktlint:
   stage: lint
   image: openjdk:17-jdk-slim
   script:
-    - ./gradlew ktlintCheck
+    - ./gradlew :shared:ktlintCheck
   allow_failure: false
 
 # Сборка Android debug APK

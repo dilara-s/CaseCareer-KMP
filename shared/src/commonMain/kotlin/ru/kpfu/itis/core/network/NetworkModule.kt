@@ -61,7 +61,7 @@ private fun buildHttpClient(
     defaultRequest {
         url {
             host = "10.0.2.2"
-            port = 3002
+            port = 3001
             protocol = URLProtocol.HTTP
         }
     }
