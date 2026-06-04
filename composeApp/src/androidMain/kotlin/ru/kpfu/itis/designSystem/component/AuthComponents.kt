@@ -102,7 +102,6 @@ fun AuthButton(
         shape = RoundedCornerShape(12.dp),
         colors =
             ButtonDefaults.buttonColors(
-                // синий из макета
                 containerColor = Color(0xFF4B5EFC),
             ),
     ) {

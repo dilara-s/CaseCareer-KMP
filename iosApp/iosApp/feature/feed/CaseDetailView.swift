@@ -124,7 +124,6 @@ struct CaseDetailView: View {
 
                 Divider()
 
-                // Описание
                 VStack(alignment: .leading, spacing: 10) {
                     SectionLabel(title: "Описание")
                     Text(caseDetail.description_)
@@ -138,7 +137,6 @@ struct CaseDetailView: View {
 
                 Divider()
 
-                // Информация
                 VStack(alignment: .leading, spacing: 12) {
                     SectionLabel(title: "Информация")
                     InfoRow(label: "Опубликовано", value: caseDetail.publishedAt.map { Formatters.shortDate($0) } ?? "—")
@@ -150,7 +148,6 @@ struct CaseDetailView: View {
 
                 Divider()
 
-                // Кнопка
                 let alreadyResponded = wrapper.state.alreadyResponded
                 PrimaryButton(
                     alreadyResponded ? "Вы уже откликнулись" : "Откликнуться",

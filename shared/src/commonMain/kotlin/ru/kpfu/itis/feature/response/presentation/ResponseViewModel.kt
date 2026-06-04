@@ -66,19 +66,16 @@ class ResponseViewModel(
     private fun submit() {
         val s = _state.value
 
-        // Проверка двойного отклика
         if (s.alreadyResponded) {
             _state.update { it.copy(error = "Вы уже откликались на этот кейс") }
             return
         }
 
-        // Валидация сопроводительного письма
         if (s.coverLetter.isBlank()) {
             _state.update { it.copy(coverLetterError = "Напишите сопроводительное письмо") }
             return
         }
 
-        // Валидация ссылки на решение — обязательное поле
         val linkError = validateSolutionLink(s.solutionLink)
         if (linkError != null) {
             _state.update { it.copy(solutionLinkError = linkError) }
@@ -105,7 +102,6 @@ class ResponseViewModel(
         }
     }
 
-    // Ссылка обязательна и должна начинаться с http:// или https://
     private fun validateSolutionLink(link: String): String? {
         if (link.isBlank()) return "Введите ссылку на решение"
         if (!link.startsWith("http://") && !link.startsWith("https://")) {

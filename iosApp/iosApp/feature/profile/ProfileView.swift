@@ -60,10 +60,8 @@ struct ProfileView: View {
         ScrollView {
             VStack(spacing: 0) {
 
-                // Аватар + имя + роль + рейтинг
                 VStack(spacing: 0) {
                     HStack(spacing: 16) {
-                        // Аватар
                         ZStack {
                             Circle()
                                 .fill(Color.brandBackground)
@@ -104,7 +102,6 @@ struct ProfileView: View {
 
                 Divider()
 
-                // Поля профиля
                 VStack(alignment: .leading, spacing: 0) {
                     if !profile.contactInfo.isEmpty {
                         profileFieldRow(
@@ -132,7 +129,6 @@ struct ProfileView: View {
 
                 Spacer().frame(height: 16)
 
-                // Кнопки
                 VStack(spacing: 12) {
                     SecondaryButton("Выйти из приложения") {
                         wrapper.onEvent(ProfileEvent.ShowLogoutDialog())
@@ -193,7 +189,6 @@ struct ProfileView: View {
                         .map { $0.trimmingCharacters(in: .whitespaces) }
                         .filter { !$0.isEmpty }
                         .reduce(into: [String]()) { result, skill in
-                            // Дедупликация с сохранением порядка (без учёта регистра)
                             if !result.contains(where: { $0.lowercased() == skill.lowercased() }) {
                                 result.append(skill)
                             }

@@ -176,7 +176,6 @@ private struct CaseFeedCard: View {
                     .foregroundColor(.onSurfaceVariant)
             }
 
-            // Кнопка отклика — ведёт на детальный экран
             PrimaryButton("Откликнуться", action: onTap)
                 .frame(height: 44)
         }

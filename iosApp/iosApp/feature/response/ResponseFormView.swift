@@ -18,7 +18,6 @@ struct ResponseFormView: View {
         NavigationStack {
             VStack(spacing: 0) {
 
-                // Прогресс-бар (3 сегмента если NDA, 2 если нет)
                 ResponseProgressBar(
                     currentStep: currentStep(state),
                     totalSteps: Int(state.totalSteps)
@@ -27,7 +26,6 @@ struct ResponseFormView: View {
                 .padding(.top, 12)
                 .padding(.bottom, 20)
 
-                // Контент
                 Group {
                     switch state.screenMode {
                     case ResponseScreenMode.ndastep:
@@ -439,7 +437,6 @@ private struct SuccessStepView: View {
 
             Spacer()
 
-            // Кнопка
             PrimaryButton("Вернуться к ленте", action: onBackToFeed)
                 .padding(.horizontal, 24)
                 .padding(.bottom, 24)

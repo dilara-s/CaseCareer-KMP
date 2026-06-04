@@ -1,18 +1,11 @@
 [*.{kt,kts}]
-# Composable функции пишутся с большой буквы — это конвенция Jetpack Compose
 ktlint_standard_function-naming = disabled
-# Файлы вида dbModule.kt, platformModule.kt — принятое в KMP именование
 ktlint_standard_filename = disabled
-# Класс Configuration — допустимо
 ktlint_standard_class-naming = disabled
-# Пакеты вида designSystem.Theme — существующая структура проекта
 ktlint_standard_package-name = disabled
-# Wildcard-импорты используются в Compose (*.layout.*, *.material3.*)
 ktlint_standard_no-wildcard-imports = disabled
-# Длинные строки в сгенерированном SQLDelight коде — не исправляемо автоматически
 ktlint_standard_max-line-length = disabled
 
-# Сгенерированный код (SQLDelight, Compose Resources) — не трогаем
 [{**/build/generated/**/*.kt,**/build/generated/**/*.kts}]
 ktlint_standard_indent = disabled
 ktlint_standard_wrapping = disabled
