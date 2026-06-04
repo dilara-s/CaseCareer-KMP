@@ -1,3 +1,5 @@
+package ru.kpfu.itis.core.network
+
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngineConfig
 import io.ktor.client.engine.HttpClientEngineFactory
@@ -12,9 +14,6 @@ import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
-import ru.kpfu.itis.core.network.HttpEngineFactory
-import ru.kpfu.itis.core.network.TokenStorage
-import ru.kpfu.itis.core.network.installAuthPlugin
 
 val networkModule =
     module {
@@ -60,8 +59,8 @@ private fun buildHttpClient(
 
     defaultRequest {
         url {
-            host = "10.0.2.2"
-            port = 3001
+            host = BASE_HOST
+            port = BASE_PORT
             protocol = URLProtocol.HTTP
         }
     }

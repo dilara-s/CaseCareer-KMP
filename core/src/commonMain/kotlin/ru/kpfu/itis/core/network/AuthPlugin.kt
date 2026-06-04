@@ -16,8 +16,13 @@ import io.ktor.http.contentType
 import io.ktor.http.encodedPath
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ru.kpfu.itis.feature.auth.data.remote.model.RefreshRequest
-import ru.kpfu.itis.feature.auth.data.remote.model.TokenResponse
+import kotlinx.serialization.Serializable
+
+@Serializable
+private data class RefreshTokenRequest(val refresh: String)
+
+@Serializable
+private data class RefreshTokenResponse(val access: String, val refresh: String)
 
 private val mutex = Mutex()
 
@@ -56,14 +61,14 @@ fun HttpClient.installAuthPlugin(tokenStorage: TokenStorage) {
                             url("api/v1/auth/token/refresh/")
                             method = io.ktor.http.HttpMethod.Post
                             contentType(ContentType.Application.Json)
-                            setBody(RefreshRequest(refresh))
+                            setBody(RefreshTokenRequest(refresh))
                             headers { remove(HttpHeaders.Authorization) }
                         }
 
                     val refreshCall = execute(refreshRequest)
 
                     if (refreshCall.response.status == HttpStatusCode.OK) {
-                        val tokens = refreshCall.response.body<TokenResponse>()
+                        val tokens = refreshCall.response.body<RefreshTokenResponse>()
                         tokenStorage.saveTokens(tokens.access, tokens.refresh)
                         tokens.access
                     } else {

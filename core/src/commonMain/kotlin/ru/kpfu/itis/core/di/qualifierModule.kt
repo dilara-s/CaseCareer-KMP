@@ -7,7 +7,7 @@ internal object QualifierDBName
 
 internal object QualifierSettingName
 
-internal val qualifierModule =
+val qualifierModule =
     module {
         factory<String>(named<QualifierDBName>()) {
             "user.db"

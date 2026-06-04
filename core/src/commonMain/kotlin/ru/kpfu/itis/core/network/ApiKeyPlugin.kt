@@ -8,7 +8,6 @@ import io.ktor.util.AttributeKey
 private const val API_KEY_NAME = "appid"
 private const val UNITS_NAME = "units"
 
-// v1 - варианты создания плагина своего. это тут пример добавляем параметры к запросу. сюда уже токены добавляем
 class ApiKeyPlugin {
     companion object Plugin : HttpClientPlugin<Unit, ApiKeyPlugin> {
         override val key: AttributeKey<ApiKeyPlugin>

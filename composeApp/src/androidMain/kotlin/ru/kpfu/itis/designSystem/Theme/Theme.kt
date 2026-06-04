@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import ru.kpfu.itis.designSystem.Typography.CaseCareerTypography
 import ru.kpfu.itis.designSystem.BackgroundDark
 import ru.kpfu.itis.designSystem.BackgroundLight
 import ru.kpfu.itis.designSystem.NdaNotRequiredBg
@@ -96,6 +97,7 @@ fun CaseCareerTheme(
     CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
         MaterialTheme(
             colorScheme = colorScheme,
+            typography = CaseCareerTypography,
             content = content,
         )
     }
