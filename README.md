@@ -41,3 +41,10 @@ Kotlin Multiplatform проект с таргетами Android и iOS.
 
 Открыть `iosApp/iosApp.xcodeproj` в Xcode и нажать Run (⌘R).
 
+## Медиа
+
+Папка `media/` содержит:
+- `screencasts/` — скринкаст работы приложения
+- `firebase/` — демонстрация работы Firebase Analytics (DebugView + Events)
+- `local_CI/` — скриншоты локальных прогонов CI (ktlint + SwiftLint)
+
