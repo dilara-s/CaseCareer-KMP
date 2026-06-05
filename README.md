@@ -47,4 +47,5 @@ Kotlin Multiplatform проект с таргетами Android и iOS.
 - `screencasts/` — скринкаст работы приложения
 - `firebase/` — демонстрация работы Firebase Analytics (DebugView + Events)
 - `local_CI/` — скриншоты локальных прогонов CI (ktlint + SwiftLint)
+- `mockoon/` — скриншоты конфигурации мок-сервера, логов запросов и работы приложения с моковыми данными
 
