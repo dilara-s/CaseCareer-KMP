@@ -43,9 +43,12 @@ Kotlin Multiplatform проект с таргетами Android и iOS.
 
 ## Медиа
 
-Папка `media/` содержит:
+[Google Drive — материалы проекта](https://drive.google.com/drive/folders/1JttI-uYKW9y8HPjg0tSyK-xWd_CH7Id2?usp=share_link)
+
+Содержимое:
 - `screencasts/` — скринкаст работы приложения
 - `firebase/` — демонстрация работы Firebase Analytics (DebugView + Events)
-- `local_CI/` — скриншоты локальных прогонов CI (ktlint + SwiftLint)
+- `local CI/` — скриншоты локальных прогонов CI (ktlint + SwiftLint)
 - `mockoon/` — скриншоты конфигурации мок-сервера, логов запросов и работы приложения с моковыми данными
+- `CaseCareer (о проекте).pdf` — презентация с описанием идеи и функциональности проекта
 
